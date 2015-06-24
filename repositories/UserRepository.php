@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository;
+namespace app\repositories;
 
 use Yii;
 use yii\base\Model;

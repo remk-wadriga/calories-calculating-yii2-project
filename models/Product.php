@@ -16,6 +16,7 @@ use app\abstracts\ModelAbstract;
  *
  *
  * @property integer $categoryId
+ * @property string $categoryName
  *
  * @property Calculating[] $calculatings
  * @property ProductCategory $category
@@ -23,6 +24,9 @@ use app\abstracts\ModelAbstract;
  */
 class Product extends ModelAbstract
 {
+    protected $_categoryIdItems;
+    protected $_categoryName;
+
     public static function tableName()
     {
         return 'product';
@@ -34,7 +38,7 @@ class Product extends ModelAbstract
             [['name', 'calories'], 'required'],
             [['category_id', 'categoryId'], 'integer'],
             [['calories'], 'number'],
-            [['description'], 'string'],
+            [['description', 'categoryName'], 'string'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -102,10 +106,66 @@ class Product extends ModelAbstract
         return $this->category_id;
     }
 
+    public function setCategoryName($value)
+    {
+        $this->_categoryName = $value;
+    }
+
+    public function getCategoryName()
+    {
+        if ($this->_categoryName !== null) {
+            return $this->_categoryName;
+        }
+
+        $this->_categoryName = '';
+
+        $category = $this->category;
+        if (!empty($category)) {
+            $this->_categoryName = $category->name;
+        }
+
+        return $this->_categoryName;
+    }
+
     // END Getters and setters
 
 
     // Public methods
+
+    public static function findById($id)
+    {
+        return self::find()
+            ->select(['`p`.*', '`pc`.`name` AS `categoryName`'])
+            ->from(self::tableName() . ' `p`')
+            ->leftJoin(ProductCategory::tableName() . ' `pc`', '`pc`.`id` = `p`.`category_id`')
+            ->where(['`p`.`id`' => $id])
+            ->one();
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategoryIdItems()
+    {
+        if ($this->_categoryIdItems !== null) {
+            return $this->_categoryIdItems;
+        }
+
+        $this->_categoryIdItems = [];
+
+        $categories = ProductCategory::find()
+            ->orderBy('name')
+            ->asArray()
+            ->all();
+
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $this->_categoryIdItems[$category['id']] = $category['name'];
+            }
+        }
+
+        return $this->_categoryIdItems;
+    }
 
     // END Public methods
 

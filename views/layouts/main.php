@@ -27,7 +27,8 @@ AppAsset::register($this);
 <?php
     $user = Yii::$app->user;
     $menu = [
-        ['label' => $this->t('Home'), 'url' => ['/index/index']],
+        ['label' => $this->t('Product categories'), 'url' => ['/product-category/list']],
+        ['label' => $this->t('Products'), 'url' => ['/product/list']],
     ];
 
     if ($user->isGuest) {
