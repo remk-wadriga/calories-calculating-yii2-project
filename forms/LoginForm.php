@@ -1,14 +1,15 @@
 <?php
 
-namespace app\models;
+namespace app\forms;
 
 use Yii;
-use yii\base\Model;
+use app\abstracts\FormAbstract;
+use app\models\User;
 
 /**
  * LoginForm is the model behind the login form.
  */
-class LoginForm extends Model
+class LoginForm extends FormAbstract
 {
     public $username;
     public $password;
@@ -23,12 +24,18 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            [['rememberMe'], 'boolean'],
+            [['password'], 'validatePassword'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => $this->t('Login'),
+            'password' => $this->t('Password'),
+            'rememberMe' => $this->t('Remember me'),
         ];
     }
 
@@ -45,7 +52,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, $this->t('Incorrect username or password'));
             }
         }
     }
@@ -57,15 +64,16 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : Yii::$app->params['userLoginTime']);
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return \app\models\User|null
      */
     public function getUser()
     {

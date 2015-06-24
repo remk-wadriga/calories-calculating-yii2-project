@@ -1,12 +1,14 @@
 <?php
+/**
+ * @var \app\components\View $this
+ * @var string $content
+ */
+
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
-/* @var $this \yii\web\View */
-/* @var $content string */
 
 AppAsset::register($this);
 ?>
@@ -22,11 +24,25 @@ AppAsset::register($this);
 </head>
 <body>
 
+<?php
+    $user = Yii::$app->user;
+    $menu = [
+        ['label' => $this->t('Home'), 'url' => ['/index/index']],
+    ];
+
+    if ($user->isGuest) {
+        $menu[] = ['label' => $this->t('Login'), 'url' => ['/index/login']];
+        $menu[] = ['label' => $this->t('Registration'), 'url' => ['/index/registration']];
+    } else {
+        $menu[] = ['label' => $this->t('Logout') . ' (' . $user->name . ')', 'url' => ['/index/logout'], 'linkOptions' => ['data-method' => 'post']];
+    }
+?>
+
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => $this->t('Calories Calc'),
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -34,16 +50,7 @@ AppAsset::register($this);
             ]);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
+                'items' => $menu,
             ]);
             NavBar::end();
         ?>
@@ -58,7 +65,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-left">&copy; <?= $this->t('Calories Calc') ?> <?= date('Y') ?></p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>

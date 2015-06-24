@@ -3,13 +3,13 @@
 namespace app\controllers;
 
 use Yii;
+use app\forms\RegistrationForm;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\abstracts\ControllerAbstract;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use app\forms\LoginForm;
 
-class SiteController extends Controller
+class IndexController extends ControllerAbstract
 {
     public function behaviors()
     {
@@ -49,22 +49,40 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render();
+    }
+
+    public function actionRegistration()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new RegistrationForm();
+        if ($model->load($this->post()) && $model->registration()) {
+            Yii::$app->user->login($model->getUser(), Yii::$app->params['userLoginTime']);
+            return $this->goBack();
+        } else {
+            return $this->render([
+                'model' => $model,
+            ]);
+        }
     }
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load($this->post()) && $model->login()) {
             return $this->goBack();
+        } else {
+            return $this->render([
+                'model' => $model,
+            ]);
         }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     public function actionLogout()
@@ -74,21 +92,17 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact()
+    public function actionError()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception === null) {
+            die;
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
 
-    public function actionAbout()
-    {
-        return $this->render('about');
+        $this->render([
+            'name' => 'Error',
+            'message' => $exception->getMessage(),
+            'exception' => $exception,
+        ]);
     }
 }
