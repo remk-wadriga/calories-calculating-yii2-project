@@ -82,7 +82,7 @@ class RecipeRepository extends Recipe
         $query->andFilterWhere(['like', '`r`.`name`', $this->name])
             ->andFilterWhere(['like', '`r`.`description`', $this->description])
             ->andFilterWhere(['like', '`c`.`name`', $this->categoryName])
-            ->andWhere(['category_id' => $this->categoryId]);
+            ->andFilterWhere(['category_id' => $this->categoryId]);
 
 
         $dataProvider->sort = [
