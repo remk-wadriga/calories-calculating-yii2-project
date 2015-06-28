@@ -15,6 +15,8 @@ use app\abstracts\ModelAbstract;
  */
 class RecipeCategory extends ModelAbstract
 {
+    protected static $_items;
+
     public static function tableName()
     {
         return 'recipe_category';
@@ -61,6 +63,31 @@ class RecipeCategory extends ModelAbstract
 
 
     // Public methods
+
+    /**
+     * @return array
+     */
+    public static function getItems()
+    {
+        if (self::$_items !== null) {
+            return self::$_items;
+        }
+
+        self::$_items = [];
+
+        $list = self::find()
+            ->orderBy('name')
+            ->asArray()
+            ->all();
+
+        if (!empty($list)) {
+            foreach ($list as $item) {
+                self::$_items[$item['id']] = $item['name'];
+            }
+        }
+
+        return self::$_items;
+    }
 
     // END Public methods
 

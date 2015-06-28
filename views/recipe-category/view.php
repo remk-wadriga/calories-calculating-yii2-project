@@ -1,17 +1,17 @@
 <?php
 /**
  * @var app\components\View $this
- * @var app\models\ProductCategory $model
+ * @var app\models\RecipeCategory $model
  */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => $this->t('Product categories'), 'url' => ['list']];
+$this->params['breadcrumbs'][] = ['label' => $this->t('Recipe categories'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-category-view">
+<div class="recipe-category-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'name',
         ],
     ]) ?>

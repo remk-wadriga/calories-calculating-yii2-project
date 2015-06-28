@@ -1,22 +1,22 @@
 <?php
 /**
  * @var app\components\View $this
- * @var app\models\ProductCategory $model
+ * @var app\models\Recipe $model
  */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => $this->t('Product categories'), 'url' => ['list']];
+$this->params['breadcrumbs'][] = ['label' => $this->t('Recipes'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-category-view">
+<div class="recipe-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a($this->t('Create new category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a($this->t('Create new recipe'), ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a($this->t('Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a($this->t('Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -30,8 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'name',
+            'categoryName',
+            [
+                'label'  => $this->t('Calories'),
+                'value'  => $this->round($model->calories),
+            ],
+            'description:ntext',
+            'productsListString:raw',
         ],
     ]) ?>
 

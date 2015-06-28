@@ -12,11 +12,15 @@ use app\abstracts\ModelAbstract;
  * @property string $name
  * @property string $description
  *
+ *
  * @property Calculating[] $calculatings
  * @property Recipe[] $recipes
  */
 class Portion extends ModelAbstract
 {
+    public $productCategoryId;
+    public $productId;
+
     public static function tableName()
     {
         return 'portion';
@@ -27,7 +31,8 @@ class Portion extends ModelAbstract
         return [
             [['name'], 'required'],
             [['description'], 'string'],
-            [['name'], 'string', 'max' => 255]
+            [['productCategoryId', 'productId'], 'integer'],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -37,6 +42,8 @@ class Portion extends ModelAbstract
             'id' => $this->t('ID'),
             'name' => $this->t('Name'),
             'description' => $this->t('Description'),
+            'productCategoryId' => $this->t('Products category'),
+            'productId' => $this->t('Product'),
         ];
     }
 
@@ -73,6 +80,22 @@ class Portion extends ModelAbstract
 
 
     // Public methods
+
+    /**
+     * @return array
+     */
+    public function getProductCategoriesListItems()
+    {
+        return ProductCategory::getItems();
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductsListItems()
+    {
+        return Product::getItems($this->productCategoryId);
+    }
 
     // END Public methods
 

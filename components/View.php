@@ -33,4 +33,13 @@ class View extends YiiView
     {
         return Yii::t('app', $message, $params, $language);
     }
+
+    public function round($value, $precision = null)
+    {
+        if ($precision === null) {
+            $precision = Yii::$app->params['default_view_round_precision'];
+        }
+
+        return round($value, $precision);
+    }
 }

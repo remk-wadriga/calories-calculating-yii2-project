@@ -29,6 +29,8 @@ AppAsset::register($this);
     $menu = [
         ['label' => $this->t('Product categories'), 'url' => ['/product-category/list']],
         ['label' => $this->t('Products'), 'url' => ['/product/list']],
+        ['label' => $this->t('Recipe categories'), 'url' => ['/recipe-category/list']],
+        ['label' => $this->t('Recipes'), 'url' => ['/recipe/list']],
     ];
 
     if ($user->isGuest) {
@@ -72,6 +74,21 @@ AppAsset::register($this);
     </footer>
 
 <?php $this->endBody() ?>
+
+<?php $this->registerJs('
+    Main.init();
+'); ?>
+
+<?php $this->registerJs('
+    Router.init({
+        rules: '.$this->getRules().'
+    });
+'); ?>
+
+<?php $this->registerJs('
+    Api.init();
+'); ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

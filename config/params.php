@@ -8,5 +8,7 @@ return [
     'salt'                                          => 'UO98USDJFDNF765THJEDF97D',
     'crypt_alo'                                     => 'sha1',
 
+    'default_view_round_precision'                  => 2,
+
     'userLoginTime'                                 => 3600*24,
 ];

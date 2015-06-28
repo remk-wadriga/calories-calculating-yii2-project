@@ -24,6 +24,8 @@ use app\abstracts\ModelAbstract;
  */
 class Product extends ModelAbstract
 {
+    protected static $_items;
+
     protected $_categoryIdItems;
     protected $_categoryName;
 
@@ -48,7 +50,7 @@ class Product extends ModelAbstract
         return [
             'id' => $this->t('ID'),
             'category_id' => $this->t('Category ID'),
-            'categoryId' => $this->t('Category ID'),
+            'categoryId' => $this->t('Category'),
             'name' => $this->t('Name'),
             'calories' => $this->t('Calories'),
             'description' => $this->t('Description'),
@@ -132,6 +134,10 @@ class Product extends ModelAbstract
 
     // Public methods
 
+    /**
+     * @param $id
+     * @return Product
+     */
     public static function findById($id)
     {
         return self::find()
@@ -165,6 +171,36 @@ class Product extends ModelAbstract
         }
 
         return $this->_categoryIdItems;
+    }
+
+    /**
+     * @param null|integer $categoryId
+     * @return array
+     */
+    public static function getItems($categoryId = null)
+    {
+        if (self::$_items !== null) {
+            return self::$_items;
+        }
+
+        self::$_items = [0 => '---'];
+
+        $query = self::find()
+            ->orderBy('name')
+            ->asArray();
+
+        if ($categoryId !== null) {
+            $query->where(['category_id' => $categoryId]);
+        }
+
+        $list = $query->all();
+        if (!empty($list)) {
+            foreach ($list as $item) {
+                self::$_items[$item['id']] = $item['name'];
+            }
+        }
+
+        return self::$_items;
     }
 
     // END Public methods

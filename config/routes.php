@@ -26,4 +26,21 @@ return [
     'product/create'                                                        => 'product/create',
     'product/<id:\d+>/update'                                               => 'product/update',
     'products-of-category/<categoryId:\d+>'                                 => 'product/category',
+
+    /**
+     * @ RecipeCategoryController controller
+     */
+    'recipe-categories'                                                     => 'recipe-category/list',
+    'recipe-category/<id:\d+>'                                              => 'recipe-category/view',
+    'recipe-category/create'                                                => 'recipe-category/create',
+    'recipe-category/<id:\d+>/update'                                       => 'recipe-category/update',
+
+    /**
+     * @ RecipeController controller
+     */
+    'recipes'                                                               => 'recipe/list',
+    'recipe/<id:\d+>'                                                       => 'recipe/view',
+    'recipe/create'                                                         => 'recipe/create',
+    'recipe/<id:\d+>/update'                                                => 'recipe/update',
+    'recipes-of-category/<categoryId:\d+>'                                  => 'recipe/category',
 ];
