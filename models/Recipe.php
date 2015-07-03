@@ -28,6 +28,8 @@ use yii\helpers\Url;
  */
 class Recipe extends ModelAbstract
 {
+    protected static $_items;
+
     protected $_categoryIdItems;
     protected $_categoryName;
     protected $_calories;
@@ -180,6 +182,9 @@ class Recipe extends ModelAbstract
         }
 
         $this->_calories = 0;
+        if ($this->getIsNewRecord()) {
+            return $this->_calories;
+        }
 
         $calories = self::getCaloriesQuery($this->id)->createCommand()->queryOne();
         if (!empty($calories)) {
@@ -270,7 +275,7 @@ class Recipe extends ModelAbstract
     /**
      * @return array
      */
-    public function getProductCategoriesListItems()
+    public function getIngredientsCategoriesListItems()
     {
         return ProductCategory::getItems();
     }
@@ -278,7 +283,7 @@ class Recipe extends ModelAbstract
     /**
      * @return array
      */
-    public function getProductsListItems()
+    public function getIngredientsListItems()
     {
         return Product::getItems($this->productCategoryId);
     }
@@ -372,6 +377,41 @@ class Recipe extends ModelAbstract
             ->from(self::recipe2productsTableName() . ' `rp`')
             ->leftJoin(Product::tableName() . ' `p`' , '`p`.`id` = `rp`.`product_id`')
             ->where("`rp`.`recipe_id` = {$id}");
+    }
+
+    /**
+     * @param null|integer $categoryId
+     * @return array
+     */
+    public static function getItems($categoryId = null)
+    {
+        if (self::$_items !== null) {
+            return self::$_items;
+        }
+
+        self::$_items = [0 => '---'];
+
+        $query = self::find()
+            ->orderBy('name')
+            ->asArray();
+
+        if ($categoryId !== null) {
+            $query->where(['category_id' => $categoryId]);
+        }
+
+        $list = $query->all();
+        if (!empty($list)) {
+            foreach ($list as $item) {
+                self::$_items[$item['id']] = $item['name'];
+            }
+        }
+
+        return self::$_items;
+    }
+
+    public function getIngredientName()
+    {
+        return 'product';
     }
 
     // END Public methods

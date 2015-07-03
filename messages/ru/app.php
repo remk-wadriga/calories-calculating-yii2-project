@@ -55,5 +55,14 @@ return [
     'Create new product'                                                                                                => 'Создать новый продукт',
     'Create new category'                                                                                               => 'Создать новую категорию',
     'Create new recipe'                                                                                                 => 'Создать новый рецепт',
-
+    'Portions'                                                                                                          => 'Порции',
+    'Create Portion'                                                                                                    => 'Создать порцию',
+    'Update Portion "{portionName}"'                                                                                    => 'Обновить порцию "{portionName}"',
+    'Create new portion'                                                                                                => 'Создать новую порцию',
+    'Recipes category'                                                                                                  => 'Кетегория рецептов',
+    'Recipe'                                                                                                            => 'Рецепт',
+    'Select dish'                                                                                                       => 'Выберите блюдо',
+    'You have not select the dish'                                                                                      => 'Вы не выбрали блюдо',
+    'Dish'                                                                                                              => 'Блюдо',
+    'Ingredient'                                                                                                        => 'Ингридиент',
 ];

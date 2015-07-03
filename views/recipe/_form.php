@@ -23,14 +23,14 @@ use yii\widgets\ActiveForm;
 
     <h4><?= $this->t('Add ingredients') ?>:</h4>
 
-    <?= $this->render('@app/views/partials/_product-categories-dropdown-list', ['form' => $form, 'model' => $model]) ?>
+    <?= $this->render('@app/views/partials/_ingredient-categories-dropdown-list', ['form' => $form, 'model' => $model]) ?>
 
-    <div id="category_products_field"></div>
+    <div id="category_ingredients_field"></div>
 
     <br />
 
     <h4><?= $this->t('Products') ?>:</h4>
-    <div id="products_list">
+    <div id="ingredients_list">
         <?php foreach($model->getIngredients() as $item): ?>
             <?= $this->render('@app/views/partials/_ingredient-line', [
                 'model' => $model,
@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
-    <div id="product_prototype" class="hide">
+    <div id="ingredient_prototype" class="hide">
         <?= $this->render('@app/views/partials/_ingredient-line', [
             'model' => $model,
             'property' => 'productsItems',

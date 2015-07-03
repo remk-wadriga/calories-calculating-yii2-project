@@ -6,11 +6,11 @@
  */
 ?>
 
-<?= $form->field($model, 'productCategoryId')->dropDownList($model->getProductCategoriesListItems(), [
+<?= $form->field($model, $model->getIngredientName() . 'CategoryId')->dropDownList($model->getIngredientsCategoriesListItems(), [
     'class' => 'form-control dropdown-sublist-ajx',
     'data' => [
-        'target' => '#category_products_field',
-        'url' => 'product/category',
+        'target' => '#category_ingredients_field',
+        'url' => $model->getIngredientName() . '/category',
         'param' => 'categoryId'
     ],
 ]) ?>

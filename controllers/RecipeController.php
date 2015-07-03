@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Portion;
 use Yii;
 use app\models\Recipe;
 use app\repositories\RecipeRepository;
@@ -9,6 +10,7 @@ use app\abstracts\ControllerAbstract;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\RecipeCategory;
+use yii\widgets\ActiveForm;
 
 /**
  * RecipeController implements the CRUD actions for Recipe model.
@@ -63,14 +65,23 @@ class RecipeController extends ControllerAbstract
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $searchModel = new RecipeRepository();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if ($this->isAjax()) {
+            $model = new Portion();
+            $model->recipeCategoryId = $categoryId;
+            return $this->renderPartial('@app/views/partials/_category-ingredients-dropdown-list', [
+                'model' => $model,
+                'form' => ActiveForm::begin(),
+            ]);
+        } else {
+            $searchModel = new RecipeRepository();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render([
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'categoryName' => $category->name,
-        ]);
+            return $this->render([
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'categoryName' => $category->name,
+            ]);
+        }
     }
 
     /**

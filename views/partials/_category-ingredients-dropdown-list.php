@@ -6,10 +6,10 @@
  */
 ?>
 
-<?= $form->field($model, 'productsItems')->dropDownList($model->getProductsListItems(), [
+<?= $form->field($model, $model->getIngredientName() . 'sItems')->dropDownList($model->getIngredientsListItems(), [
     'class' => 'form-control add-product-select',
     'data' => [
-        'target' => '#products_list',
-        'prototype' => '#product_prototype',
+        'target' => '#ingredients_list',
+        'prototype' => '#ingredient_prototype',
     ],
 ]) ?>

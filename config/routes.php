@@ -43,4 +43,13 @@ return [
     'recipe/create'                                                         => 'recipe/create',
     'recipe/<id:\d+>/update'                                                => 'recipe/update',
     'recipes-of-category/<categoryId:\d+>'                                  => 'recipe/category',
+
+    /**
+     * @ PortionController controller
+     */
+    'portions'                                                              => 'portion/list',
+    'portion/<id:\d+>'                                                      => 'portion/view',
+    'portion/create'                                                        => 'portion/create',
+    'portion/<id:\d+>/update'                                               => 'portion/update',
+    'portions-of-category/<categoryId:\d+>'                                 => 'portion/category',
 ];

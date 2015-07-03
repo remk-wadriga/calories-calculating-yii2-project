@@ -31,6 +31,7 @@ AppAsset::register($this);
         ['label' => $this->t('Products'), 'url' => ['/product/list']],
         ['label' => $this->t('Recipe categories'), 'url' => ['/recipe-category/list']],
         ['label' => $this->t('Recipes'), 'url' => ['/recipe/list']],
+        ['label' => $this->t('Portions'), 'url' => ['/portion/list']],
     ];
 
     if ($user->isGuest) {

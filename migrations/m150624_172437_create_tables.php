@@ -68,20 +68,14 @@ class m150624_172437_create_tables extends Migration
 
             CREATE TABLE `portion` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
-              `name` varchar(255) NOT NULL,
-              `description` text,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-            CREATE TABLE `portion_recipes` (
-              `portion_id` int(11) NOT NULL,
               `recipe_id` int(11) NOT NULL,
               `weight` float NOT NULL,
-              PRIMARY KEY (`portion_id`,`recipe_id`),
-              KEY `portion_recipes_recipe_id` (`recipe_id`),
-              CONSTRAINT `portion_recipes_portion_id` FOREIGN KEY (`portion_id`) REFERENCES `portion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `portion_recipes_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+              `name` varchar(255) NOT NULL,
+              `description` text,
+              PRIMARY KEY (`id`),
+              KEY `portion_recipe_id` (`recipe_id`),
+              CONSTRAINT `portion_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
             CREATE TABLE `calculating` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
