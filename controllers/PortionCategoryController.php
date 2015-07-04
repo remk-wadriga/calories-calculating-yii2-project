@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use app\abstracts\ControllerAbstract;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\repositories\RecipeCategoryRepository;
 

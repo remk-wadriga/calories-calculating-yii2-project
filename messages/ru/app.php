@@ -69,4 +69,7 @@ return [
     'Create portion'                                                                                                    => 'Создать порцию',
     'Categories'                                                                                                        => 'Категории',
     'Portion categories'                                                                                                => 'Категории порций',
+    'Add diary record'                                                                                                  => 'Добавить запись в дневник',
+    'Diary'                                                                                                             => 'Дневник',
+    'Update diary record by {date}'                                                                                     => 'Обновить запись в дневнике за {date}',
 ];

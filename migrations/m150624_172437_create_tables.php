@@ -77,44 +77,45 @@ class m150624_172437_create_tables extends Migration
               CONSTRAINT `portion_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-            CREATE TABLE `calculating` (
+            CREATE TABLE `diary` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `user_id` int(11) NOT NULL,
               `date` date NOT NULL,
               PRIMARY KEY (`id`),
               KEY `calculating_user_id` (`user_id`),
-              CONSTRAINT `calculating_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+              CONSTRAINT `diary_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            CREATE TABLE `calculating_products` (
-              `calculating_id` int(11) NOT NULL,
+            CREATE TABLE `diary_products` (
+              `diary_id` int(11) NOT NULL,
               `product_id` int(11) NOT NULL,
               `weight` float NOT NULL,
-              PRIMARY KEY (`calculating_id`,`product_id`),
-              KEY `calculating_product_product_id` (`product_id`),
-              CONSTRAINT `calculating_product_calculating_id` FOREIGN KEY (`calculating_id`) REFERENCES `calculating` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `calculating_product_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+              PRIMARY KEY (`diary_id`,`product_id`),
+              KEY `diary_products_product_id` (`product_id`),
+              CONSTRAINT `diary_products_diary_id` FOREIGN KEY (`diary_id`) REFERENCES `diary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `diary_products_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            CREATE TABLE `calculating_recipes` (
-              `calculating_id` int(11) NOT NULL,
+            CREATE TABLE `diary_recipes` (
+              `diary_id` int(11) NOT NULL,
               `recipe_id` int(11) NOT NULL,
               `weight` float NOT NULL,
-              PRIMARY KEY (`calculating_id`,`recipe_id`),
+              PRIMARY KEY (`diary_id`,`recipe_id`),
               KEY `calculating_recipes_recipe_id` (`recipe_id`),
-              CONSTRAINT `calculating_recipes_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `calculating_recipescalculating_id` FOREIGN KEY (`calculating_id`) REFERENCES `calculating` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+              CONSTRAINT `diary_recipes_diary_id` FOREIGN KEY (`diary_id`) REFERENCES `diary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `diary_recipes_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            CREATE TABLE `calculating_portions` (
-              `calculating_id` int(11) NOT NULL,
+            CREATE TABLE `diary_portions` (
+              `diary_id` int(11) NOT NULL,
               `portion_id` int(11) NOT NULL,
               `count` float NOT NULL,
-              PRIMARY KEY (`calculating_id`,`portion_id`),
+              PRIMARY KEY (`diary_id`,`portion_id`),
               KEY `calculating_portions_portion_id` (`portion_id`),
-              CONSTRAINT `calculating_portions_calculating_id` FOREIGN KEY (`calculating_id`) REFERENCES `calculating` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `calculating_portions_portion_id` FOREIGN KEY (`portion_id`) REFERENCES `portion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+              CONSTRAINT `diary_portions_diary_id` FOREIGN KEY (`diary_id`) REFERENCES `diary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `diary_portions_portion_id` FOREIGN KEY (`portion_id`) REFERENCES `portion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
         ");
     }
 

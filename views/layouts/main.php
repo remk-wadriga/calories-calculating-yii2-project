@@ -36,6 +36,7 @@ AppAsset::register($this);
         $menu[] = ['label' => $this->t('Login'), 'url' => ['/index/login']];
         $menu[] = ['label' => $this->t('Registration'), 'url' => ['/index/registration']];
     } else {
+        $menu[] = ['label' => $this->t('Diary'), 'url' => ['diary/list']];
         $menu[] = ['label' => $this->t('Logout') . ' (' . $user->name . ')', 'url' => ['/index/logout'], 'linkOptions' => ['data-method' => 'post']];
     }
 ?>

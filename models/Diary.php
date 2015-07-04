@@ -20,11 +20,26 @@ use app\abstracts\ModelAbstract;
  * @property Product[] $products
  * @property Recipe[] $recipes
  */
-class Calculating extends ModelAbstract
+class Diary extends ModelAbstract
 {
     public static function tableName()
     {
-        return 'calculating';
+        return 'diary';
+    }
+
+    public static function diary2productsTableName()
+    {
+        return 'diary_products';
+    }
+
+    public static function diary2recipesTableName()
+    {
+        return 'diary_recipes';
+    }
+
+    public static function diary2portionsTableName()
+    {
+        return 'diary_portions';
     }
 
     public function rules()
@@ -62,7 +77,7 @@ class Calculating extends ModelAbstract
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('calculating_products', ['calculating_id' => 'id']);
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable(self::diary2productsTableName(), ['diary_id' => 'id']);
     }
 
     /**
@@ -70,7 +85,7 @@ class Calculating extends ModelAbstract
      */
     public function getPortions()
     {
-        return $this->hasMany(Portion::className(), ['id' => 'portion_id'])->viaTable('calculating_portions', ['calculating_id' => 'id']);
+        return $this->hasMany(Portion::className(), ['id' => 'portion_id'])->viaTable(self::diary2portionsTableName(), ['diary_id' => 'id']);
     }
 
     /**
@@ -78,7 +93,7 @@ class Calculating extends ModelAbstract
      */
     public function getRecipes()
     {
-        return $this->hasMany(Recipe::className(), ['id' => 'recipe_id'])->viaTable('calculating_recipes', ['calculating_id' => 'id']);
+        return $this->hasMany(Recipe::className(), ['id' => 'recipe_id'])->viaTable(self::diary2recipesTableName(), ['diary_id' => 'id']);
     }
 
     // END Depending
