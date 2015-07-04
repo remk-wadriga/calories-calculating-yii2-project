@@ -52,4 +52,9 @@ return [
     'portion/create'                                                        => 'portion/create',
     'portion/<id:\d+>/update'                                               => 'portion/update',
     'portions-of-category/<categoryId:\d+>'                                 => 'portion/category',
+
+    /**
+     * PortionCategoryController controller
+     */
+    'portion-categories'                                                    => 'portion-category/list',
 ];

@@ -15,6 +15,8 @@ use app\models\Portion;
  */
 class PortionRepository extends Portion
 {
+    public $categoryName;
+
     /**
      * @inheritdoc
      */
@@ -22,7 +24,7 @@ class PortionRepository extends Portion
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'categoryName'], 'safe'],
         ];
     }
 
@@ -74,11 +76,18 @@ class PortionRepository extends Portion
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like', '`p`.`name`', $this->name])
-            ->andFilterWhere(['like', '`p`.`description`', $this->description]);
+            ->andFilterWhere(['like', '`c`.`name`', $this->categoryName]);
+
+        $dataProvider->sort = [
+            'attributes' => [
+                'name',
+                'categoryName',
+                'calories'
+            ],
+        ];
 
         return $dataProvider;
     }

@@ -1,23 +1,23 @@
 <?php
 /**
  * @var app\components\View $this
- * @var app\repositories\RecipeRepository $searchModel
+ * @var app\repositories\PortionRepository $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = $this->t('Recipes');
+$this->title = $this->t('Portions');
+$this->params['breadcrumbs'][] = ['label' => $this->t('Portion categories'), 'url' => ['/portion-category/list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="recipe-index">
+<div class="portion-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a($this->t('Create recipe'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a($this->t('By category'), ['/recipe-category/list'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a($this->t('Create portion'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

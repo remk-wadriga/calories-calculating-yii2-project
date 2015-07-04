@@ -65,4 +65,8 @@ return [
     'You have not select the dish'                                                                                      => 'Вы не выбрали блюдо',
     'Dish'                                                                                                              => 'Блюдо',
     'Ingredient'                                                                                                        => 'Ингридиент',
+    'By category'                                                                                                       => 'По категориям',
+    'Create portion'                                                                                                    => 'Создать порцию',
+    'Categories'                                                                                                        => 'Категории',
+    'Portion categories'                                                                                                => 'Категории порций',
 ];

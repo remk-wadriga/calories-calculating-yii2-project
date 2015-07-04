@@ -54,6 +54,7 @@ class Product extends ModelAbstract
             'name' => $this->t('Name'),
             'calories' => $this->t('Calories'),
             'description' => $this->t('Description'),
+            'categoryName' => $this->t('Category'),
         ];
     }
 

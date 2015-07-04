@@ -22,7 +22,7 @@ class RecipeRepository extends Recipe
     {
         return [
             [['id', 'category_id', 'categoryId'], 'integer'],
-            [['name', 'description', 'categoryName'], 'safe'],
+            [['name', 'categoryName'], 'safe'],
         ];
     }
 
@@ -75,8 +75,7 @@ class RecipeRepository extends Recipe
         }
 
         $query->andFilterWhere([
-            '`r`.`id`' => $this->id,
-            '`r`.`category_id`' => $this->category_id,
+
         ]);
 
         $query->andFilterWhere(['like', '`r`.`name`', $this->name])

@@ -13,6 +13,8 @@ use app\models\Product;
  */
 class ProductRepository extends Product
 {
+    public $categoryName;
+
     /**
      * @inheritdoc
      */
@@ -20,8 +22,7 @@ class ProductRepository extends Product
     {
         return [
             [['id', 'category_id', 'categoryId'], 'integer'],
-            [['name', 'description'], 'safe'],
-            [['calories'], 'number'],
+            [['name', 'categoryName'], 'safe'],
         ];
     }
 
@@ -72,13 +73,21 @@ class ProductRepository extends Product
         }
 
         $query->andFilterWhere([
-            '`p`.`id`' => $this->id,
-            '`p`.`category_id`' => $this->categoryId,
-            '`p`.`calories`' => $this->calories,
         ]);
 
         $query->andFilterWhere(['like', '`p`.`name`', $this->name])
-            ->andFilterWhere(['like', '`p`.`description`', $this->description]);
+            ->andFilterWhere(['like', '`pc`.`name`', $this->categoryName]);
+
+        $dataProvider->sort = [
+            'attributes' => [
+                'name',
+                'calories',
+                'categoryName' => [
+                    SORT_ASC => '`pc`.`name` ASC',
+                    SORT_DESC => '`pc`.`name` DESC',
+                ],
+            ],
+        ];
 
         return $dataProvider;
     }

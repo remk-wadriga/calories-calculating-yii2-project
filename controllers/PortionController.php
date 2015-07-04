@@ -8,6 +8,7 @@ use app\repositories\PortionRepository;
 use app\abstracts\ControllerAbstract;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\RecipeCategory;
 
 /**
  * PortionController implements the CRUD actions for Portion model.
@@ -50,6 +51,23 @@ class PortionController extends ControllerAbstract
     {
         return $this->render([
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionCategory($categoryId)
+    {
+        $category = RecipeCategory::findOne($categoryId);
+        if (empty($category)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $searchModel = new PortionRepository();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render([
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'categoryName' => $category->name,
         ]);
     }
 

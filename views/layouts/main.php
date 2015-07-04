@@ -27,9 +27,7 @@ AppAsset::register($this);
 <?php
     $user = Yii::$app->user;
     $menu = [
-        ['label' => $this->t('Product categories'), 'url' => ['/product-category/list']],
         ['label' => $this->t('Products'), 'url' => ['/product/list']],
-        ['label' => $this->t('Recipe categories'), 'url' => ['/recipe-category/list']],
         ['label' => $this->t('Recipes'), 'url' => ['/recipe/list']],
         ['label' => $this->t('Portions'), 'url' => ['/portion/list']],
     ];
