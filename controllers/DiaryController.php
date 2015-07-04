@@ -6,6 +6,7 @@ use Yii;
 use app\abstracts\ControllerAbstract;
 use app\models\Diary;
 use app\repositories\DiaryRepository;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -24,6 +25,19 @@ class DiaryController extends ControllerAbstract
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        if (Yii::$app->user->isGuest) {
+            throw new ForbiddenHttpException();
+        }
+
+        return true;
     }
 
     /**
@@ -62,7 +76,7 @@ class DiaryController extends ControllerAbstract
     {
         $model = new Diary();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load($this->post()) && $model->diarySave()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render([
@@ -81,7 +95,7 @@ class DiaryController extends ControllerAbstract
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load($this->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render([
@@ -112,7 +126,7 @@ class DiaryController extends ControllerAbstract
      */
     protected function findModel($id)
     {
-        if (($model = Diary::findOne($id)) !== null) {
+        if (($model = Diary::findById($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

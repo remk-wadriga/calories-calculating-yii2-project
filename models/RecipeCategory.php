@@ -73,7 +73,9 @@ class RecipeCategory extends ModelAbstract
             return self::$_items;
         }
 
-        self::$_items = [];
+        self::$_items = [
+            0 => '---'
+        ];
 
         $list = self::find()
             ->orderBy('name')

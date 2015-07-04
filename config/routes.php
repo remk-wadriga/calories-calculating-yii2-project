@@ -28,6 +28,7 @@ return [
     'product/<id:\d+>/update'                                               => 'product/update',
     'product/<id:\d+>/delete'                                               => 'product/delete',
     'products-of-category/<categoryId:\d+>'                                 => 'product/category',
+    'product/diary-category/<categoryId:\d+>'                               => 'product/diary-category',
 
     /**
      * @ RecipeCategoryController controller
@@ -47,6 +48,7 @@ return [
     'recipe/<id:\d+>/update'                                                => 'recipe/update',
     'recipe/<id:\d+>/delete'                                                => 'recipe/delete',
     'recipes-of-category/<categoryId:\d+>'                                  => 'recipe/category',
+    'recipe/diary-category/<categoryId:\d+>'                                => 'recipe/diary-category',
 
     /**
      * @ PortionController controller
@@ -57,6 +59,7 @@ return [
     'portion/<id:\d+>/update'                                               => 'portion/update',
     'portion/<id:\d+>/delete'                                               => 'portion/delete',
     'portions-of-category/<categoryId:\d+>'                                 => 'portion/category',
+    'portion/diary-category/<categoryId:\d+>'                               => 'portion/diary-category',
 
     /**
      * PortionCategoryController controller

@@ -2,13 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\Diary;
 use Yii;
 use app\models\Portion;
 use app\repositories\PortionRepository;
 use app\abstracts\ControllerAbstract;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\RecipeCategory;
+use yii\widgets\ActiveForm;
 
 /**
  * PortionController implements the CRUD actions for Portion model.
@@ -68,6 +71,23 @@ class PortionController extends ControllerAbstract
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'categoryName' => $category->name,
+        ]);
+    }
+
+    public function actionDiaryCategory($categoryId)
+    {
+        if (!$this->isAjax()) {
+            throw new BadRequestHttpException();
+        }
+
+        $model = new Diary();
+        $model->portionCategoryId = $categoryId;
+
+        return $this->renderPartial('@app/views/diary/_category-elements-dropdown-list', [
+            'model' => $model,
+            'form' => ActiveForm::begin(),
+            'param' => 'portionsList',
+            'items' => $model->getPortionItems()
         ]);
     }
 

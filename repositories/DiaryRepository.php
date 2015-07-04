@@ -18,7 +18,6 @@ class DiaryRepository extends Diary
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -41,7 +40,21 @@ class DiaryRepository extends Diary
      */
     public function search($params)
     {
-        $query = Diary::find();
+        $portionCaloriesSql = self::getPortionCaloriesQuery('`d`.`id`')->createCommand()->sql;
+        $recipeCaloriesSql = self::getRecipeCaloriesQuery('`d`.`id`')->createCommand()->sql;
+        $productCaloriesSql = self::getProductCaloriesQuery('`d`.`id`')->createCommand()->sql;
+
+        $query = Diary::find()
+            ->select([
+                '`d`.*',
+                "COALESCE(({$portionCaloriesSql}), 0) + COALESCE(({$recipeCaloriesSql}), 0) + COALESCE(({$productCaloriesSql}), 0) AS `calories`",
+            ])
+            ->from(self::tableName() . ' `d`')
+            ->where(['`d`.`user_id`' => Yii::$app->user->id]);
+
+        if (!isset($params['sort'])) {
+            $query->orderBy('`d`.`date` DESC');
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,10 +69,15 @@ class DiaryRepository extends Diary
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'date' => $this->date,
+            '`d`.`date`' => $this->date,
         ]);
+
+        $dataProvider->sort = [
+            'attributes' => [
+                'date',
+                'calories',
+            ],
+        ];
 
         return $dataProvider;
     }

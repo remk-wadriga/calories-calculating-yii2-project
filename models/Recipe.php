@@ -21,7 +21,7 @@ use yii\helpers\Url;
  * @property string $categoryName
  * @property integer $calories
  *
- * @property Calculating[] $calculatings
+ * @property Diary[] $diary
  * @property Portion[] $portions
  * @property RecipeCategory $category
  * @property Product[] $products
@@ -83,9 +83,9 @@ class Recipe extends ModelAbstract
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCalculatings()
+    public function getDiary()
     {
-        return $this->hasMany(Calculating::className(), ['id' => 'calculating_id'])->viaTable('calculating_recipes', ['recipe_id' => 'id']);
+        return $this->hasMany(Diary::className(), ['id' => 'calculating_id'])->viaTable(Diary::diary2recipesTableName(), ['recipe_id' => 'id']);
     }
 
     /**
@@ -205,14 +205,15 @@ class Recipe extends ModelAbstract
             return false;
         }
 
+        $db = Yii::$app->getDb();
+        $transaction = $db->beginTransaction();
+
         if (!$this->getIsNewRecord()) {
-            Yii::$app->getDb()->createCommand()->delete(self::recipe2productsTableName(), ['recipe_id' => $this->id])->execute();
+            $db->createCommand()->delete(self::recipe2productsTableName(), ['recipe_id' => $this->id])->execute();
         } elseif (empty($this->productsItems)) {
             $this->addError('productsItems', $this->t('You have not added any ingredient'));
             return false;
         }
-
-        $transaction = Yii::$app->getDb()->beginTransaction();
 
         if (!$this->save(false)) {
             $transaction->rollBack();
@@ -235,7 +236,7 @@ class Recipe extends ModelAbstract
                 ];
             }
 
-            $result = Yii::$app->getDb()->createCommand()->batchInsert(self::recipe2productsTableName(), $columns, $rows)->execute();
+            $result = $db->createCommand()->batchInsert(self::recipe2productsTableName(), $columns, $rows)->execute();
             if (!$result) {
                 $this->addError('productsItems', $this->t('Unable to save the ingredients'));
                 $transaction->rollBack();

@@ -2,11 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Diary;
 use app\models\Portion;
 use Yii;
 use app\models\Recipe;
 use app\repositories\RecipeRepository;
 use app\abstracts\ControllerAbstract;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\RecipeCategory;
@@ -56,8 +58,6 @@ class RecipeController extends ControllerAbstract
         ]);
     }
 
-
-
     public function actionCategory($categoryId)
     {
         $category = RecipeCategory::findOne($categoryId);
@@ -82,6 +82,23 @@ class RecipeController extends ControllerAbstract
                 'categoryName' => $category->name,
             ]);
         }
+    }
+
+    public function actionDiaryCategory($categoryId)
+    {
+        if (!$this->isAjax()) {
+            throw new BadRequestHttpException();
+        }
+
+        $model = new Diary();
+        $model->recipeCategoryId = $categoryId;
+
+        return $this->renderPartial('@app/views/diary/_category-elements-dropdown-list', [
+            'model' => $model,
+            'form' => ActiveForm::begin(),
+            'param' => 'recipesList',
+            'items' => $model->getRecipeItems()
+        ]);
     }
 
     /**

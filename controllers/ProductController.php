@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Diary;
 use app\models\Portion;
 use app\models\ProductCategory;
 use app\models\Recipe;
@@ -82,6 +83,23 @@ class ProductController extends ControllerAbstract
                 'categoryName' => $category->name,
             ]);
         }
+    }
+
+    public function actionDiaryCategory($categoryId)
+    {
+        if (!$this->isAjax()) {
+            throw new BadRequestHttpException();
+        }
+
+        $model = new Diary();
+        $model->productCategoryId = $categoryId;
+
+        return $this->renderPartial('@app/views/diary/_category-elements-dropdown-list', [
+            'model' => $model,
+            'form' => ActiveForm::begin(),
+            'param' => 'productsList',
+            'items' => $model->getProductItems()
+        ]);
     }
 
     /**

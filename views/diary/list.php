@@ -25,9 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'user_id',
             'date',
+            [
+                'label'  => $this->t('Calories'),
+                'attribute' => 'calories',
+                'value'  => function($model){
+                    return $this->round($model->calories);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
