@@ -307,7 +307,7 @@ class Recipe extends ModelAbstract
                 $string .= $ingredient['weight'] . $this->t('gr.');
                 $string .= ' ';
                 $string .= Html::a($ingredient['name'], ['/product/view', 'id' => $ingredient['id']]);
-                $string .= ' (' . $ingredient['calories'] . $this->t('CC.') . '), ';
+                $string .= ' (' . $ingredient['calories'] . $this->t('cc.') . '), ';
             }
 
             $this->_productsListString = substr($string, 0, strlen($string) - 2);

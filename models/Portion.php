@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\abstracts\ModelAbstract;
 use yii\db\Query;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "portion".
@@ -19,13 +20,14 @@ use yii\db\Query;
  * @property integer $calories
  * @property string $categoryName
  *
- * @property Calculating[] $calculatings
+ * @property Diary[] $diaries
  * @property Recipe $recipe
  */
 class Portion extends ModelAbstract
 {
     protected $_calories;
     protected $_categoryName;
+    protected $_ingredientString;
 
     public $recipeCategoryId;
     public $recipesItems;
@@ -59,6 +61,7 @@ class Portion extends ModelAbstract
             'weight' => $this->t('Weight'),
             'recipesItems' => $this->t('Dish'),
             'categoryName' => $this->t('Category'),
+            'ingredientString' => $this->t('Dish'),
         ];
     }
 
@@ -67,9 +70,9 @@ class Portion extends ModelAbstract
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCalculatings()
+    public function getDiaries()
     {
-        return $this->hasMany(Calculating::className(), ['id' => 'calculating_id'])->viaTable('calculating_portions', ['portion_id' => 'id']);
+        return $this->hasMany(Diary::className(), ['id' => 'diary_id'])->viaTable(Diary::diary2portionsTableName(), ['portion_id' => 'id']);
     }
 
     /**
@@ -231,6 +234,25 @@ class Portion extends ModelAbstract
     public function getIngredientName()
     {
         return 'recipe';
+    }
+
+    public function getIngredientString()
+    {
+        if ($this->_ingredientString !== null) {
+            return $this->_ingredientString;
+        }
+
+        $this->_ingredientString = '';
+
+        $recipe = $this->recipe;
+        if (!empty($recipe)) {
+            $this->_ingredientString .=
+                $this->weight . $this->t('gr.') .
+                ' ' . Html::a($recipe->name, ['/recipe/view', 'id' => $recipe->id]) .
+                ' (' . Yii::$app->view->round($recipe->calories) . $this->t('cc.') . ')';
+        }
+
+        return $this->_ingredientString;
     }
 
     /**

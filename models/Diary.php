@@ -42,6 +42,9 @@ class Diary extends ModelAbstract
     protected $_recipeCalories;
     protected $_productCalories;
     protected $_calories;
+    protected $_portionIngredients;
+    protected $_recipesIngredients;
+    protected $_productIngredients;
 
     public static function tableName()
     {
@@ -499,6 +502,155 @@ class Diary extends ModelAbstract
         return $this->_productItems;
     }
 
+    /**
+     * @return array
+     */
+    public function getPortionIngredients()
+    {
+        if ($this->_portionIngredients !== null) {
+            return $this->_portionIngredients;
+        }
+
+        $this->_portionIngredients = [];
+
+        $caloriesSql = (new Query())
+            ->select('SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)')
+            ->from(Recipe::recipe2productsTableName() . ' `rp`')
+            ->leftJoin(Product::tableName() . ' `prod`', '`prod`.`id` = `rp`.`product_id`')
+            ->where('`rp`.`recipe_id` = `p`.`recipe_id`')
+            ->createCommand()
+            ->sql;
+
+        /**
+         *    SELECT
+         *       `p`.`id` AS `id`,
+         *       `p`.`name` AS `name`,
+         *       `dp`.`count` AS `count`,
+         *       `dp`.`count`*`p`.`weight`*(
+         *           SELECT
+         *               SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)
+         *           FROM `recipe_products` `rp`
+         *           LEFT JOIN `product` `prod` ON `prod`.`id` = `rp`.`product_id`
+         *           WHERE `rp`.`recipe_id` = `p`.`recipe_id`
+         *       ) AS `calories`,
+         *       `dp`.`count`*`p`.`weight` AS `weight`
+         *   FROM `diary_portions` `dp`
+         *   LEFT JOIN `portion` `p` ON `p`.`id` = `dp`.`portion_id`
+         *   WHERE `dp`.`diary_id` = 1
+         */
+        $ingredients = (new Query())
+            ->select([
+                '`p`.`id` AS `id`',
+                '`p`.`name` AS `name`',
+                '`dp`.`count` AS `count`',
+                "`dp`.`count`*`p`.`weight`*({$caloriesSql}) AS `calories`",
+                '`dp`.`count`*`p`.`weight` AS `weight`'
+            ])
+            ->from(self::diary2portionsTableName() . ' `dp`')
+            ->leftJoin(Portion::tableName() . ' `p`', '`p`.`id` = `dp`.`portion_id`')
+            ->where(['`dp`.`diary_id`' => $this->id])
+            ->all();
+
+        if (!empty($ingredients)) {
+            $this->_portionIngredients = $ingredients;
+        }
+
+        return $this->_portionIngredients;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRecipeIngredients()
+    {
+        if ($this->_recipesIngredients !== null) {
+            return $this->_recipesIngredients;
+        }
+
+        $this->_recipesIngredients = [];
+
+        $caloriesSql = (new Query())
+            ->select('SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)')
+            ->from(Recipe::recipe2productsTableName() . ' `rp`')
+            ->leftJoin(Product::tableName() . ' `prod`', '`prod`.`id` = `rp`.`product_id`')
+            ->where('`rp`.`recipe_id` = `dr`.`recipe_id`')
+            ->createCommand()
+            ->sql;
+
+        /**
+            SELECT
+                `r`.`id` AS `id`,
+                `r`.`name` AS `name`,
+                `dr`.`weight`*(
+                    SELECT
+                        SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)
+                    FROM `recipe_products` `rp`
+                    LEFT JOIN `product` `prod` ON `prod`.`id` = `rp`.`product_id`
+                    WHERE `rp`.`recipe_id` = `dr`.`recipe_id`
+                ) AS `calories`,
+                `dr`.`weight` AS `weight`
+            FROM `diary_recipes` `dr`
+            LEFT JOIN `recipe` `r` ON `r`.`id` = `dr`.`recipe_id`
+            WHERE `dr`.`diary_id` = 1
+         */
+        $ingredients = (new Query())
+            ->select([
+                '`r`.`id` AS `id`',
+                '`r`.`name` AS `name`',
+                "`dr`.`weight`*({$caloriesSql}) AS `calories`",
+                '`dr`.`weight` AS `weight`'
+            ])
+            ->from(self::diary2recipesTableName() . ' `dr`')
+            ->leftJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `dr`.`recipe_id`')
+            ->where(['`dr`.`diary_id`' => $this->id])
+            ->all();
+
+        if (!empty($ingredients)) {
+            $this->_recipesIngredients = $ingredients;
+        }
+
+        return $this->_recipesIngredients;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductIngredients()
+    {
+        if ($this->_productIngredients !== null) {
+            return $this->_productIngredients;
+        }
+
+        $this->_productIngredients = [];
+
+        /**
+            SELECT
+                `p`.`id` AS `id`,
+                `p`.`name` AS `name`,
+                `dp`.`weight`*`p`.`calories` AS `calories`,
+                `dp`.`weight` AS `weight`
+            FROM `diary_products` `dp`
+            LEFT JOIN `product` `p` ON `p`.`id` = `dp`.`product_id`
+            WHERE `dp`.`diary_id` = 1
+         */
+        $ingredients = (new Query())
+            ->select([
+                '`p`.`id` AS `id`',
+                '`p`.`name` AS `name`',
+                '`dp`.`weight`*`p`.`calories` AS `calories`',
+                '`dp`.`weight` AS `weight`'
+            ])
+            ->from(self::diary2productsTableName() . ' `dp`')
+            ->leftJoin(Product::tableName() . ' `p`', '`p`.`id` = `dp`.`product_id`')
+            ->where(['`dp`.`diary_id`' => $this->id])
+            ->all();
+
+        if (!empty($ingredients)) {
+            $this->_productIngredients = $ingredients;
+        }
+
+        return $this->_productIngredients;
+    }
 
     /**
      * @param integer $id

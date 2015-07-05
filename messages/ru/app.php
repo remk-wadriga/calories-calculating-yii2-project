@@ -50,7 +50,7 @@ return [
     'Unable to save the ingredients'                                                                                    => 'Не удалось сохранить ингредиенты',
     'Calories'                                                                                                          => 'Калории',
     'gr.'                                                                                                               => 'гр.',
-    'CC.'                                                                                                               => 'КК.',
+    'cc.'                                                                                                               => 'кк.',
     'Ingredients'                                                                                                       => 'Игредиенты',
     'Create new product'                                                                                                => 'Создать новый продукт',
     'Create new category'                                                                                               => 'Создать новую категорию',
@@ -74,4 +74,6 @@ return [
     'Update diary record by {date}'                                                                                     => 'Обновить запись в дневнике за {date}',
     'Count'                                                                                                             => 'Количество',
     'Dishes'                                                                                                            => 'Блюда',
+    'pcs'                                                                                                               => 'шт.',
+    'gr.'                                                                                                               => 'гр.',
 ];

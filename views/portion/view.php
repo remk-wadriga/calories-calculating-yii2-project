@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'  => $this->round($model->calories),
             ],
             'description:ntext',
+            'ingredientString:raw',
         ],
     ]) ?>
 
