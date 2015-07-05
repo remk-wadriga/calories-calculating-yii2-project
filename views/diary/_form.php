@@ -43,17 +43,56 @@ use yii\widgets\ActiveForm;
 
     <h4><?= $this->t('Portions') ?>:</h4>
     <div id="portionsList_items">
-
+        <?php $portionIngredients = $model->getPortionIngredients() ?>
+        <?php if (!empty($portionIngredients)): ?>
+            <?php foreach ($portionIngredients as $item): ?>
+                <?= $this->render('@app/views/partials/_ingredient-line', [
+                    'model' => $model,
+                    'property' => 'portionsList',
+                    'ingredient' => [
+                        'name' => $item['name'],
+                        'count' => $item['count'],
+                        'portionsList' => $item['id']
+                    ],
+                ]) ?>
+            <?php endforeach ?>
+        <?php endif ?>
     </div>
 
     <h4><?= $this->t('Dishes') ?>:</h4>
     <div id="recipesList_items">
-
+        <?php $recipesIngredients = $model->getRecipeIngredients() ?>
+        <?php if (!empty($recipesIngredients)): ?>
+            <?php foreach ($recipesIngredients as $item): ?>
+                <?= $this->render('@app/views/partials/_ingredient-line', [
+                    'model' => $model,
+                    'property' => 'recipesList',
+                    'ingredient' => [
+                        'name' => $item['name'],
+                        'weight' => $item['weight'],
+                        'recipesList' => $item['id']
+                    ],
+                ]) ?>
+            <?php endforeach ?>
+        <?php endif ?>
     </div>
 
     <h4><?= $this->t('Products') ?>:</h4>
     <div id="productsList_items">
-
+        <?php $productIngredients = $model->getProductIngredients() ?>
+        <?php if (!empty($productIngredients)): ?>
+            <?php foreach ($productIngredients as $item): ?>
+                <?= $this->render('@app/views/partials/_ingredient-line', [
+                    'model' => $model,
+                    'property' => 'productsList',
+                    'ingredient' => [
+                        'name' => $item['name'],
+                        'weight' => $item['weight'],
+                        'productsList' => $item['id']
+                    ],
+                ]) ?>
+            <?php endforeach ?>
+        <?php endif ?>
     </div>
 
     <br />
@@ -71,7 +110,7 @@ use yii\widgets\ActiveForm;
             'ingredient' => [
                 'name' => '',
                 'count' => '',
-                'productsItems' => ''
+                'portionsList' => ''
             ],
         ]) ?>
     </div>
@@ -83,7 +122,7 @@ use yii\widgets\ActiveForm;
             'ingredient' => [
                 'name' => '',
                 'weight' => '',
-                'productsItems' => ''
+                'recipesList' => ''
             ],
         ]) ?>
     </div>
@@ -95,7 +134,7 @@ use yii\widgets\ActiveForm;
             'ingredient' => [
                 'name' => '',
                 'weight' => '',
-                'productsItems' => ''
+                'productsList' => ''
             ],
         ]) ?>
     </div>

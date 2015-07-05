@@ -578,21 +578,21 @@ class Diary extends ModelAbstract
             ->sql;
 
         /**
-            SELECT
-                `r`.`id` AS `id`,
-                `r`.`name` AS `name`,
-                `dr`.`weight`*(
-                    SELECT
-                        SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)
-                    FROM `recipe_products` `rp`
-                    LEFT JOIN `product` `prod` ON `prod`.`id` = `rp`.`product_id`
-                    WHERE `rp`.`recipe_id` = `dr`.`recipe_id`
-                ) AS `calories`,
-                `dr`.`weight` AS `weight`
-            FROM `diary_recipes` `dr`
-            LEFT JOIN `recipe` `r` ON `r`.`id` = `dr`.`recipe_id`
-            WHERE `dr`.`diary_id` = 1
-         */
+        *    SELECT
+        *        `r`.`id` AS `id`,
+        *        `r`.`name` AS `name`,
+        *        `dr`.`weight`*(
+        *            SELECT
+        *                SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`)
+        *            FROM `recipe_products` `rp`
+        *            LEFT JOIN `product` `prod` ON `prod`.`id` = `rp`.`product_id`
+        *            WHERE `rp`.`recipe_id` = `dr`.`recipe_id`
+        *        ) AS `calories`,
+        *        `dr`.`weight` AS `weight`
+        *    FROM `diary_recipes` `dr`
+        *    LEFT JOIN `recipe` `r` ON `r`.`id` = `dr`.`recipe_id`
+        *    WHERE `dr`.`diary_id` = 1
+        */
         $ingredients = (new Query())
             ->select([
                 '`r`.`id` AS `id`',
@@ -624,15 +624,15 @@ class Diary extends ModelAbstract
         $this->_productIngredients = [];
 
         /**
-            SELECT
-                `p`.`id` AS `id`,
-                `p`.`name` AS `name`,
-                `dp`.`weight`*`p`.`calories` AS `calories`,
-                `dp`.`weight` AS `weight`
-            FROM `diary_products` `dp`
-            LEFT JOIN `product` `p` ON `p`.`id` = `dp`.`product_id`
-            WHERE `dp`.`diary_id` = 1
-         */
+        *    SELECT
+        *        `p`.`id` AS `id`,
+        *        `p`.`name` AS `name`,
+        *        `dp`.`weight`*`p`.`calories` AS `calories`,
+        *        `dp`.`weight` AS `weight`
+        *    FROM `diary_products` `dp`
+        *    LEFT JOIN `product` `p` ON `p`.`id` = `dp`.`product_id`
+        *    WHERE `dp`.`diary_id` = 1
+        */
         $ingredients = (new Query())
             ->select([
                 '`p`.`id` AS `id`',
