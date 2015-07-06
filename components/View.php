@@ -42,4 +42,9 @@ class View extends YiiView
 
         return round($value, $precision);
     }
+
+    public function getCurrentDate()
+    {
+        return Yii::$app->timeService->getCurrentDate();
+    }
 }

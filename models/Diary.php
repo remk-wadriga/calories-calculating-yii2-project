@@ -188,6 +188,10 @@ class Diary extends ModelAbstract
 
         $this->_portionCalories = 0;
 
+        if ($this->getIsNewRecord()) {
+            return $this->_portionCalories;
+        }
+
         $calories = self::getPortionCaloriesQuery($this->id)->one();
         if (!empty($calories)) {
             $this->_portionCalories = $calories['portionCalories'];
@@ -214,6 +218,10 @@ class Diary extends ModelAbstract
 
         $this->_recipeCalories = 0;
 
+        if ($this->getIsNewRecord()) {
+            return $this->_recipeCalories;
+        }
+
         $calories = self::getRecipeCaloriesQuery($this->id)->one();
         if (!empty($calories)) {
             $this->_recipeCalories = $calories['recipeCalories'];
@@ -239,6 +247,10 @@ class Diary extends ModelAbstract
         }
 
         $this->_productCalories = 0;
+
+        if ($this->getIsNewRecord()) {
+            return $this->_productCalories;
+        }
 
         $calories = self::getProductCaloriesQuery($this->id)->one();
         if (!empty($calories)) {

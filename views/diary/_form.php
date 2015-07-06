@@ -13,7 +13,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'date')->textInput([
+        'value' => $model->date ? $model->date : $this->getCurrentDate(),
+    ]) ?>
 
     <?= $this->render('_element-categories-dropdown-list', [
         'form' => $form,
