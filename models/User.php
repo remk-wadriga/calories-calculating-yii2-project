@@ -32,6 +32,7 @@ use yii\web\IdentityInterface;
  * @property integer $weighingDay
  * @property string $newPassword
  * @property integer $startWeight
+ * @property integer $plannedCalories
  *
  */
 class User extends ModelAbstract implements IdentityInterface
@@ -45,6 +46,8 @@ class User extends ModelAbstract implements IdentityInterface
     const STATUS_BLOCK = 3;
 
     protected $_currentWeight;
+
+    protected $_plannedCalories;
 
     public static function tableName()
     {
@@ -62,7 +65,7 @@ class User extends ModelAbstract implements IdentityInterface
             [['avatar'], 'string', 'max' => 500],
             [['phone'], 'string', 'max' => 126],
             [['role'], 'string', 'max' => 24],
-            [['start_weight', 'startWeight'], 'number'],
+            [['start_weight', 'startWeight', 'plannedCalories'], 'number'],
         ];
     }
 
@@ -73,20 +76,20 @@ class User extends ModelAbstract implements IdentityInterface
             'email' => $this->t('Email'),
             'password_hash' => $this->t('Password Hash'),
             'newPassword' => $this->t('Password'),
-            'first_name' => $this->t('First Name'),
-            'last_name' => $this->t('Last Name'),
-            'firstName' => $this->t('First Name'),
-            'lastName' => $this->t('Last Name'),
+            'first_name' => $this->t('First name'),
+            'last_name' => $this->t('Last name'),
+            'firstName' => $this->t('First name'),
+            'lastName' => $this->t('Last name'),
             'phone' => $this->t('Phone'),
             'avatar' => $this->t('Avatar'),
             'status' => $this->t('Status'),
             'role' => $this->t('Role'),
-            'last_login_date' => $this->t('Last Login Date'),
-            'registration_date' => $this->t('Registration Date'),
-            'lastLoginDate' => $this->t('Last Login Date'),
+            'last_login_date' => $this->t('Last login date'),
+            'registration_date' => $this->t('Registration date'),
+            'lastLoginDate' => $this->t('Last login date'),
             'registrationDate' => $this->t('Registration Date'),
-            'weighing_day' => $this->t('Weighing Day'),
-            'weighingDay' => $this->t('Weighing Day'),
+            'weighing_day' => $this->t('Weighing day'),
+            'weighingDay' => $this->t('Weighing day'),
             'startWeight' => $this->t('Start weight') . ' (' . $this->getFormattedRegistrationDate() . ')',
             'plannedCalories' => $this->t('Planned calories'),
         ];
@@ -265,6 +268,21 @@ class User extends ModelAbstract implements IdentityInterface
     public function getStartWeight()
     {
         return $this->start_weight;
+    }
+
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function setPlannedCalories($value)
+    {
+        $this->_plannedCalories = $value;
+        return $this;
+    }
+
+    public function getPlannedCalories()
+    {
+        return $this->_plannedCalories;
     }
 
     // END Getters and setters

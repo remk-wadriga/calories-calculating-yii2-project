@@ -20,8 +20,10 @@ class m150624_172437_create_tables extends Migration
               `role` varchar(24) NOT NULL DEFAULT 'USER',
               `last_login_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
               `registration_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              `weighing_day` enum('0','1','2','3','4','5','6') NOT NULL DEFAULT '0',
+              `start_weight` float DEFAULT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
             CREATE TABLE `product_category` (
               `id` int(11) NOT NULL AUTO_INCREMENT,

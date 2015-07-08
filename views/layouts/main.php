@@ -36,8 +36,15 @@ AppAsset::register($this);
         $menu[] = ['label' => $this->t('Login'), 'url' => ['/index/login']];
         $menu[] = ['label' => $this->t('Registration'), 'url' => ['/index/registration']];
     } else {
-        $menu[] = ['label' => $this->t('Diary'), 'url' => ['diary/list']];
-        $menu[] = ['label' => $this->t('Logout') . ' (' . $user->name . ')', 'url' => ['/index/logout'], 'linkOptions' => ['data-method' => 'post']];
+        $menu[] = ['label' => $this->t('Diary'), 'url' => ['/diary/list']];
+        $menu[] = ['label' => $this->t('Week stats'), 'url' => ['/week-stats/list']];
+        $menu[] = [
+            'label' => $user->name,
+            'items' => [
+                ['label' => $this->t('Account'), 'url' => ['/account/view']],
+                ['label' => $this->t('Logout'), 'url' => ['/index/logout'], 'linkOptions' => ['data-method' => 'post']],
+            ],
+        ];
     }
 ?>
 

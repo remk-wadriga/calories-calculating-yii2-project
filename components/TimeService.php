@@ -104,6 +104,11 @@ class TimeService extends ServiceAbstract
         return self::$_deyNames[$this->getDateTime($time)->format('w')];
     }
 
+    public function getDeyNameBayNumber($dayNumber)
+    {
+        return isset(self::$_deyNames[$dayNumber]) ? self::$_deyNames[$dayNumber] : self::$_deyNames[0];
+    }
+
     public function getNextDayDate($time = null, $format = null)
     {
         if ($format === null) {

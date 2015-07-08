@@ -47,4 +47,9 @@ class View extends YiiView
     {
         return Yii::$app->timeService->getCurrentDate();
     }
+
+    public function getDayName($day)
+    {
+        return $this->t(Yii::$app->timeService->getDeyNameBayNumber($day));
+    }
 }

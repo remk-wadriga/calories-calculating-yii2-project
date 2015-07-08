@@ -56,4 +56,7 @@ return [
             ],
         ],
     ],
+    'statsService' => [
+        'class' => 'app\components\StatsService',
+    ],
 ];
