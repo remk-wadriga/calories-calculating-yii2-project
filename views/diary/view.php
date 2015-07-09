@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'  => $this->t('Calories'),
                 'value'  => $this->round($model->calories),
             ],
+            [
+                'label'  => $this->t('Day'),
+                'value'  => $this->getDayName($model->day),
+            ],
         ],
     ]) ?>
 
@@ -65,5 +69,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif ?>
         </tbody>
     </table>
+
+    <p>
+        <?= Html::a($this->t('Write to stats'), ['/week-stats/create', 'date' => $model->date], ['class' => 'btn btn-primary', 'data' => ['method' => 'post']]) ?>
+    </p>
 
 </div>

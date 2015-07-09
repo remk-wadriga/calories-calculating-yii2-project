@@ -21,16 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'user_id',
-            'start_date',
-            'end_date',
-            'weight',
-            // 'calories',
-            // 'average_weight',
-            // 'average_calories',
-            // 'body_weight',
-            // 'days_stats:ntext',
+            'startDate',
+            'endDate',
+            'calories',
+            'averageCalories',
+            'bodyWeight',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

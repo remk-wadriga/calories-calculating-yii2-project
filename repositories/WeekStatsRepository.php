@@ -44,6 +44,10 @@ class WeekStatsRepository extends WeekStats
     {
         $query = WeekStats::find();
 
+        if (!isset($params['sort'])) {
+            $query->orderBy('end_date DESC');
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

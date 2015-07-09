@@ -95,7 +95,7 @@ class DiaryController extends ControllerAbstract
     {
         $model = $this->findModel($id);
 
-        if ($model->load($this->post()) && $model->save()) {
+        if ($model->load($this->post()) && $model->diarySave()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render([

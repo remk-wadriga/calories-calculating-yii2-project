@@ -20,6 +20,8 @@ use yii\db\Query;
  * @property integer $productCalories
  * @property integer $calories
  *
+ * @property integer $day
+ *
  * @property User $user
  * @property Portion[] $portions
  * @property Product[] $products
@@ -45,6 +47,7 @@ class Diary extends ModelAbstract
     protected $_portionIngredients;
     protected $_recipesIngredients;
     protected $_productIngredients;
+    protected $_day;
 
     public static function tableName()
     {
@@ -279,6 +282,25 @@ class Diary extends ModelAbstract
         return $this->_calories;
     }
 
+    /**
+     * @param integer $value
+     * @return $this
+     */
+    public function setDay($value)
+    {
+        $this->_day = $value;
+        return $this;
+    }
+
+    public function getDay()
+    {
+        if ($this->_day === null) {
+            $this->_day = Yii::$app->timeService->getDey($this->date);
+        }
+
+        return $this->_day;
+    }
+
     // END Getters and setters
 
 
@@ -380,6 +402,11 @@ class Diary extends ModelAbstract
         }
 
         $transaction->commit();
+
+        if (Yii::$app->timeService->getDey($this->date) == Yii::$app->user->getWeighingDay()) {
+            Yii::$app->statsService->writeStats($this->date);
+        }
+
         return true;
     }
 
@@ -663,6 +690,7 @@ class Diary extends ModelAbstract
 
         return $this->_productIngredients;
     }
+
 
     /**
      * @param integer $id

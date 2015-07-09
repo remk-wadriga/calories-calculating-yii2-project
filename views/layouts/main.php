@@ -66,9 +66,13 @@ AppAsset::register($this);
         ?>
 
         <div class="container">
+
+            <?= $this->render('@app/views/partials/_flash-message-line') ?>
+
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+
             <?= $content ?>
         </div>
     </div>

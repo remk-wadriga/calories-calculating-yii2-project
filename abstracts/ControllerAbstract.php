@@ -26,6 +26,11 @@ class ControllerAbstract extends Controller
         return parent::render($view, $params);
     }
 
+    public function setFlash($key, $message)
+    {
+        Yii::$app->session->setFlash($key, $message);
+    }
+
     protected function isPost()
     {
         return Yii::$app->request->getIsPost();

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\repositories\DiaryRepository;
 use Yii;
 use app\abstracts\ModelAbstract;
 use app\interfaces\StatsModelInterface;
@@ -27,11 +28,14 @@ use app\interfaces\StatsModelInterface;
  * @property string $daysStats
  * @property string $startDate
  * @property string $endDate
+ * @property integer $weighingDay
  *
  * @property User $user
  */
 class WeekStats extends ModelAbstract implements StatsModelInterface
 {
+    protected $_weighingDay;
+
     /**
      * @inheritdoc
      */
@@ -47,7 +51,7 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
     {
         return [
             [['weight', 'calories', 'average_weight', 'average_calories'], 'required'],
-            [['user_id', 'userId'], 'integer'],
+            [['user_id', 'userId', 'weighingDay'], 'integer'],
             [['start_date', 'end_date', 'days_stats', 'daysStats'], 'safe'],
             [['weight', 'calories', 'average_weight', 'average_calories', 'body_weight', 'averageWeight', 'averageCalories', 'bodyWeight'], 'number'],
             [['days_stats', 'start_date', 'end_date', 'daysStats', 'startDate', 'endDate'], 'string']
@@ -217,6 +221,29 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
         return $this->end_date;
     }
 
+    /**
+     * @param integer $value
+     * @return $this
+     */
+    public function setWeighingDay($value)
+    {
+        $this->_weighingDay = $value;
+        return $this;
+    }
+
+    public function getWeighingDay()
+    {
+        if ($this->_weighingDay !== null) {
+            return $this->_weighingDay;
+        }
+
+        if (Yii::$app->request->isConsoleRequest) {
+            return $this->_weighingDay;
+        }
+
+        return $this->_weighingDay = Yii::$app->getUser()->getIdentity()->getId();
+    }
+
     // END Getters and setters
 
 
@@ -227,5 +254,97 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
 
     // Protected methods
 
+    protected function findUserId()
+    {
+        $userId = $this->getUserId();
+        if (!empty($userId)) {
+            return $userId;
+        }
+
+        if (Yii::$app->request->isConsoleRequest) {
+            return null;
+        }
+
+        $user = Yii::$app->get('user');
+        if (!empty($user)) {
+            return $user->getId();
+        }
+
+        return null;
+    }
+
     // END Protected methods
+
+
+    // Implementation StatsModelInterface
+
+    /**
+     * @param string $date
+     * @param integer|null $limit
+     * @return array
+     */
+    public function findDaysByEndDate($date, $limit = null)
+    {
+        $query = DiaryRepository::getQuery([], false);
+
+        $query
+            ->andWhere(['<=', 'date', $date])
+            ->orderBy('date')
+            ->asArray();
+
+        $userId = $this->findUserId();
+        if (!empty($userId)) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+        if ($limit !== null) {
+            $query->limit($limit);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @return array
+     */
+    public function findDaysByStartAndEndDate($startDate, $endDate)
+    {
+        $query = DiaryRepository::getQuery([], false);
+
+        $query
+            ->andWhere(['>=', 'date', $startDate])
+            ->andWhere(['<=', 'date', $endDate])
+            ->orderBy('date')
+            ->asArray();
+
+        $userId = $this->findUserId();
+        if (!empty($userId)) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @return array
+     */
+    public function findByStartAndAndDates($startDate, $endDate)
+    {
+        $query = self::find()
+            ->where(['>=', 'start_date', $startDate])
+            ->andWhere(['<=', 'end_date', $endDate])
+            ->asArray();
+
+        $userId = $this->findUserId();
+        if (!empty($userId)) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+
+        return $query->one();
+    }
+
+    // END Implementation StatsModelInterface
 }

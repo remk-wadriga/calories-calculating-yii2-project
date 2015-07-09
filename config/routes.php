@@ -78,6 +78,7 @@ return [
     /**
      * @ WeekStatsController controller
      */
+    'week-stats/write/<date:.*>'                                            => 'week-stats/create',
     'week-stats/<id:\d+>/update'                                            => 'week-stats/update',
     'week-stats/<id:\d+>'                                                   => 'week-stats/view',
     'week-stats'                                                            => 'week-stats/list',

@@ -29,9 +29,9 @@ class View extends YiiView
         return substr($routesString, 0, strlen($routesString) - 2) . '}';
     }
 
-    public function t($message, $params = [], $language = null)
+    public function t($message, $params = [], $path = 'app', $language = null)
     {
-        return Yii::t('app', $message, $params, $language);
+        return Yii::t($path, $message, $params, $language);
     }
 
     public function round($value, $precision = null)
@@ -51,5 +51,19 @@ class View extends YiiView
     public function getDayName($day)
     {
         return $this->t(Yii::$app->timeService->getDeyNameBayNumber($day));
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasFlash($key)
+    {
+        return Yii::$app->session->hasFlash($key);
+    }
+
+    public function getFlash($key, $params = [])
+    {
+        return $this->t(Yii::$app->session->getFlash($key), $params, 'flash');
     }
 }

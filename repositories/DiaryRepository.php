@@ -2,6 +2,7 @@
 
 namespace app\repositories;
 
+use app\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -40,21 +41,7 @@ class DiaryRepository extends Diary
      */
     public function search($params)
     {
-        $portionCaloriesSql = self::getPortionCaloriesQuery('`d`.`id`')->createCommand()->sql;
-        $recipeCaloriesSql = self::getRecipeCaloriesQuery('`d`.`id`')->createCommand()->sql;
-        $productCaloriesSql = self::getProductCaloriesQuery('`d`.`id`')->createCommand()->sql;
-
-        $query = Diary::find()
-            ->select([
-                '`d`.*',
-                "COALESCE(({$portionCaloriesSql}), 0) + COALESCE(({$recipeCaloriesSql}), 0) + COALESCE(({$productCaloriesSql}), 0) AS `calories`",
-            ])
-            ->from(self::tableName() . ' `d`')
-            ->where(['`d`.`user_id`' => Yii::$app->user->id]);
-
-        if (!isset($params['sort'])) {
-            $query->orderBy('`d`.`date` DESC');
-        }
+        $query = self::getQuery($params);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -80,5 +67,36 @@ class DiaryRepository extends Diary
         ];
 
         return $dataProvider;
+    }
+
+    /**
+     * @param array $params
+     * @param bool $filterByUser
+     * @return \yii\db\Query
+     */
+    public static function getQuery($params = [], $filterByUser = true)
+    {
+        $portionCaloriesSql = self::getPortionCaloriesQuery('`d`.`id`')->createCommand()->sql;
+        $recipeCaloriesSql = self::getRecipeCaloriesQuery('`d`.`id`')->createCommand()->sql;
+        $productCaloriesSql = self::getProductCaloriesQuery('`d`.`id`')->createCommand()->sql;
+
+        $query = Diary::find()
+            ->select([
+                '`d`.*',
+                '`u`.`weighing_day` AS `weighingDay`',
+                "COALESCE(({$portionCaloriesSql}), 0) + COALESCE(({$recipeCaloriesSql}), 0) + COALESCE(({$productCaloriesSql}), 0) AS `calories`",
+            ])
+            ->from(self::tableName() . ' `d`')
+            ->leftJoin(User::tableName() . ' `u`', '`u`.`id` = `d`.`user_id`');
+
+        if ($filterByUser) {
+            $query->where(['`d`.`user_id`' => Yii::$app->user->id]);
+        }
+
+        if (!isset($params['sort'])) {
+            $query->orderBy('`d`.`date` DESC');
+        }
+
+        return $query;
     }
 }

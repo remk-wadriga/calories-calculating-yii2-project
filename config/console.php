@@ -37,6 +37,13 @@ return [
         'timeService' => [
             'class' => 'app\components\TimeService',
         ],
+        'statsService' => [
+            'class' => 'app\components\StatsService',
+        ],
+        'amqpService' => [
+            'class' => 'app\components\AmqpService',
+            'timeOut' => 60,
+        ],
     ],
     'params' => $params,
 ];

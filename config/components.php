@@ -59,4 +59,8 @@ return [
     'statsService' => [
         'class' => 'app\components\StatsService',
     ],
+    'amqpService' => [
+        'class' => 'app\components\AmqpService',
+        'timeOut' => 60,
+    ],
 ];

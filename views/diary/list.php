@@ -33,6 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $this->round($model->calories);
                 },
             ],
+            [
+                'label' => $this->t('Day'),
+                'value' => function($model){
+                    return $this->getDayName($model->day);
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

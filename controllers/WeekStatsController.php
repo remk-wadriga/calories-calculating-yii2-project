@@ -6,6 +6,7 @@ use Yii;
 use app\abstracts\ControllerAbstract;
 use app\models\WeekStats;
 use app\repositories\WeekStatsRepository;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -51,6 +52,21 @@ class WeekStatsController extends ControllerAbstract
         return $this->render([
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionCreate($date)
+    {
+        if (!$this->isPost()) {
+            throw new BadRequestHttpException();
+        }
+
+        if (Yii::$app->statsService->writeStats($date)) {
+            $this->setFlash('stats_status_flash', 'Statistics updated');
+        } else {
+            $this->setFlash('stats_status_flash', 'Failed to update the statistics');
+        }
+
+        return $this->redirect(['/week-stats/list']);
     }
 
     /**
