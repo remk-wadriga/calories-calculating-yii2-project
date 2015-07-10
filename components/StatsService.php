@@ -120,6 +120,7 @@ class StatsService extends ServiceAbstract
                     'startDate' => $startDate,
                     'endDate' => $endDate,
                     'calories' => 0,
+                    'weighingDay' => $weighingDay,
                     'averageCalories' => 0,
                     'days' => []
                 ];
@@ -128,7 +129,7 @@ class StatsService extends ServiceAbstract
             $record = [
                 'id' => $day['id'],
                 'date' => $date,
-                'calories' => $day['calories']
+                'calories' => $day['calories'],
             ];
 
             if ($lastDay !== null && $date < $endDate) {
@@ -188,6 +189,7 @@ class StatsService extends ServiceAbstract
             'average_weight',
             'average_calories',
             'body_weight',
+            'weighing_day',
             'days_stats'
         ];
         $rows = [];
@@ -202,6 +204,7 @@ class StatsService extends ServiceAbstract
                 'average_weight' => 0,
                 'average_calories' => $week['averageCalories'],
                 'body_weight' => null,
+                'weighing_day' => $week['weighingDay'],
                 'days_stats' => Json::encode($week['days']),
             ];
 
