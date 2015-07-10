@@ -32,6 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'calories',
+            'protein',
+            'fat',
+            'carbohydrate',
             'categoryName',
             'description:ntext',
         ],

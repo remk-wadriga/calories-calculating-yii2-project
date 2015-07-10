@@ -12,7 +12,7 @@ use yii\helpers\Html;
 <div class="form-group">
     <h4>
         <?= Html::activeTextInput($model, $property, [
-            'class' => 'form-control ingredient',
+            'class' => 'form-control ingredient float-input',
             'value' => isset($ingredient['count']) ? $ingredient['count'] : $ingredient['weight'],
             'name' => $model->modelName() . '[' . $property . '][' . $ingredient[$property] . ']',
             'placeholder' => isset($ingredient['count']) ? $this->t('Count') : $this->t('Weight'),

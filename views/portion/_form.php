@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'weight')->textInput() ?>
+    <?= $form->field($model, 'weight')->textInput(['class' => 'form-control float-input']) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
 

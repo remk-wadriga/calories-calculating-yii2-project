@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'  => $this->t('Calories'),
                 'attribute' => 'calories',
                 'value'  => function($model){
-                    return $this->round($model->calories);
+                    return $this->round($model->calories, 0);
                 },
             ],
             'description:ntext',

@@ -97,4 +97,7 @@ return [
     'Average calories'                                                                                                  => 'Ср. каллории',
     'Body weight'                                                                                                       => 'Вес',
     'Days stats'                                                                                                        => 'Статистика по дням',
+    'Proteins'                                                                                                          => 'Белки',
+    'Fats'                                                                                                              => 'Жиры',
+    'Carbohydrates'                                                                                                     => 'Углеводы',
 ];

@@ -27,14 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $this->t('Calories'),
                 'attribute' => 'calories',
                 'value' => function($model){
-                    return $this->round($model->calories);
+                    return $this->round($model->calories, 0);
                 }
             ],
             [
                 'label' => $this->t('Average calories'),
                 'attribute' => 'averageCalories',
                 'value' => function($model){
-                    return $this->round($model->averageCalories);
+                    return $this->round($model->averageCalories, 0);
                 }
             ],
             [

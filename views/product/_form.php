@@ -15,7 +15,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'calories')->textInput() ?>
+    <?= $form->field($model, 'calories')->textInput(['class' => 'form-control float-input']) ?>
+
+    <?= $form->field($model, 'protein')->textInput(['class' => 'form-control float-input']) ?>
+
+    <?= $form->field($model, 'fat')->textInput(['class' => 'form-control float-input']) ?>
+
+    <?= $form->field($model, 'carbohydrate')->textInput(['class' => 'form-control float-input']) ?>
 
     <?= $form->field($model, 'categoryId')->dropDownList($model->getCategoryIdItems()) ?>
 

@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date',
             [
                 'label'  => $this->t('Calories'),
-                'value'  => $this->round($model->calories),
+                'value'  => $this->round($model->calories, 0),
             ],
             [
                 'label'  => $this->t('Day'),

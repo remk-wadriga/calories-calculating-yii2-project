@@ -13,12 +13,15 @@ use app\abstracts\ModelAbstract;
  * @property string $name
  * @property double $calories
  * @property string $description
+ * @property double $protein
+ * @property double $fat
+ * @property double $carbohydrate
  *
  *
  * @property integer $categoryId
  * @property string $categoryName
  *
- * @property Calculating[] $calculatings
+ * @property Diary[] $diaries
  * @property ProductCategory $category
  * @property Recipe[] $recipes
  */
@@ -39,7 +42,7 @@ class Product extends ModelAbstract
         return [
             [['name', 'calories'], 'required'],
             [['category_id', 'categoryId'], 'integer'],
-            [['calories'], 'number'],
+            [['calories', 'protein', 'fat', 'carbohydrate'], 'number'],
             [['description', 'categoryName'], 'string'],
             [['name'], 'string', 'max' => 255]
         ];
@@ -55,6 +58,9 @@ class Product extends ModelAbstract
             'calories' => $this->t('Calories'),
             'description' => $this->t('Description'),
             'categoryName' => $this->t('Category'),
+            'protein' => $this->t('Proteins'),
+            'fat' => $this->t('Fats'),
+            'carbohydrate' => $this->t('Carbohydrates'),
         ];
     }
 
@@ -63,9 +69,9 @@ class Product extends ModelAbstract
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCalculatings()
+    public function getDiaries()
     {
-        return $this->hasMany(Calculating::className(), ['id' => 'calculating_id'])->viaTable('calculating_products', ['product_id' => 'id']);
+        return $this->hasMany(Diary::className(), ['id' => 'diary_id'])->viaTable(Diary::diary2productsTableName(), ['product_id' => 'id']);
     }
 
     /**
@@ -81,7 +87,7 @@ class Product extends ModelAbstract
      */
     public function getRecipes()
     {
-        return $this->hasMany(Recipe::className(), ['id' => 'recipe_id'])->viaTable('recipe_products', ['product_id' => 'id']);
+        return $this->hasMany(Recipe::className(), ['id' => 'recipe_id'])->viaTable(Recipe::recipe2productsTableName(), ['product_id' => 'id']);
     }
 
     // END Depending

@@ -24,9 +24,9 @@ use app\models\WeekStats;
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'startWeight')->textInput() ?>
+    <?= $form->field($model, 'startWeight')->textInput(['class' => 'form-control float-input']) ?>
 
-    <?= $form->field($model, 'plannedCalories')->textInput() ?>
+    <?= $form->field($model, 'plannedCalories')->textInput(['class' => 'form-control float-input']) ?>
 
     <br />
 

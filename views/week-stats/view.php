@@ -25,7 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'startDate',
             'endDate',
             'calories',
-            'averageCalories',
+            [
+                'label' => $model->getAttributeLabel('averageCalories'),
+                'value' => $this->round($model->averageCalories, 0),
+            ],
             [
                 'label' => $model->getAttributeLabel('weighingDay'),
                 'value' => $this->getDayName($model->weighingDay),
@@ -53,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr>
                     <td><?= $day->date ?></td>
                     <td><?= $day->deyName ?></td>
-                    <td><?= $this->round($day->calories) ?></td>
+                    <td><?= $this->round($day->calories, 0) ?></td>
                     <td><?= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/diary/view', 'id' => $day->id]) ?></td>
                 </tr>
             <?php endforeach; ?>

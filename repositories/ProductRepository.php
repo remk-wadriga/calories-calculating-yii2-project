@@ -22,6 +22,7 @@ class ProductRepository extends Product
     {
         return [
             [['id', 'category_id', 'categoryId'], 'integer'],
+            [['calories', 'protein', 'fat', 'carbohydrate'], 'number'],
             [['name', 'categoryName'], 'safe'],
         ];
     }
@@ -73,6 +74,11 @@ class ProductRepository extends Product
         }
 
         $query->andFilterWhere([
+            '`p`.`calories`' => $this->calories,
+            '`p`.`protein`' => $this->protein,
+            '`p`.`fat`' => $this->fat,
+            '`p`.`carbohydrate`' => $this->carbohydrate,
+            '`pc`.`name`' => $this->categoryName,
         ]);
 
         $query->andFilterWhere(['like', '`p`.`name`', $this->name])
@@ -82,6 +88,9 @@ class ProductRepository extends Product
             'attributes' => [
                 'name',
                 'calories',
+                'protein',
+                'fat',
+                'carbohydrate',
                 'categoryName' => [
                     SORT_ASC => '`pc`.`name` ASC',
                     SORT_DESC => '`pc`.`name` DESC',
