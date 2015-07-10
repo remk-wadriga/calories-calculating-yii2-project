@@ -6,6 +6,7 @@ use app\repositories\DiaryRepository;
 use Yii;
 use app\abstracts\ModelAbstract;
 use app\interfaces\StatsModelInterface;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "week_stats".
@@ -19,6 +20,7 @@ use app\interfaces\StatsModelInterface;
  * @property double $average_weight
  * @property double $average_calories
  * @property double $body_weight
+ * @property integer $weighing_day
  * @property string $days_stats
  *
  * @property integer $userId
@@ -34,46 +36,38 @@ use app\interfaces\StatsModelInterface;
  */
 class WeekStats extends ModelAbstract implements StatsModelInterface
 {
-    protected $_weighingDay;
+    protected $_days;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'week_stats';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['weight', 'calories', 'average_weight', 'average_calories'], 'required'],
-            [['user_id', 'userId', 'weighingDay'], 'integer'],
+            [['user_id', 'userId', 'weighing_day', 'weighingDay'], 'integer'],
             [['start_date', 'end_date', 'days_stats', 'daysStats'], 'safe'],
             [['weight', 'calories', 'average_weight', 'average_calories', 'body_weight', 'averageWeight', 'averageCalories', 'bodyWeight'], 'number'],
             [['days_stats', 'start_date', 'end_date', 'daysStats', 'startDate', 'endDate'], 'string']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'userId' => 'User ID',
-            'startDate' => 'Start Date',
-            'endDate' => 'End Date',
-            'weight' => 'Weight',
-            'calories' => 'Calories',
-            'averageWeight' => 'Average Weight',
-            'averageCalories' => 'Average Calories',
-            'bodyWeight' => 'Body Weight',
-            'daysStats' => 'Days Stats',
+            'id' => $this->t('ID'),
+            'userId' => $this->t('User ID'),
+            'startDate' => $this->t('Start date'),
+            'endDate' => $this->t('End date'),
+            'weight' => $this->t('Weight'),
+            'calories' => $this->t('Calories'),
+            'averageWeight' => $this->t('Average weight'),
+            'averageCalories' => $this->t('Average calories'),
+            'bodyWeight' => $this->t('Body weight'),
+            'daysStats' => $this->t('Days stats'),
+            'weighingDay' => $this->t('Weighing day'),
         ];
     }
 
@@ -227,27 +221,44 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
      */
     public function setWeighingDay($value)
     {
-        $this->_weighingDay = $value;
+        $this->weighing_day = $value;
         return $this;
     }
 
     public function getWeighingDay()
     {
-        if ($this->_weighingDay !== null) {
-            return $this->_weighingDay;
-        }
-
-        if (Yii::$app->request->isConsoleRequest) {
-            return $this->_weighingDay;
-        }
-
-        return $this->_weighingDay = Yii::$app->getUser()->getIdentity()->getId();
+        return $this->weighing_day;
     }
 
     // END Getters and setters
 
 
     // Public methods
+
+    /**
+     * @return \stdClass[]
+     */
+    public function getDays()
+    {
+        if ($this->_days !== null) {
+            return $this->_days;
+        }
+
+        $this->_days = [];
+
+        if (!empty($this->days_stats)) {
+            $days = Json::decode($this->days_stats);
+            if (!empty($days)) {
+                $timeService = Yii::$app->timeService;
+                foreach ($days as $day) {
+                    $day['deyName'] = $this->t($timeService->getDeyName($day['date']));
+                    $this->_days[] = (object)$day;
+                }
+            }
+        }
+
+        return $this->_days;
+    }
 
     // END Public methods
 

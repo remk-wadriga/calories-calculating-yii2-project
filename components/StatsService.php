@@ -79,6 +79,17 @@ class StatsService extends ServiceAbstract
         if ($all) {
             $days = $model->findDaysByEndDate($date);
         }else {
+            $weighingDay = 0;
+            if (!Yii::$app->request->getIsConsoleRequest()) {
+                $weighingDay = Yii::$app->user->identity->weighingDay;
+            } else {
+                $days = $model->findDaysByEndDate($date, 1);
+                if (!empty($days)) {
+                    $day = $days[0];
+                    $weighingDay = $day['weighing_day'];
+                }
+            }
+
             list($startDate, $endDate) = $this->getWeekDates($date, $weighingDay, $timeService, $format);
             $days = $model->findDaysByStartAndEndDate($startDate, $endDate);
         }

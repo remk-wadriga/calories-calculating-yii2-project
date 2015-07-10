@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-$this->title = $model->startDate . '-' . $model->endDate;
+$this->title = $model->startDate . ' - ' . $model->endDate;
 $this->params['breadcrumbs'][] = ['label' => $this->t('Week stats'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,17 +22,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'user_id',
-            'start_date',
-            'end_date',
-            'weight',
+            'startDate',
+            'endDate',
             'calories',
-            'average_weight',
-            'average_calories',
-            'body_weight',
-            'days_stats:ntext',
+            'averageCalories',
+            [
+                'label' => $model->getAttributeLabel('weighingDay'),
+                'value' => $this->getDayName($model->weighingDay),
+            ],
+            'bodyWeight',
         ],
     ]) ?>
+
+    <?php  if($model->getDays()): ?>
+        <br />
+
+        <h4><?= $this->t('Days stats') ?>:</h4>
+
+        <table class="table table-striped table-bordered detail-view">
+            <thead>
+            <tr>
+                <th><?= $this->t('Date') ?></th>
+                <th><?= $this->t('Day') ?></th>
+                <th><?= $this->t('Calories') ?></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($model->getDays() as $day): ?>
+                <tr>
+                    <td><?= $day->date ?></td>
+                    <td><?= $day->deyName ?></td>
+                    <td><?= $this->round($day->calories) ?></td>
+                    <td><?= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/diary/view', 'id' => $day->id]) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
 
 </div>

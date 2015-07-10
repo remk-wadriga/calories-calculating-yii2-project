@@ -92,4 +92,9 @@ return [
     'Write to stats'                                                                                                    => 'Записать в статистику',
     'Account'                                                                                                           => 'Профиль',
     'Day'                                                                                                               => 'День недели',
+    'Start date'                                                                                                        => 'Начало',
+    'End date'                                                                                                          => 'Конец',
+    'Average calories'                                                                                                  => 'Ср. каллории',
+    'Body weight'                                                                                                       => 'Вес',
+    'Days stats'                                                                                                        => 'Статистика по дням',
 ];

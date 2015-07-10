@@ -18,11 +18,12 @@ class m150706_074922_week_stats extends Migration
               `average_weight` float NOT NULL,
               `average_calories` float NOT NULL,
               `body_weight` float DEFAULT NULL,
+              `weighing_day` enum('0','1','2','3','4','5','6') NOT NULL DEFAULT '0',
               `days_stats` text NOT NULL,
               PRIMARY KEY (`id`),
               KEY `week_stats_user_id` (`user_id`),
               CONSTRAINT `week_stats_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+            ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ;
         ");
     }
 

@@ -23,11 +23,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'startDate',
             'endDate',
-            'calories',
-            'averageCalories',
+            [
+                'label' => $this->t('Calories'),
+                'attribute' => 'calories',
+                'value' => function($model){
+                    return $this->round($model->calories);
+                }
+            ],
+            [
+                'label' => $this->t('Average calories'),
+                'attribute' => 'averageCalories',
+                'value' => function($model){
+                    return $this->round($model->averageCalories);
+                }
+            ],
+            [
+                'label' => $this->t('Weighing day'),
+                'attribute' => 'weighingDay',
+                'value' => function($model){
+                    return $this->getDayName($model->weighingDay);
+                }
+            ],
             'bodyWeight',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'view' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-eye-open"></span>';
+                        return Html::a($text, ['week-stats/view', 'id' => $model->id]);
+                    },
+                    'update' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-pencil"></span>';
+                        return Html::a($text, ['week-stats/update', 'id' => $model->id]);
+                    }
+                ],
+                'template' => '{view} {update}',
+            ],
         ],
     ]); ?>
 

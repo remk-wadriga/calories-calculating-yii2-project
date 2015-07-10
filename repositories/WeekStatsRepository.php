@@ -12,21 +12,17 @@ use app\models\WeekStats;
  */
 class WeekStatsRepository extends WeekStats
 {
-    /**
-     * @inheritdoc
-     */
+    public $bodyWeight;
+
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
-            [['start_date', 'end_date', 'days_stats'], 'safe'],
-            [['weight', 'calories', 'average_weight', 'average_calories', 'body_weight'], 'number'],
+            [['startDate', 'endDate'], 'safe'],
+            [['weight', 'calories', 'averageWeight', 'averageCalories', 'bodyWeight'], 'number'],
+            [['weighingDay'], 'integer'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -45,7 +41,7 @@ class WeekStatsRepository extends WeekStats
         $query = WeekStats::find();
 
         if (!isset($params['sort'])) {
-            $query->orderBy('end_date DESC');
+            $query->orderBy('end_date DESC, weighing_day');
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -55,24 +51,45 @@ class WeekStatsRepository extends WeekStats
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
             'weight' => $this->weight,
             'calories' => $this->calories,
-            'average_weight' => $this->average_weight,
-            'average_calories' => $this->average_calories,
-            'body_weight' => $this->body_weight,
+            'average_weight' => $this->averageWeight,
+            'average_calories' => $this->averageCalories,
+            'body_weight' => $this->bodyWeight,
+            'weighing_day' => $this->weighingDay,
         ]);
 
-        $query->andFilterWhere(['like', 'days_stats', $this->days_stats]);
+        $dataProvider->sort = [
+            'attributes' => [
+                'startDate' => [
+                    'asc' => ['start_date' => SORT_ASC],
+                    'desc' => ['start_date' => SORT_DESC],
+                ],
+                'endDate' => [
+                    'asc' => ['end_date' => SORT_ASC],
+                    'desc' => ['end_date' => SORT_DESC],
+                ],
+                'calories',
+                'averageCalories' => [
+                    'asc' => ['average_calories' => SORT_ASC],
+                    'desc' => ['average_calories' => SORT_DESC],
+                ],
+                'weighingDay' => [
+                    'asc' => ['weighing_day' => SORT_ASC],
+                    'desc' => ['weighing_day' => SORT_DESC],
+                ],
+                'bodyWeight' => [
+                    'asc' => ['body_weight' => SORT_ASC],
+                    'desc' => ['body_weight' => SORT_DESC],
+                ],
+            ],
+        ];
 
         return $dataProvider;
     }
