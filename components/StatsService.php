@@ -163,6 +163,18 @@ class StatsService extends ServiceAbstract
         return true;
     }
 
+    /**
+     * @param string $date
+     * @param integer $weighingDay
+     * @return array
+     */
+    public function getWeekLastAndFirstDates($date, $weighingDay)
+    {
+        $timeService = Yii::$app->timeService;
+        $format = $timeService->dateFormat;
+        return $this->getWeekDates($date, $weighingDay, $timeService, $format);
+    }
+
     protected function writeChanges($weeks, $userId)
     {
         $model = $this->getModel();

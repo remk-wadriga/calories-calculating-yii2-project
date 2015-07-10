@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\abstracts\ModelAbstract;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -34,6 +35,7 @@ use yii\web\IdentityInterface;
  * @property integer $startWeight
  * @property integer $plannedCalories
  *
+ * @property CaloriesPlan[] $caloriesPlans
  */
 class User extends ModelAbstract implements IdentityInterface
 {
@@ -98,6 +100,13 @@ class User extends ModelAbstract implements IdentityInterface
 
     // Depending
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCaloriesPlans()
+    {
+        return $this->hasMany(CaloriesPlan::className(), ['user_id' => 'id']);
+    }
 
     // END Depending
 
@@ -106,7 +115,7 @@ class User extends ModelAbstract implements IdentityInterface
 
     public function beforeSave($insert)
     {
-        if ($insert) {
+        if ($this->getIsNewRecord()) {
             if ($this->getRegistrationDate() === null) {
                 $this->setRegistrationDate(Yii::$app->timeService->getCurrentDateTime());
             }
@@ -117,6 +126,35 @@ class User extends ModelAbstract implements IdentityInterface
 
             if ($this->role === null) {
                 $this->role = self::ROLE_USER;
+            }
+        }
+
+        if ($this->_plannedCalories !== null) {
+            $plan = null;
+            if (!$this->getIsNewRecord()) {
+                $date = Yii::$app->timeService->getCurrentDate();
+                $weighingDay = $this->getWeighingDay();
+                list($firsDay, $lastDay) = Yii::$app->statsService->getWeekLastAndFirstDates($date, $weighingDay);
+
+                $plan = CaloriesPlan::find()
+                    ->where(['user_id' => $this->id])
+                    ->andWhere(['>=', 'date', $firsDay])
+                    ->andWhere(['<=', 'date', $lastDay])
+                    ->orderBy('date DESC')
+                    ->one();
+            }
+
+            if (empty($plan)) {
+                $plan = new CaloriesPlan();
+            }
+
+            if ($plan->calories != $this->_plannedCalories) {
+                $plan->calories = $this->_plannedCalories;
+                if (!$plan->save()) {
+                    $errorText = implode('; ', $plan->firstErrors);
+                    $this->addError('plannedCalories', "Can not save the planned calories; errors: {$errorText}");
+                    return false;
+                }
             }
         }
 
@@ -282,6 +320,27 @@ class User extends ModelAbstract implements IdentityInterface
 
     public function getPlannedCalories()
     {
+        if ($this->_plannedCalories !== null) {
+            return $this->_plannedCalories;
+        }
+
+        if ($this->getIsNewRecord()) {
+            return $this->_plannedCalories;
+        }
+
+        $this->_plannedCalories = 0;
+
+        $plan = (new Query())
+            ->select('calories')
+            ->from(CaloriesPlan::tableName())
+            ->where(['user_id' => $this->id])
+            ->orderBy('date DESC')
+            ->one();
+
+        if (!empty($plan)) {
+            $this->_plannedCalories = $plan['calories'];
+        }
+
         return $this->_plannedCalories;
     }
 

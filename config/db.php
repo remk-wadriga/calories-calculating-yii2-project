@@ -2,8 +2,8 @@
 
 return [
     'class' => 'app\components\Db',
-    'dsn' => 'mysql:host=localhost;dbname=calories_new',
-    'username' => 'calories_new',
-    'password' => 'calories_new',
+    'dsn' => 'mysql:host=localhost;dbname=calories_calc',
+    'username' => 'calories_calc',
+    'password' => 'calories_calc',
     'charset' => 'utf8',
 ];
