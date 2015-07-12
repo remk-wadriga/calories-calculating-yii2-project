@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\abstracts\ModelAbstract;
+use yii\db\Query;
 
 /**
  * This is the model class for table "product_category".
@@ -11,11 +12,15 @@ use app\abstracts\ModelAbstract;
  * @property integer $id
  * @property string $name
  *
+ * @property integer $productsCount
+ *
  * @property Product[] $products
  */
 class ProductCategory extends ModelAbstract
 {
     protected static $_items;
+
+    protected $_productsCount;
 
     public static function tableName()
     {
@@ -26,7 +31,8 @@ class ProductCategory extends ModelAbstract
     {
         return [
             [['name'], 'required'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+            [['productsCount'], 'integer'],
         ];
     }
 
@@ -35,6 +41,7 @@ class ProductCategory extends ModelAbstract
         return [
             'id' => $this->t('ID'),
             'name' => $this->t('Name'),
+            'productsCount' => $this->t('Products count'),
         ];
     }
 
@@ -58,6 +65,36 @@ class ProductCategory extends ModelAbstract
 
 
     // Getters and setters
+
+    /**
+     * @param integer $value
+     * @return $this
+     */
+    public function setProductsCount($value)
+    {
+        $this->_productsCount = $value;
+        return $this;
+    }
+
+    public function getProductsCount()
+    {
+        if ($this->_productsCount !== null) {
+            return $this->_productsCount;
+        }
+
+        $this->_productsCount = 0;
+
+        if ($this->getIsNewRecord()) {
+            return $this->_productsCount;
+        }
+
+        $count = self::getProductsCountQuery($this->id)->one();
+        if (!empty($count)) {
+            $this->_productsCount = $count['productsCount'];
+        }
+
+        return $this->_productsCount;
+    }
 
     // END Getters and setters
 
@@ -87,6 +124,18 @@ class ProductCategory extends ModelAbstract
         }
 
         return self::$_items;
+    }
+
+    /**
+     * @param integer|string $id
+     * @return Query
+     */
+    public static function getProductsCountQuery($id)
+    {
+        return (new Query())
+            ->select('COUNT(*) AS `productsCount`')
+            ->from(Product::tableName())
+            ->where("`category_id` = {$id}");
     }
 
     // END Public methods

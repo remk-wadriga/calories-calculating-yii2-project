@@ -359,7 +359,7 @@ class Diary extends ModelAbstract
         }
 
         // Save the diary portions
-        if (!empty($this->portionsList)) {
+        if (!empty($this->portionsList) && is_array($this->portionsList)) {
             $columns = [
                 'diary_id',
                 'portion_id',
@@ -384,7 +384,7 @@ class Diary extends ModelAbstract
         }
 
         // Save the diary recipes
-        if (!empty($this->recipesList)) {
+        if (!empty($this->recipesList) && is_array($this->recipesList)) {
             $columns = [
                 'diary_id',
                 'recipe_id',
@@ -409,7 +409,7 @@ class Diary extends ModelAbstract
         }
 
         // Save the diary products
-        if (!empty($this->productsList)) {
+        if (!empty($this->productsList) && is_array($this->productsList)) {
             $columns = [
                 'diary_id',
                 'product_id',

@@ -148,7 +148,7 @@ class RecipeController extends ControllerAbstract
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     /**

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a($this->t('Create recipe category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a($this->t('Create category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
+            'recipesCount',
 
             [
                 'class' => 'yii\grid\ActionColumn',

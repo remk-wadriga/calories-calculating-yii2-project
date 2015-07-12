@@ -2,6 +2,7 @@
 
 namespace app\repositories;
 
+use app\models\Product;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,20 +13,16 @@ use app\models\ProductCategory;
  */
 class ProductCategoryRepository extends ProductCategory
 {
-    /**
-     * @inheritdoc
-     */
+    public $productsCount;
+
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            //[['productsCount'], 'integer'],
             [['name'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -41,7 +38,14 @@ class ProductCategoryRepository extends ProductCategory
      */
     public function search($params)
     {
-        $query = ProductCategory::find();
+        $productsCountSql = self::getProductsCountQuery('`pc`.`id`')->createCommand()->sql;
+
+        $query = ProductCategory::find()
+            ->select([
+                '`pc`.*',
+                "({$productsCountSql}) AS `productsCount`",
+            ])
+            ->from(ProductCategory::tableName() . ' `pc`');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,10 +60,18 @@ class ProductCategoryRepository extends ProductCategory
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            //'productsCount' => $this->productsCount,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
+
+        $dataProvider->sort = [
+            'attributes' => [
+                'name',
+                'productsCount'
+            ],
+            'defaultOrder' => ['name' => SORT_ASC]
+        ];
 
         return $dataProvider;
     }

@@ -12,20 +12,17 @@ use app\models\RecipeCategory;
  */
 class RecipeCategoryRepository extends RecipeCategory
 {
-    /**
-     * @inheritdoc
-     */
+    public $recipesCount;
+    public $portionsCount;
+
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            //[['recipesCount', 'portionsCount'], 'integer'],
             [['name'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -41,7 +38,16 @@ class RecipeCategoryRepository extends RecipeCategory
      */
     public function search($params)
     {
-        $query = RecipeCategory::find();
+        $recipesCountSql = self::getRecipesCountQuery('`rc`.`id`')->createCommand()->sql;
+        $portionsCount = self::getPortionsCountQuery('`rc`.`id`')->createCommand()->sql;
+
+        $query = RecipeCategory::find()
+            ->select([
+                '`rc`.*',
+                "({$recipesCountSql}) AS `recipesCount`",
+                "({$portionsCount}) AS `portionsCount`",
+            ])
+            ->from(RecipeCategory::tableName() . ' `rc`');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,10 +62,20 @@ class RecipeCategoryRepository extends RecipeCategory
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            //'recipesCount' => $this->recipesCount,
+            //'portionsCount' => $this->portionsCount,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', '`rc`.`name`', $this->name]);
+
+        $dataProvider->sort = [
+            'attributes' => [
+                'name',
+                'recipesCount',
+                'portionsCount',
+            ],
+            'defaultOrder' => ['name' => SORT_ASC]
+        ];
 
         return $dataProvider;
     }

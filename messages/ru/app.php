@@ -100,4 +100,8 @@ return [
     'Proteins'                                                                                                          => 'Белки',
     'Fats'                                                                                                              => 'Жиры',
     'Carbohydrates'                                                                                                     => 'Углеводы',
+    'Products count'                                                                                                    => 'Количество продуктов',
+    'Recipes count'                                                                                                     => 'Количество рецептов',
+    'Portions count'                                                                                                    => 'Количество порций',
+    'Portions categories'                                                                                               => 'Категории порций',
 ];

@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = $this->t('Categories');
+$this->title = $this->t('Portions categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="recipe-category-index">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-
+            'portionsCount',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'buttons' => [

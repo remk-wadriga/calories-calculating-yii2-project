@@ -14,10 +14,8 @@ use app\models\Product;
 class ProductRepository extends Product
 {
     public $categoryName;
+    public $categoryId;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -27,9 +25,6 @@ class ProductRepository extends Product
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -78,6 +73,7 @@ class ProductRepository extends Product
             '`p`.`protein`' => $this->protein,
             '`p`.`fat`' => $this->fat,
             '`p`.`carbohydrate`' => $this->carbohydrate,
+            '`p`.`category_id`' => $this->categoryId,
             '`pc`.`name`' => $this->categoryName,
         ]);
 

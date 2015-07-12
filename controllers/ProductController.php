@@ -74,8 +74,11 @@ class ProductController extends ControllerAbstract
                 'form' => ActiveForm::begin(),
             ]);
         } else {
+            $params = Yii::$app->request->queryParams;
+            $params['categoryId'] = $categoryId;
+
             $searchModel = new ProductRepository();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->search($params);
 
             return $this->render([
                 'searchModel' => $searchModel,
@@ -149,7 +152,7 @@ class ProductController extends ControllerAbstract
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     /**
