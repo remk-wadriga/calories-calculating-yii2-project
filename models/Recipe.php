@@ -73,7 +73,7 @@ class Recipe extends ModelAbstract
             'productCategoryId' => $this->t('Products category'),
             'productsItems' => $this->t('Product'),
             'categoryName' => $this->t('Category'),
-            'calories' => $this->t('Calories'),
+            'calories' => $this->t('Calories (by 100 gr.)'),
             'productsListString' => $this->t('Ingredients'),
         ];
     }

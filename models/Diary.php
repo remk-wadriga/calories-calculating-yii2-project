@@ -93,6 +93,8 @@ class Diary extends ModelAbstract
             'portionCategoryId' => $this->t('Portion categories'),
             'recipeCategoryId' => $this->t('Recipe categories'),
             'productCategoryId' => $this->t('Product categories'),
+            'day' => $this->t('Day'),
+            'calories' => $this->t('Calories'),
         ];
     }
 

@@ -104,4 +104,5 @@ return [
     'Recipes count'                                                                                                     => 'Количество рецептов',
     'Portions count'                                                                                                    => 'Количество порций',
     'Portions categories'                                                                                               => 'Категории порций',
+    'Calories (by 100 gr.)'                                                                                             => 'Калорий (на 100 гр.)',
 ];

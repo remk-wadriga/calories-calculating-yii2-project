@@ -27,17 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'date',
             [
-                'label'  => $this->t('Calories'),
-                'attribute' => 'calories',
+                'value' => function($model){
+                    return $this->getDayName($model->day);
+                },
+                'attribute' => 'day',
+            ],
+            [
                 'value'  => function($model){
                     return $this->round($model->calories, 0);
                 },
-            ],
-            [
-                'label' => $this->t('Day'),
-                'value' => function($model){
-                    return $this->getDayName($model->day);
-                }
+                'attribute' => 'calories',
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

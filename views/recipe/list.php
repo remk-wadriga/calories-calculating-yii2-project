@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'categoryName',
             [
-                'label'  => $this->t('Calories'),
                 'attribute' => 'calories',
                 'value'  => function($model){
                     return $model->calories ? $this->round($model->calories*100) : null;

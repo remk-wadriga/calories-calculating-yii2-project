@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'categoryName',
             [
-                'label'  => $this->t('Calories'),
                 'value'  => $this->round($model->calories, 0),
+                'attribute' => 'calories',
             ],
             'description:ntext',
             'ingredientString:raw',

@@ -19,6 +19,7 @@ class DiaryRepository extends Diary
     {
         return [
             [['weight'], 'number'],
+            //[['day'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -60,7 +61,9 @@ class DiaryRepository extends Diary
             'attributes' => [
                 'date',
                 'calories',
+                'day',
             ],
+            'defaultOrder' => ['date' => SORT_DESC],
         ];
 
         return $dataProvider;
@@ -93,10 +96,6 @@ class DiaryRepository extends Diary
 
         if ($filterByUser) {
             $query->where(['`d`.`user_id`' => Yii::$app->user->id]);
-        }
-
-        if (!isset($params['sort'])) {
-            $query->orderBy('`d`.`date` DESC');
         }
 
         return $query;

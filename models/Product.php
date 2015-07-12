@@ -55,7 +55,7 @@ class Product extends ModelAbstract
             'category_id' => $this->t('Category ID'),
             'categoryId' => $this->t('Category'),
             'name' => $this->t('Name'),
-            'calories' => $this->t('Calories'),
+            'calories' => $this->t('Calories (by 100 gr.)'),
             'description' => $this->t('Description'),
             'categoryName' => $this->t('Category'),
             'protein' => $this->t('Proteins'),
