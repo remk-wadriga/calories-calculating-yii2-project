@@ -40,6 +40,10 @@ class WeekStatsRepository extends WeekStats
     {
         $query = WeekStats::find();
 
+        if (!Yii::$app->request->isConsoleRequest) {
+            $query->where(['user_id' => Yii::$app->user->id]);
+        }
+
         if (!isset($params['sort'])) {
             $query->orderBy('end_date DESC, weighing_day');
         }

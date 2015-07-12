@@ -31,10 +31,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'calories',
-            'protein',
-            'fat',
-            'carbohydrate',
+            'calories' => [
+                'label' => $model->getAttributeLabel('calories'),
+                'value' => $model->calories ? $this->round($model->calories*100) : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('protein'),
+                'value' => $model->protein ? $this->round($model->protein*100) : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('fat'),
+                'value' => $model->fat ? $this->round($model->fat*100) : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('carbohydrate'),
+                'value' => $model->carbohydrate ? $this->round($model->carbohydrate*100) : null,
+            ],
             'categoryName',
             'description:ntext',
         ],

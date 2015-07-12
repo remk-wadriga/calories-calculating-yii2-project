@@ -37,13 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $this->round($model->averageCalories, 0);
                 }
             ],
-            [
+            /*[
                 'label' => $this->t('Weighing day'),
                 'attribute' => 'weighingDay',
                 'value' => function($model){
                     return $this->getDayName($model->weighingDay);
                 }
-            ],
+            ],*/
             'bodyWeight',
 
             [

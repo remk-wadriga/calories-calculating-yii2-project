@@ -13,19 +13,16 @@ use app\models\Diary;
  */
 class DiaryRepository extends Diary
 {
-    /**
-     * @inheritdoc
-     */
+    public $weight;
+
     public function rules()
     {
         return [
+            [['weight'], 'number'],
             [['date'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -80,11 +77,16 @@ class DiaryRepository extends Diary
         $recipeCaloriesSql = self::getRecipeCaloriesQuery('`d`.`id`')->createCommand()->sql;
         $productCaloriesSql = self::getProductCaloriesQuery('`d`.`id`')->createCommand()->sql;
 
+        $portWeightSql = self::getPortionsWeightQuery('`d`.`id`')->createCommand()->sql;
+        $recWeightSql = self::getRecipesWeightQuery('`d`.`id`')->createCommand()->sql;
+        $prodWeightSql = self::getProductsWeightQuery('`d`.`id`')->createCommand()->sql;
+
         $query = Diary::find()
             ->select([
                 '`d`.*',
                 '`u`.`weighing_day` AS `weighingDay`',
                 "COALESCE(({$portionCaloriesSql}), 0) + COALESCE(({$recipeCaloriesSql}), 0) + COALESCE(({$productCaloriesSql}), 0) AS `calories`",
+                "COALESCE(({$prodWeightSql}), 0) + COALESCE(({$recWeightSql}), 0) + COALESCE(({$portWeightSql}), 0) AS `weight`",
             ])
             ->from(self::tableName() . ' `d`')
             ->leftJoin(User::tableName() . ' `u`', '`u`.`id` = `d`.`user_id`');

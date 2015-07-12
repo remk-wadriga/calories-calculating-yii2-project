@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?= $day->date ?></td>
                     <td><?= $day->deyName ?></td>
                     <td><?= $this->round($day->calories, 0) ?></td>
-                    <td><?= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/diary/view', 'id' => $day->id]) ?></td>
+                    <td><?= $day->id > 0 ? Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/diary/view', 'id' => $day->id]) : '' ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

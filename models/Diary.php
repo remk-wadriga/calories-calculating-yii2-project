@@ -18,7 +18,8 @@ use yii\db\Query;
  * @property integer $portionCalories
  * @property integer $recipeCalories
  * @property integer $productCalories
- * @property integer $calories
+ * @property float $calories
+ * @property float $weight
  *
  * @property integer $day
  *
@@ -44,6 +45,7 @@ class Diary extends ModelAbstract
     protected $_recipeCalories;
     protected $_productCalories;
     protected $_calories;
+    protected $_weight;
     protected $_portionIngredients;
     protected $_recipesIngredients;
     protected $_productIngredients;
@@ -73,7 +75,7 @@ class Diary extends ModelAbstract
     {
         return [
             [['user_id', 'userId'], 'integer'],
-            [['calories', 'portionCalories', 'recipeCalories', 'productCalories'], 'number'],
+            [['calories', 'weight', 'portionCalories', 'recipeCalories', 'productCalories'], 'number'],
             [['date', 'portionsList', 'recipesList', 'productsList'], 'safe'],
         ];
     }
@@ -299,6 +301,36 @@ class Diary extends ModelAbstract
         }
 
         return $this->_day;
+    }
+
+    /**
+     * @param float $value
+     * @return $this
+     */
+    public function setWeight($value)
+    {
+        $this->_weight = $value;
+        return $this;
+    }
+
+    public function getWeight()
+    {
+        if ($this->_weight !== null) {
+            return $this->_weight;
+        }
+
+        $this->_weight = 0;
+
+        if ($this->getIsNewRecord()) {
+            return $this->_weight;
+        }
+
+        $weight = self::getWeightQuery($this->id)->one();
+        if (!empty($weight)) {
+            $this->_weight = $weight['weight'];
+        }
+
+        return $this->_weight;
     }
 
     // END Getters and setters
@@ -789,6 +821,59 @@ class Diary extends ModelAbstract
             ->from(Diary::diary2productsTableName() . ' `dp`')
             ->leftJoin(Product::tableName() . ' `prod`', '`prod`.`id` = `dp`.`product_id`')
             ->where("`dp`.`diary_id` = {$id}");
+    }
+
+    /**
+     * @param integer $id
+     * @return Query
+     */
+    public static function getProductsWeightQuery($id)
+    {
+        return (new Query())
+            ->select('SUM(`dprod`.`weight`) AS `weight`')
+            ->from(Diary::diary2productsTableName() . ' `dprod`')
+            ->where("`dprod`.`diary_id` = {$id}");
+    }
+
+    /**
+     * @param integer $id
+     * @return Query
+     */
+    public static function getRecipesWeightQuery($id)
+    {
+        return (new Query())
+            ->select('SUM(`dr`.`weight`) AS `weight`')
+            ->from(Diary::diary2recipesTableName() . ' `dr`')
+            ->where("`dr`.`diary_id` = {$id}");
+    }
+
+    /**
+     * @param integer $id
+     * @return Query
+     */
+    public static function getPortionsWeightQuery($id)
+    {
+        return (new Query())
+            ->select('SUM(`dp`.`count`*`p`.`weight`) AS `weight`')
+            ->from(Diary::diary2portionsTableName() . ' `dp`')
+            ->leftJoin(Portion::tableName() . ' `p`', '`p`.`id` = `dp`.`portion_id`')
+            ->where("`dp`.`diary_id` = {$id}");
+    }
+
+    /**
+     * @param integer $id
+     * @return Query
+     */
+    public static function getWeightQuery($id)
+    {
+        $prodWeightSql = self::getProductsWeightQuery('`d`.`id`')->createCommand()->sql;
+        $recWeightSql = self::getRecipesWeightQuery('`d`.`id`')->createCommand()->sql;
+        $portWeightSql = self::getPortionsWeightQuery('`d`.`id`')->createCommand()->sql;
+
+        return (new Query())
+            ->select("COALESCE(({$prodWeightSql}), 0) + COALESCE(({$recWeightSql}), 0) + COALESCE(({$portWeightSql}), 0) AS `weight`")
+            ->from(Diary::tableName() . ' `d`')
+            ->where(['`d`.`id`' => $id]);
     }
 
     // END Public methods

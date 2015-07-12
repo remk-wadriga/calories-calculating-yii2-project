@@ -15,13 +15,25 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'calories')->textInput(['class' => 'form-control float-input']) ?>
+    <?= $form->field($model, 'calories')->textInput([
+        'class' => 'form-control float-input',
+        'value' => $model->calories ? $model->calories*100 : null,
+    ]) ?>
 
-    <?= $form->field($model, 'protein')->textInput(['class' => 'form-control float-input']) ?>
+    <?= $form->field($model, 'protein')->textInput([
+        'class' => 'form-control float-input',
+        'value' => $model->protein ? $model->protein*100 : null,
+    ]) ?>
 
-    <?= $form->field($model, 'fat')->textInput(['class' => 'form-control float-input']) ?>
+    <?= $form->field($model, 'fat')->textInput([
+        'class' => 'form-control float-input',
+        'value' => $model->fat ? $model->fat*100 : null,
+    ]) ?>
 
-    <?= $form->field($model, 'carbohydrate')->textInput(['class' => 'form-control float-input']) ?>
+    <?= $form->field($model, 'carbohydrate')->textInput([
+        'class' => 'form-control float-input',
+        'value' => $model->carbohydrate ? $model->carbohydrate*100 : null,
+    ]) ?>
 
     <?= $form->field($model, 'categoryId')->dropDownList($model->getCategoryIdItems()) ?>
 

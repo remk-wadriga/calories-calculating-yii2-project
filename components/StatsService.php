@@ -56,6 +56,13 @@ class StatsService extends ServiceAbstract
             $all = true;
         }
 
+        /**
+         * Hack for old stats
+         */
+        if ($date <= '2015-07-12') {
+            return true;
+        }
+
         if ($all) {
             $message = [
                 'date' => $date,
@@ -103,6 +110,7 @@ class StatsService extends ServiceAbstract
         $endDate = null;
         $userId = null;
         $calories = 0;
+        $weight = 0;
         $daysCount = 0;
 
         $weeks = [];
@@ -120,8 +128,10 @@ class StatsService extends ServiceAbstract
                     'startDate' => $startDate,
                     'endDate' => $endDate,
                     'calories' => 0,
+                    'weight' => 0,
                     'weighingDay' => $weighingDay,
                     'averageCalories' => 0,
+                    'averageWeight' => 0,
                     'days' => []
                 ];
             }
@@ -130,12 +140,14 @@ class StatsService extends ServiceAbstract
                 'id' => $day['id'],
                 'date' => $date,
                 'calories' => $day['calories'],
+                'weight' => $day['weight'],
             ];
 
             if ($lastDay !== null && $date < $endDate) {
                 $weeks[$key]['days'][] = $lastDay;
                 $daysCount++;
                 $calories += $lastDay['calories'];
+                $weight += $lastDay['weight'];
                 $lastDay = null;
             }
 
@@ -144,12 +156,15 @@ class StatsService extends ServiceAbstract
             } else {
                 $daysCount++;
                 $calories += $record['calories'];
+                $weight += $record['weight'];
                 $weeks[$key]['days'][] = $record;
             }
 
             $weeks[$key]['calories'] = $calories;
+            $weeks[$key]['weight'] = $weight;
             if ($daysCount !== 0) {
                 $weeks[$key]['averageCalories'] = $calories/$daysCount;
+                $weeks[$key]['averageWeight'] = $weight/$daysCount;
             }
 
             if ($userId === null) {
@@ -199,9 +214,9 @@ class StatsService extends ServiceAbstract
                 'user_id' => $userId,
                 'start_date' => $week['startDate'],
                 'end_date' => $week['endDate'],
-                'weight' => 0,
+                'weight' => $week['weight'],
                 'calories' => $week['calories'],
-                'average_weight' => 0,
+                'average_weight' => $week['averageWeight'],
                 'average_calories' => $week['averageCalories'],
                 'body_weight' => null,
                 'weighing_day' => $week['weighingDay'],

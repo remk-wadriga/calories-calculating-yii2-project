@@ -95,6 +95,24 @@ class Product extends ModelAbstract
 
     // Event handlers
 
+    public function beforeSave($insert)
+    {
+        if ($this->calories > 0) {
+            $this->calories = $this->calories/100;
+        }
+        if ($this->protein > 0) {
+            $this->protein = $this->protein/100;
+        }
+        if ($this->fat > 0) {
+            $this->fat = $this->fat/100;
+        }
+        if ($this->carbohydrate > 0) {
+            $this->carbohydrate = $this->carbohydrate/100;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
     // END Event handlers
 
 
