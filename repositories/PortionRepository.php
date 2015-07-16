@@ -51,7 +51,7 @@ class PortionRepository extends Portion
         $query = Portion::find()
             ->select([
                 '`p`.*',
-                "({$caloriesSql}) AS `calories`",
+                "({$caloriesSql})*`p`.`weight` AS `calories`",
                 '`c`.`name` AS `categoryName`'
             ])
             ->from(self::tableName() . ' `p`')

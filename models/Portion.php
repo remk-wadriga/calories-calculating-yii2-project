@@ -117,7 +117,7 @@ class Portion extends ModelAbstract
 
         $calories = self::getCaloriesQuery($this->recipe_id)->one();
         if (!empty($calories)) {
-            $this->_calories = $calories['calories'];
+            $this->_calories = $calories['calories']*$this->weight;
         }
 
         return $this->_calories;
@@ -178,12 +178,12 @@ class Portion extends ModelAbstract
      */
     public static function findById($id)
     {
-        $caloriesSql = self::getCaloriesQuery('`p`.`recipe_id` ')->createCommand()->sql;
+        $caloriesSql = self::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
 
         return self::find()
             ->select([
                 '`p`.*',
-                "({$caloriesSql}) AS `calories`"
+                "({$caloriesSql})*`p`.`weight` AS `calories`"
             ])
             ->from(self::tableName() . ' `p`')
             ->where(['id' => $id])
@@ -262,7 +262,7 @@ class Portion extends ModelAbstract
     public static function getCaloriesQuery($id)
     {
         return (new Query())
-            ->select('SUM(`prod`.`calories`*`rp`.`weight`) AS `calories`')
+            ->select('SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`) AS `calories`')
             ->from(Recipe::recipe2productsTableName() . ' `rp`')
             ->leftJoin(Product::tableName() . ' `prod`', '`prod`.`id` = `rp`.`product_id`')
             ->where("`rp`.`recipe_id` = {$id}");

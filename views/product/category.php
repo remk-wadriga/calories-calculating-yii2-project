@@ -28,7 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'calories',
+            [
+                'value' => function($model){
+                    return $model->calories ? $this->round($model->calories*100) : null;
+                },
+                'attribute' => 'calories',
+            ],
             'description:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],

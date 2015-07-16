@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'name',
             'categoryName',
+            'weight',
             [
                 'attribute' => 'calories',
                 'value'  => function($model){
