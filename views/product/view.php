@@ -47,7 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->carbohydrate ? $this->round($model->carbohydrate*100) : null,
                 'attribute' => 'carbohydrate',
             ],
-            'categoryName',
+            [
+                'value' => Html::a($model->categoryName, ['/product/category', 'categoryId' => $model->categoryId]),
+                'attribute' => 'categoryName',
+                'format' => 'raw'
+            ],
             'description:ntext',
         ],
     ]) ?>

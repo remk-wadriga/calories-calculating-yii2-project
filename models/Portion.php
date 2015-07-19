@@ -179,14 +179,19 @@ class Portion extends ModelAbstract
     public static function findById($id)
     {
         $caloriesSql = self::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
+        //$categoryNameSql = self::getCategoryNameQuery('`p`.`recipe_id`')->createCommand()->sql;
 
         return self::find()
             ->select([
                 '`p`.*',
-                "({$caloriesSql})*`p`.`weight` AS `calories`"
+                "({$caloriesSql})*`p`.`weight` AS `calories`",
+                "`rc`.`name` AS `categoryName`",
+                '`r`.`category_id` AS `recipeCategoryId`',
             ])
             ->from(self::tableName() . ' `p`')
-            ->where(['id' => $id])
+            ->innerJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `p`.`recipe_id`')
+            ->leftJoin(RecipeCategory::tableName() . ' `rc`', '`rc`.`id` = `r`.`category_id`')
+            ->where(['`p`.`id`' => $id])
             ->one();
     }
 

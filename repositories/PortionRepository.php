@@ -25,6 +25,7 @@ class PortionRepository extends Portion
         return [
             [['id'], 'integer'],
             [['name', 'categoryName'], 'safe'],
+            [['weight'], 'number']
         ];
     }
 
@@ -52,7 +53,8 @@ class PortionRepository extends Portion
             ->select([
                 '`p`.*',
                 "({$caloriesSql})*`p`.`weight` AS `calories`",
-                '`c`.`name` AS `categoryName`'
+                '`c`.`name` AS `categoryName`',
+                '`r`.`category_id` AS `recipeCategoryId`',
             ])
             ->from(self::tableName() . ' `p`')
             ->leftJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `p`.`recipe_id`')
@@ -76,6 +78,7 @@ class PortionRepository extends Portion
         }
 
         $query->andFilterWhere([
+            '`p`.`weight`' => $this->weight,
         ]);
 
         $query->andFilterWhere(['like', '`p`.`name`', $this->name])
@@ -85,7 +88,8 @@ class PortionRepository extends Portion
             'attributes' => [
                 'name',
                 'categoryName',
-                'calories'
+                'calories',
+                'weight'
             ],
         ];
 

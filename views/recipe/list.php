@@ -28,14 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'categoryName',
+            [
+                'value' => function($model){
+                    return Html::a($model->categoryName, ['/recipe/category', 'categoryId' => $model->categoryId]);
+                },
+                'attribute' => 'categoryName',
+                'format' => 'raw',
+            ],
             [
                 'attribute' => 'calories',
                 'value'  => function($model){
                     return $model->calories ? $this->round($model->calories*100) : null;
                 },
             ],
-            'description:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

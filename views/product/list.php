@@ -52,8 +52,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'attribute' => 'carbohydrate',
             ],
-            'categoryName',
-            'description:ntext',
+            [
+                'value' => function($model){
+                    return Html::a($model->categoryName, ['/product/category', 'categoryId' => $model->categoryId]);
+                },
+                'attribute' => 'categoryName',
+                'format' => 'raw'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -31,7 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'categoryName',
+            [
+                'value' => Html::a($model->categoryName, ['/recipe/category', 'categoryId' => $model->categoryId]),
+                'attribute' => 'categoryName',
+                'format' => 'raw',
+            ],
             [
                 'value'  => $model->calories ? $this->round($model->calories*100) : null,
                 'attribute' => 'calories',

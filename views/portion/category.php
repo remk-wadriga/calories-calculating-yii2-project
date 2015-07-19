@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'categoryName',
             [
                 'label'  => $this->t('Calories'),
                 'attribute' => 'calories',
