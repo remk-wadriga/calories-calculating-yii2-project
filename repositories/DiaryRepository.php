@@ -2,11 +2,11 @@
 
 namespace app\repositories;
 
-use app\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Diary;
+use app\models\User;
 
 /**
  * DiaryRepository represents the model behind the search form about `app\models\Diary`.
@@ -48,8 +48,6 @@ class DiaryRepository extends Diary
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 

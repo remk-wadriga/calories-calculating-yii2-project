@@ -2,6 +2,7 @@
 /**
  * @var app\components\View $this
  * @var app\models\Recipe $model
+ * @var yii\data\ArrayDataProvider $dataProvider
  */
 
 use yii\helpers\Html;
@@ -41,8 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'calories',
             ],
             'description:ntext',
-            'productsListString:raw',
         ],
+    ]) ?>
+
+    <?= $this->render('@app/views/partials/_ingredientsList', [
+        'dataProvider' => $dataProvider,
+        'modelName' => 'product'
     ]) ?>
 
 </div>

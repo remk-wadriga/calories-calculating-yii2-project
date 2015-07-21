@@ -2,6 +2,9 @@
 /**
  * @var app\components\View $this
  * @var app\models\Diary $model
+ * @var yii\data\ArrayDataProvider $productsDataProvider
+ * @var yii\data\ArrayDataProvider $recipesDataProvider
+ * @var yii\data\ArrayDataProvider $portionsDataProvider
  */
 
 use yii\helpers\Html;
@@ -42,33 +45,24 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <br />
+    <?= $this->render('@app/views/partials/_ingredientsList', [
+        'dataProvider' => $productsDataProvider,
+        'modelName' => 'product',
+        'title' => $this->t('Products')
+    ]) ?>
 
-    <table class="table table-striped table-bordered detail-view">
-        <tbody>
-            <?php $portionIngredients = $model->getPortionIngredients() ?>
-            <?php if (!empty($portionIngredients)): ?>
-                <tr>
-                    <td><?= $this->t('Portions') ?></td>
-                    <?= $this->render('_ingredients-line', ['ingredients' => $portionIngredients, 'url' => '/portion/view']) ?>
-                </tr>
-            <?php endif ?>
-            <?php $recipesIngredients = $model->getRecipeIngredients() ?>
-            <?php if (!empty($recipesIngredients)): ?>
-                <tr>
-                    <td><?= $this->t('Dishes') ?></td>
-                    <?= $this->render('_ingredients-line', ['ingredients' => $recipesIngredients, 'url' => '/recipe/view']) ?>
-                </tr>
-            <?php endif ?>
-            <?php $productIngredients = $model->getProductIngredients() ?>
-            <?php if (!empty($productIngredients)): ?>
-                <tr>
-                    <td><?= $this->t('Products') ?></td>
-                    <?= $this->render('_ingredients-line', ['ingredients' => $productIngredients, 'url' => '/product/view']) ?>
-                </tr>
-            <?php endif ?>
-        </tbody>
-    </table>
+    <?= $this->render('@app/views/partials/_ingredientsList', [
+        'dataProvider' => $recipesDataProvider,
+        'modelName' => 'recipe',
+        'title' => $this->t('Recipes')
+    ]) ?>
+
+    <?= $this->render('@app/views/partials/_ingredientsList', [
+        'dataProvider' => $portionsDataProvider,
+        'modelName' => 'portion',
+        'title' => $this->t('Portions'),
+        'countAttribute' => 'count',
+    ]) ?>
 
     <p>
         <?= Html::a($this->t('Write to stats'), ['/week-stats/create', 'date' => $model->date], ['class' => 'btn btn-primary', 'data' => ['method' => 'post']]) ?>

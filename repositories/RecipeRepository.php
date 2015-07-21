@@ -1,11 +1,16 @@
 <?php
 namespace app\repositories;
 
-use app\models\RecipeCategory;
+
+
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use app\models\Recipe;
+use app\models\RecipeCategory;
+use app\models\Product;
+use app\entities\IngredientEntity;
 
 /**
  * RecipeRepository represents the model behind the search form about `app\models\Recipe`.
@@ -91,6 +96,34 @@ class RecipeRepository extends Recipe
                 'calories',
             ],
         ];
+
+        return $dataProvider;
+    }
+
+    /**
+     * @param array $params
+     * @return ArrayDataProvider
+     */
+    public function searchIngredients($params = [])
+    {
+        $query = IngredientEntity::find()
+            ->select([
+                '(\''.IngredientEntity::TYPE_WEIGHT.'\') AS type',
+                'p.id',
+                'p.name',
+                'rp.weight',
+                '`rp`.`weight` * `p`.`calories` AS calories',
+            ])
+            ->from(['rp' => Recipe::recipe2productsTableName()])
+            ->leftJoin(['p' => Product::tableName()], 'p.id = rp.product_id')
+            ->where(['rp.recipe_id' => $this->id])
+            ->orderBy('calories DESC');
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $query->all(),
+            'sort' => false,
+            'pagination' => false,
+        ]);
 
         return $dataProvider;
     }

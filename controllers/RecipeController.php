@@ -53,8 +53,13 @@ class RecipeController extends ControllerAbstract
      */
     public function actionView($id)
     {
+        $searchModel = new RecipeRepository();
+        $searchModel->id = $id;
+        $ingredientsDataProvider = $searchModel->searchIngredients(Yii::$app->request->queryParams);
+
         return $this->render([
             'model' => $this->findModel($id),
+            'dataProvider' => $ingredientsDataProvider,
         ]);
     }
 

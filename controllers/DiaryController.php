@@ -9,6 +9,9 @@ use app\repositories\DiaryRepository;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\repositories\DiaryProductIngredientRepository;
+use app\repositories\DiaryRecipeIngredientRepository;
+use app\repositories\DiaryPortionIngredientRepository;
 
 /**
  * DiaryController implements the CRUD actions for Diary model.
@@ -62,8 +65,19 @@ class DiaryController extends ControllerAbstract
      */
     public function actionView($id)
     {
+        $productIngredientModel = new DiaryProductIngredientRepository();
+        $recipeIngredientModel = new DiaryRecipeIngredientRepository();
+        $portionIngredientModel = new DiaryPortionIngredientRepository();
+
+        $productIngredientModel->id = $id;
+        $recipeIngredientModel->id = $id;
+        $portionIngredientModel->id = $id;
+
         return $this->render([
             'model' => $this->findModel($id),
+            'productsDataProvider' => $productIngredientModel->search(),
+            'recipesDataProvider' => $recipeIngredientModel->search(),
+            'portionsDataProvider' => $portionIngredientModel->search(),
         ]);
     }
 
