@@ -45,19 +45,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= $this->render('@app/views/partials/_ingredientsList', [
+    <?= $this->render('@app/views/partials/_ingredients-list', [
         'dataProvider' => $productsDataProvider,
         'modelName' => 'product',
         'title' => $this->t('Products')
     ]) ?>
 
-    <?= $this->render('@app/views/partials/_ingredientsList', [
+    <?= $this->render('@app/views/partials/_ingredients-list', [
         'dataProvider' => $recipesDataProvider,
         'modelName' => 'recipe',
         'title' => $this->t('Recipes')
     ]) ?>
 
-    <?= $this->render('@app/views/partials/_ingredientsList', [
+    <?= $this->render('@app/views/partials/_ingredients-list', [
         'dataProvider' => $portionsDataProvider,
         'modelName' => 'portion',
         'title' => $this->t('Portions'),

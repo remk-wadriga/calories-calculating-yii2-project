@@ -58,15 +58,25 @@ use yii\widgets\Pjax;
                 'buttons' => [
                     'view' => function($url, $model)use($modelName){
                         $text = '<span class="glyphicon glyphicon-eye-open"></span>';
-                        return Html::a($text, ["/{$modelName}/view", 'id' => $model->id]);
+                        return Html::a($text, ["/{$modelName}/view", 'id' => $model->id], [
+                            'data' => ['pjax' => 0],
+                        ]);
                     },
                     'update' => function($url, $model)use($modelName){
                         $text = '<span class="glyphicon glyphicon-pencil"></span>';
-                        return Html::a($text, ["/{$modelName}/update", 'id' => $model->id]);
+                        return Html::a($text, ["/{$modelName}/update", 'id' => $model->id], [
+                            'data' => ['pjax' => 0],
+                        ]);
                     },
                     'delete' => function($url, $model)use($modelName){
                         $text = '<span class="glyphicon glyphicon-trash"></span>';
-                        return Html::a($text, ["/{$modelName}/delete", 'id' => $model->id]);
+                        return Html::a($text, ["/{$modelName}/delete", 'id' => $model->id], [
+                            'data' => [
+                                'pjax' => 0,
+                                'method' => 'post',
+                                'confirm' => $this->t('Are you sure you want to delete this item') . '?',
+                            ],
+                        ]);
                     },
                 ],
                 'template' => '{view} {update} {delete}',

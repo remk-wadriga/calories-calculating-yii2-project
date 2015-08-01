@@ -37,6 +37,24 @@ $this->params['breadcrumbs'][] = $this->title;
                         $text = '<span class="glyphicon glyphicon-eye-open"></span>';
                         return Html::a($text, ['recipe/category', 'categoryId' => $model->id]);
                     },
+                    'update' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-pencil"></span>';
+                        return Html::a($text, ['/recipe-category/update', 'id' => $model->id], [
+                            'data' => ['pajax' => 0],
+                        ]);
+                    },
+                    'delete' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-trash"></span>';
+                        return Html::a($text, ['/recipe-category/delete', 'id' => $model->id], [
+                            'title' => $this->t('Delete'),
+                            'aria-label' => $this->t('Delete'),
+                            'data' => [
+                                'pjax' => 0,
+                                'method' => 'post',
+                                'confirm' => $this->t('Are you sure you want to delete this item') . '?',
+                            ],
+                        ]);
+                    },
                 ],
                 'template'=>'{view} {update} {delete}',
             ],

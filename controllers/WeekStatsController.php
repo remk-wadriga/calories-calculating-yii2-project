@@ -9,6 +9,7 @@ use app\repositories\WeekStatsRepository;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\repositories\WeekStatsDaysRepository;
 
 /**
  * WeekStatsController implements the CRUD actions for WeekStats model.
@@ -49,8 +50,14 @@ class WeekStatsController extends ControllerAbstract
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $searchModel = new WeekStatsDaysRepository();
+        $searchModel->week = $model;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render([
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'dataProvider' => $dataProvider
         ]);
     }
 

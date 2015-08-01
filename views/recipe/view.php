@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= $this->render('@app/views/partials/_ingredientsList', [
+    <?= $this->render('@app/views/partials/_ingredients-list', [
         'dataProvider' => $dataProvider,
         'modelName' => 'product'
     ]) ?>

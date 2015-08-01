@@ -2,11 +2,12 @@
 
 namespace app\models;
 
-use app\repositories\DiaryRepository;
 use Yii;
+use app\repositories\DiaryRepository;
 use app\abstracts\ModelAbstract;
 use app\interfaces\StatsModelInterface;
 use yii\helpers\Json;
+use app\entities\DayEntity;
 
 /**
  * This is the model class for table "week_stats".
@@ -236,7 +237,7 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
     // Public methods
 
     /**
-     * @return \stdClass[]
+     * @return DayEntity[]
      */
     public function getDays()
     {
@@ -251,8 +252,15 @@ class WeekStats extends ModelAbstract implements StatsModelInterface
             if (!empty($days)) {
                 $timeService = Yii::$app->timeService;
                 foreach ($days as $day) {
-                    $day['deyName'] = $this->t($timeService->getDeyName($day['date']));
-                    $this->_days[] = (object)$day;
+                    $entity = new DayEntity();
+                    $entity->id = $day['id'];
+                    $entity->date = $day['date'];
+                    $entity->day = $timeService->getDey($day['date']);
+                    $entity->dayName = $this->t($timeService->getDeyName($day['date']));
+                    $entity->weight = $day['weight'];
+                    $entity->calories = $day['calories'];
+
+                    $this->_days[] = $entity;
                 }
             }
         }

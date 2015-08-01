@@ -8,6 +8,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 $this->title = $this->t('Products of category "{categoryName}"', ['categoryName' => $categoryName]);
 $this->params['breadcrumbs'][] = ['label' => $this->t('Product categories'), 'url' => ['/product-category/list']];
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a($this->t('Create product'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin(['enablePushState' => false]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -56,5 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>

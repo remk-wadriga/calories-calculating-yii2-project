@@ -33,7 +33,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function($url, $model){
                         $text = '<span class="glyphicon glyphicon-eye-open"></span>';
-                        return Html::a($text, ['product/category', 'categoryId' => $model->id]);
+                        return Html::a($text, ['product/category', 'categoryId' => $model->id], [
+                            'data' => ['pajax' => 0],
+                        ]);
+                    },
+                    'update' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-pencil"></span>';
+                        return Html::a($text, ['/product-category/update', 'id' => $model->id], [
+                            'data' => ['pajax' => 0],
+                        ]);
+                    },
+                    'delete' => function($url, $model){
+                        $text = '<span class="glyphicon glyphicon-trash"></span>';
+                        return Html::a($text, ['/product-category/delete', 'id' => $model->id], [
+                            'title' => $this->t('Delete'),
+                            'aria-label' => $this->t('Delete'),
+                            'data' => [
+                                'pjax' => 0,
+                                'method' => 'post',
+                                'confirm' => $this->t('Are you sure you want to delete this item') . '?',
+                            ],
+                        ]);
                     },
                 ],
                 'template'=>'{view} {update} {delete}',

@@ -53,11 +53,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function($url, $model){
                         $text = '<span class="glyphicon glyphicon-eye-open"></span>';
-                        return Html::a($text, ['week-stats/view', 'id' => $model->id]);
+                        return Html::a($text, ['week-stats/view', 'id' => $model->id], [
+                            'data' => ['pjax' => 0],
+                        ]);
                     },
                     'update' => function($url, $model){
                         $text = '<span class="glyphicon glyphicon-pencil"></span>';
-                        return Html::a($text, ['week-stats/update', 'id' => $model->id]);
+                        return Html::a($text, ['week-stats/update', 'id' => $model->id], [
+                            'data' => ['pjax' => 0],
+                        ]);
                     }
                 ],
                 'template' => '{view} {update}',
