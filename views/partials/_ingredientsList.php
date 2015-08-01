@@ -25,20 +25,28 @@ use app\entities\IngredientEntity;
     'dataProvider' => $dataProvider,
     'layout' => "{$title}:<br />{items}",
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'class' => 'yii\grid\SerialColumn',
+            'contentOptions' => ['style' => 'width: 3%'],
+        ],
 
-        'name',
+        [
+            'attribute' => 'name',
+            'contentOptions' => ['style' => 'width: 40%'],
+        ],
         [
             'value' => function($model){
                 return $model->type == IngredientEntity::TYPE_WEIGHT ? $this->round($model->weight) : $this->round($model->count);
             },
-            'attribute' => $countAttribute
+            'attribute' => $countAttribute,
+            'contentOptions' => ['style' => 'width: 25%'],
         ],
         [
             'value' => function($model){
                 return $this->round($model->calories);
             },
-            'attribute' => 'calories'
+            'attribute' => 'calories',
+            'contentOptions' => ['style' => 'width: 25%'],
         ],
 
         [

@@ -98,6 +98,7 @@ class StatsService extends ServiceAbstract
             }
 
             list($startDate, $endDate) = $this->getWeekDates($date, $weighingDay, $timeService, $format);
+
             $days = $model->findDaysByStartAndEndDate($startDate, $endDate);
         }
 
@@ -114,12 +115,20 @@ class StatsService extends ServiceAbstract
         $daysCount = 0;
 
         $weeks = [];
-        foreach ($days as $day) {
+        foreach ($days as $num => $day) {
             $weighingDay = $day['weighingDay'];
             $date = $day['date'];
-            list($startDate, $endDate) = $this->getWeekDates($date, $weighingDay, $timeService, $format);
+            $isFirstDay = $num === 0;
 
-            $key = $startDate . '::' .  $timeService->addSeconds(-3600*24, $endDate, $format);
+            list($startDate, $endDate) = $this->getWeekDates($date, $weighingDay, $timeService, $format, $isFirstDay);
+            // Last week day - this is firs day of next week
+            if ($date == $endDate) {
+                continue;
+            }
+
+            $endDate = $timeService->addSeconds(-3600*24, $endDate, $format);
+            $key = $startDate . '::' . $endDate;
+
             if (!isset($weeks[$key])) {
                 $calories = 0;
                 $daysCount = 0;
@@ -143,22 +152,10 @@ class StatsService extends ServiceAbstract
                 'weight' => $day['weight'],
             ];
 
-            if ($lastDay !== null && $date < $endDate) {
-                $weeks[$key]['days'][] = $lastDay;
-                $daysCount++;
-                $calories += $lastDay['calories'];
-                $weight += $lastDay['weight'];
-                $lastDay = null;
-            }
-
-            if ($date >= $endDate) {
-                $lastDay = $record;
-            } else {
-                $daysCount++;
-                $calories += $record['calories'];
-                $weight += $record['weight'];
-                $weeks[$key]['days'][] = $record;
-            }
+            $daysCount++;
+            $calories += $record['calories'];
+            $weight += $record['weight'];
+            $weeks[$key]['days'][] = $record;
 
             $weeks[$key]['calories'] = $calories;
             $weeks[$key]['weight'] = $weight;
@@ -214,10 +211,10 @@ class StatsService extends ServiceAbstract
                 'user_id' => $userId,
                 'start_date' => $week['startDate'],
                 'end_date' => $week['endDate'],
-                'weight' => $week['weight'],
-                'calories' => $week['calories'],
-                'average_weight' => $week['averageWeight'],
-                'average_calories' => $week['averageCalories'],
+                'weight' => round($week['weight']),
+                'calories' => round($week['calories']),
+                'average_weight' => round($week['averageWeight']),
+                'average_calories' => round($week['averageCalories']),
                 'body_weight' => null,
                 'weighing_day' => $week['weighingDay'],
                 'days_stats' => Json::encode($week['days']),
@@ -259,14 +256,18 @@ class StatsService extends ServiceAbstract
      * @param integer $weighingDay
      * @param \app\components\TimeService $timeService
      * @param string $format
+     * @param bool $up
      * @return array;
      */
-    private function getWeekDates($date, $weighingDay, $timeService, $format)
+    private function getWeekDates($date, $weighingDay, $timeService, $format, $up = false)
     {
         $weekDay = $timeService->getDey($date);
         $diff = $weighingDay - $weekDay;
-        if ($diff >= 0) {
-            $toStart = -(7 - $diff);
+        if($diff === 0 && $up === true) {
+            $toStart = 0;
+            $toEnd = 7;
+        } elseif ($diff >= 0) {
+            $toStart = $diff - 7;
             $toEnd = $diff;
         } else {
             $toStart = $diff;

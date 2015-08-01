@@ -38,7 +38,7 @@ return [
     'Recipe categories'                                                                                                 => 'Категории рецептов',
     'Recipes'                                                                                                           => 'Рецепты',
     'Create recipe'                                                                                                     => 'Создать рецепт',
-    'Update recipe "{recipeName}"'                                                                                      => 'Изменить рецепт "{recipeName}"',
+    'Update Recipe "{recipeName}"'                                                                                      => 'Изменить рецепт "{recipeName}"',
     'Create recipe category'                                                                                            => 'Создать категорию рецептов',
     'Update recipe category "{categoryName}"'                                                                           => 'Изменить категорию рецептов "{categoryName}"',
     'Recipes of category "{categoryName}"'                                                                              => 'Рецепты категории "{categoryName}"',

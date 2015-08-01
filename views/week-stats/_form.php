@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'bodyWeight')->textInput() ?>
+    <?= $form->field($model, 'bodyWeight')->textInput(['class' => 'form-control float-input']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($this->t('Update'), ['class' => 'btn btn-primary']) ?>
