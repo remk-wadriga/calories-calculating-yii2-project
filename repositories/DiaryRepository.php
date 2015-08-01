@@ -59,7 +59,6 @@ class DiaryRepository extends Diary
             'attributes' => [
                 'date',
                 'calories',
-                'day',
             ],
             'defaultOrder' => ['date' => SORT_DESC],
         ];
