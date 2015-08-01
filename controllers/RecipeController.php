@@ -2,11 +2,12 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Diary;
 use app\models\Portion;
-use Yii;
 use app\models\Recipe;
 use app\repositories\RecipeRepository;
+use app\repositories\RecipeIngredientsRepository;
 use app\abstracts\ControllerAbstract;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -53,9 +54,9 @@ class RecipeController extends ControllerAbstract
      */
     public function actionView($id)
     {
-        $searchModel = new RecipeRepository();
+        $searchModel = new RecipeIngredientsRepository();
         $searchModel->id = $id;
-        $ingredientsDataProvider = $searchModel->searchIngredients(Yii::$app->request->queryParams);
+        $ingredientsDataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render([
             'model' => $this->findModel($id),

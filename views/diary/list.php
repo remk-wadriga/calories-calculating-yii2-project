@@ -7,6 +7,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 $this->title = $this->t('Diary');
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a($this->t('Add diary record'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin(['enablePushState' => false]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -42,5 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>

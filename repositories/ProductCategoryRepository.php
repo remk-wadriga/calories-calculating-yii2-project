@@ -2,7 +2,6 @@
 
 namespace app\repositories;
 
-use app\models\Product;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

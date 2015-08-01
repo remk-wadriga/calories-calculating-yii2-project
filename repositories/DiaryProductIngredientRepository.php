@@ -8,14 +8,26 @@
 
 namespace app\repositories;
 
-use app\models\Product;
 use Yii;
+use yii\base\Model;
+use app\models\Product;
 use app\models\Diary;
 use app\entities\IngredientEntity;
 use yii\data\ArrayDataProvider;
 
 class DiaryProductIngredientRepository extends IngredientEntity
 {
+    public function rules()
+    {
+        return [];
+    }
+
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -40,7 +52,14 @@ class DiaryProductIngredientRepository extends IngredientEntity
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $query->all(),
-            'sort' => false,
+            'sort' => [
+                'attributes' => [
+                    'name',
+                    'weight',
+                    'calories',
+                ],
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
             'pagination' => false,
         ]);
 

@@ -7,6 +7,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 $this->title = $this->t('Product categories');
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a($this->t('Create category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin(['enablePushState' => false]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -38,5 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>
