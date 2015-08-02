@@ -43,7 +43,10 @@ class DiaryProductIngredientRepository extends IngredientEntity
                 'p.id',
                 'p.name',
                 'dp.weight',
-                '`dp`.`weight` * `p`.`calories` AS calories',
+                '`dp`.`weight` * `p`.`calories` AS `calories`',
+                '`dp`.`weight` * `p`.`protein` AS `protein`',
+                '`dp`.`weight` * `p`.`fat` AS `fat`',
+                '`dp`.`weight` * `p`.`carbohydrate` AS `carbohydrate`',
             ])
             ->from(['dp' => Diary::diary2productsTableName()])
             ->leftJoin(['p' => Product::tableName()], 'p.id = dp.product_id')
@@ -57,6 +60,9 @@ class DiaryProductIngredientRepository extends IngredientEntity
                     'name',
                     'weight',
                     'calories',
+                    'protein',
+                    'fat',
+                    'carbohydrate',
                 ],
                 'defaultOrder' => ['name' => SORT_ASC],
             ],

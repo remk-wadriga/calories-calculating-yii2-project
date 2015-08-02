@@ -2,13 +2,14 @@
 
 namespace app\repositories;
 
+use Yii;
+use yii\base\Model;
 use app\models\Product;
 use app\models\Recipe;
 use app\models\RecipeCategory;
-use Yii;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Portion;
+use yii\db\Query;
 
 /**
  * PortionRepository represents the model behind the search form about `app\models\Portion`.
@@ -47,14 +48,20 @@ class PortionRepository extends Portion
      */
     public function search($params)
     {
-        $caloriesSql = self::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
+        $caloriesSql = RecipeRepository::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
+        $proteinsSql = RecipeRepository::getProteinsQuery('`r`.`id`')->createCommand()->sql;
+        $fatsSql = RecipeRepository::getFatsQuery('`r`.`id`')->createCommand()->sql;
+        $carbohydratesSql = RecipeRepository::getCarbohydratesQuery('`r`.`id`')->createCommand()->sql;
 
         $query = Portion::find()
             ->select([
                 '`p`.*',
-                "({$caloriesSql})*`p`.`weight` AS `calories`",
-                '`c`.`name` AS `categoryName`',
-                '`r`.`category_id` AS `recipeCategoryId`',
+                'calories' => "({$caloriesSql})*`p`.`weight`",
+                'proteins' => "({$proteinsSql})*`p`.`weight`",
+                'fats' => "({$fatsSql})*`p`.`weight`",
+                'carbohydrates' => "({$carbohydratesSql})*`p`.`weight`",
+                'categoryName' => 'c.name',
+                'recipeCategoryId' => 'r.category_id',
             ])
             ->from(self::tableName() . ' `p`')
             ->leftJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `p`.`recipe_id`')
@@ -89,10 +96,41 @@ class PortionRepository extends Portion
                 'name',
                 'categoryName',
                 'calories',
-                'weight'
+                'weight',
+                'proteins',
+                'fats',
+                'carbohydrates',
             ],
         ];
 
         return $dataProvider;
+    }
+
+    /**
+     * @param array|string|integer $params
+     * @return Portion
+     */
+    public static function searchOne($params)
+    {
+        $where = is_array($params) ? $params : ['p.id' => $params];
+
+        return Portion::find()
+            ->select([
+                'p.*',
+                'p.weight',
+                'categoryName' => 'c.name',
+                'recipeName' => 'r.name',
+                'calories' => 'SUM(`rp`.`weight`*`prod`.`calories`)/SUM(`rp`.`weight`)*`p`.`weight`',
+                'proteins' => 'SUM(`rp`.`weight`*`prod`.`protein`)/SUM(`rp`.`weight`)*`p`.`weight`',
+                'fats' => 'SUM(`rp`.`weight`*`prod`.`fat`)/SUM(`rp`.`weight`)*`p`.`weight`',
+                'carbohydrates' => 'SUM(`rp`.`weight`*`prod`.`carbohydrate`)/SUM(`rp`.`weight`)*`p`.`weight`',
+            ])
+            ->from(['p' => Portion::tableName()])
+            ->innerJoin(['r' => Recipe::tableName()], '`r`.`id` = `p`.`recipe_id`')
+            ->innerJoin(['rp' => Recipe::recipe2productsTableName()], '`rp`.`recipe_id` = `r`.`id`')
+            ->leftJoin(['c' => RecipeCategory::tableName()], '`c`.`id` = `r`.`category_id`')
+            ->leftJoin(['prod' => Product::tableName()], '`prod`.`id` = `rp`.`product_id`')
+            ->where($where)
+            ->one();
     }
 }

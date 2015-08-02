@@ -43,6 +43,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->calories ? $this->round($model->calories*100) : null;
                 },
             ],
+            [
+                'attribute' => 'proteins',
+                'value'  => function($model){
+                    return $model->proteins ? $this->round($model->proteins*100) : null;
+                },
+            ],
+            [
+                'attribute' => 'fats',
+                'value'  => function($model){
+                    return $model->fats ? $this->round($model->fats*100) : null;
+                },
+            ],
+            [
+                'attribute' => 'carbohydrates',
+                'value'  => function($model){
+                    return $model->carbohydrates ? $this->round($model->carbohydrates*100) : null;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -31,7 +31,7 @@ use yii\widgets\Pjax;
         'columns' => [
             [
                 'class' => 'yii\grid\SerialColumn',
-                'contentOptions' => ['style' => 'width: 3%'],
+                'contentOptions' => ['style' => 'width: 4%'],
             ],
 
             [
@@ -43,14 +43,35 @@ use yii\widgets\Pjax;
                     return $model->type == IngredientEntity::TYPE_WEIGHT ? $this->round($model->weight) : $this->round($model->count);
                 },
                 'attribute' => $countAttribute,
-                'contentOptions' => ['style' => 'width: 25%'],
+                'contentOptions' => ['style' => 'width: 10%'],
             ],
             [
                 'value' => function($model){
                     return $this->round($model->calories);
                 },
                 'attribute' => 'calories',
-                'contentOptions' => ['style' => 'width: 25%'],
+                'contentOptions' => ['style' => 'width: 10%'],
+            ],
+            [
+                'value' => function($model){
+                    return $this->round($model->protein);
+                },
+                'attribute' => 'protein',
+                'contentOptions' => ['style' => 'width: 10%'],
+            ],
+            [
+                'value' => function($model){
+                    return $this->round($model->fat);
+                },
+                'attribute' => 'fat',
+                'contentOptions' => ['style' => 'width: 10%'],
+            ],
+            [
+                'value' => function($model){
+                    return $this->round($model->carbohydrate);
+                },
+                'attribute' => 'carbohydrate',
+                'contentOptions' => ['style' => 'width: 10%'],
             ],
 
             [

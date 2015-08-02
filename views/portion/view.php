@@ -41,8 +41,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'  => $this->round($model->calories, 0),
                 'attribute' => 'calories',
             ],
+            [
+                'value'  => $this->round($model->proteins, 0),
+                'attribute' => 'proteins',
+            ],
+            [
+                'value'  => $this->round($model->fats, 0),
+                'attribute' => 'fats',
+            ],
+            [
+                'value'  => $this->round($model->carbohydrates, 0),
+                'attribute' => 'carbohydrates',
+            ],
             'description:ntext',
-            'ingredientString:raw',
+            [
+                'label' => $this->t('Dish'),
+                'value' => Html::a($model->recipeName, ['/recipe/view', 'id' => $model->recipeId]),
+                'format' => 'raw'
+            ]
         ],
     ]) ?>
 

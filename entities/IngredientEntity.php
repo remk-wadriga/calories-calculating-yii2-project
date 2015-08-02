@@ -21,13 +21,17 @@ class IngredientEntity extends EntityAbstract
     public $weight;
     public $count;
     public $calories;
+    public $protein;
+    public $fat;
+    public $carbohydrate;
 
     public function rules()
     {
         return array_merge(parent::rules(), [
             [['type', 'name'], 'required'],
             [['type', 'name'], 'string'],
-            [['weight', 'count', 'calories'], 'number'],
+            [['weight', 'calories', 'protein', 'fat', 'carbohydrate'], 'number'],
+            [['count'], 'integer'],
         ]);
     }
 
@@ -39,6 +43,9 @@ class IngredientEntity extends EntityAbstract
             'weight' => $this->t('Weight'),
             'calories' => $this->t('Calories'),
             'count' => $this->t('Count'),
+            'protein' => $this->t('Proteins'),
+            'fat' => $this->t('Fats'),
+            'carbohydrate' => $this->t('Carbohydrates'),
         ]);
     }
 }

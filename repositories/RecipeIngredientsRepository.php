@@ -40,7 +40,10 @@ class RecipeIngredientsRepository extends IngredientEntity
                 'p.id',
                 'p.name',
                 'rp.weight',
-                '`rp`.`weight` * `p`.`calories` AS calories',
+                '`rp`.`weight`*`p`.`calories` AS `calories`',
+                '`rp`.`weight`*`p`.`protein` AS `protein`',
+                '`rp`.`weight`*`p`.`fat` AS `fat`',
+                '`rp`.`weight`*`p`.`carbohydrate` AS `carbohydrate`',
             ])
             ->from(['rp' => Recipe::recipe2productsTableName()])
             ->leftJoin(['p' => Product::tableName()], 'p.id = rp.product_id')
@@ -54,6 +57,9 @@ class RecipeIngredientsRepository extends IngredientEntity
                     'name',
                     'weight',
                     'calories',
+                    'protein',
+                    'fat',
+                    'carbohydrate',
                 ],
                 'defaultOrder' => ['name' => SORT_ASC],
             ],

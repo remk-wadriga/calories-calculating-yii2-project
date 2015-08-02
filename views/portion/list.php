@@ -41,7 +41,25 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'calories',
                 'value'  => function($model){
-                    return $this->round($model->calories, 0);
+                    return $model->calories ? $this->round($model->calories, 0) : null;
+                },
+            ],
+            [
+                'attribute' => 'proteins',
+                'value'  => function($model){
+                    return $model->proteins ? $this->round($model->proteins, 0) : null;
+                },
+            ],
+            [
+                'attribute' => 'fats',
+                'value'  => function($model){
+                    return $model->fats ? $this->round($model->fats, 0) : null;
+                },
+            ],
+            [
+                'attribute' => 'carbohydrates',
+                'value'  => function($model){
+                    return $model->carbohydrates ? $this->round($model->carbohydrates, 0) : null;
                 },
             ],
 

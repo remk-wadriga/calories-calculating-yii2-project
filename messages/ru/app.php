@@ -105,4 +105,7 @@ return [
     'Portions count'                                                                                                    => 'Количество порций',
     'Portions categories'                                                                                               => 'Категории порций',
     'Calories (by 100 gr.)'                                                                                             => 'Калорий (на 100 гр.)',
+    'Proteins (by 100 gr.)'                                                                                             => 'Белков (на 100 гр.)',
+    'Fats (by 100 gr.)'                                                                                                 => 'Жиров (на 100 гр.)',
+    'Carbohydrates (by 100 gr.)'                                                                                        => 'Углеводов (на 100 гр.)',
 ];

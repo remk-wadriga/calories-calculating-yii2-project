@@ -4,8 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\abstracts\ModelAbstract;
-use yii\db\Query;
-use yii\helpers\Html;
+use app\repositories\PortionRepository;
 
 /**
  * This is the model class for table "portion".
@@ -17,7 +16,6 @@ use yii\helpers\Html;
  * @property string $description
  *
  * @property integer $recipeId
- * @property integer $calories
  * @property string $categoryName
  *
  * @property Diary[] $diaries
@@ -25,12 +23,15 @@ use yii\helpers\Html;
  */
 class Portion extends ModelAbstract
 {
-    protected $_calories;
     protected $_categoryName;
-    protected $_ingredientString;
 
     public $recipeCategoryId;
     public $recipesItems;
+    public $calories;
+    public $proteins;
+    public $fats;
+    public $carbohydrates;
+    public $recipeName;
 
     public static function tableName()
     {
@@ -42,9 +43,9 @@ class Portion extends ModelAbstract
         return [
             [['weight', 'name'], 'required'],
             [['recipe_id', 'recipeId', 'recipeCategoryId'], 'integer'],
-            [['weight', 'calories'], 'number'],
+            [['weight', 'calories', 'proteins', 'fats', 'carbohydrates'], 'number'],
             [['description'], 'string'],
-            [['name', 'categoryName'], 'string', 'max' => 255],
+            [['name', 'recipeName', 'categoryName'], 'string', 'max' => 255],
             [['recipesItems'], 'safe'],
         ];
     }
@@ -61,7 +62,9 @@ class Portion extends ModelAbstract
             'weight' => $this->t('Weight'),
             'recipesItems' => $this->t('Dish'),
             'categoryName' => $this->t('Category'),
-            'ingredientString' => $this->t('Dish'),
+            'proteins' => $this->t('Proteins'),
+            'fats' => $this->t('Fats'),
+            'carbohydrates' => $this->t('Carbohydrates'),
         ];
     }
 
@@ -92,36 +95,6 @@ class Portion extends ModelAbstract
 
 
     // Getters and setters
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function setCalories($value)
-    {
-        $this->_calories = $value;
-        return $this;
-    }
-
-    public function getCalories()
-    {
-        if ($this->_calories !== null) {
-            return $this->_calories;
-        }
-
-        $this->_calories = 0;
-
-        if ($this->getIsNewRecord()) {
-            return $this->_calories;
-        }
-
-        $calories = self::getCaloriesQuery($this->recipe_id)->one();
-        if (!empty($calories)) {
-            $this->_calories = $calories['calories']*$this->weight;
-        }
-
-        return $this->_calories;
-    }
 
     /**
      * @param $value
@@ -178,21 +151,7 @@ class Portion extends ModelAbstract
      */
     public static function findById($id)
     {
-        $caloriesSql = self::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
-        //$categoryNameSql = self::getCategoryNameQuery('`p`.`recipe_id`')->createCommand()->sql;
-
-        return self::find()
-            ->select([
-                '`p`.*',
-                "({$caloriesSql})*`p`.`weight` AS `calories`",
-                "`rc`.`name` AS `categoryName`",
-                '`r`.`category_id` AS `recipeCategoryId`',
-            ])
-            ->from(self::tableName() . ' `p`')
-            ->innerJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `p`.`recipe_id`')
-            ->leftJoin(RecipeCategory::tableName() . ' `rc`', '`rc`.`id` = `r`.`category_id`')
-            ->where(['`p`.`id`' => $id])
-            ->one();
+        return PortionRepository::searchOne($id);
     }
 
     public function savePortion()
@@ -239,51 +198,6 @@ class Portion extends ModelAbstract
     public function getIngredientName()
     {
         return 'recipe';
-    }
-
-    public function getIngredientString()
-    {
-        if ($this->_ingredientString !== null) {
-            return $this->_ingredientString;
-        }
-
-        $this->_ingredientString = '';
-
-        $recipe = $this->recipe;
-        if (!empty($recipe)) {
-            $this->_ingredientString .=
-                $this->weight . $this->t('gr.') .
-                ' ' . Html::a($recipe->name, ['/recipe/view', 'id' => $recipe->id]) .
-                ' (' . Yii::$app->view->round($recipe->calories) . $this->t('cc.') . ')';
-        }
-
-        return $this->_ingredientString;
-    }
-
-    /**
-     * @param integer $id
-     * @return Query
-     */
-    public static function getCaloriesQuery($id)
-    {
-        return (new Query())
-            ->select('SUM(`prod`.`calories`*`rp`.`weight`)/SUM(`rp`.`weight`) AS `calories`')
-            ->from(Recipe::recipe2productsTableName() . ' `rp`')
-            ->leftJoin(Product::tableName() . ' `prod`', '`prod`.`id` = `rp`.`product_id`')
-            ->where("`rp`.`recipe_id` = {$id}");
-    }
-
-    /**
-     * @param integer $id
-     * @return Query
-     */
-    public static function getCategoryNameQuery($id)
-    {
-        return (new Query())
-            ->select('`c`.`name`')
-            ->from(Recipe::tableName() . ' `r`')
-            ->leftJoin(RecipeCategory::tableName() . ' `c`', '`c`.`id` = `r`.`category_id`')
-            ->where("`r`.`id` = {$id}");
     }
 
     // END Public methods

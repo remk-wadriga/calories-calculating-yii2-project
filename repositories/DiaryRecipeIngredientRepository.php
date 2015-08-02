@@ -37,7 +37,10 @@ class DiaryRecipeIngredientRepository extends IngredientEntity
      */
     public function search($params = [])
     {
-        $caloriesQuery = Recipe::getCaloriesQuery('dr.recipe_id')->createCommand()->sql;
+        $caloriesQuery = RecipeRepository::getCaloriesQuery('dr.recipe_id')->createCommand()->sql;
+        $proteinsQuery = RecipeRepository::getProteinsQuery('dr.recipe_id')->createCommand()->sql;
+        $fatsQuery = RecipeRepository::getFatsQuery('dr.recipe_id')->createCommand()->sql;
+        $carbohydratesQuery = RecipeRepository::getCarbohydratesQuery('dr.recipe_id')->createCommand()->sql;
 
         $query = IngredientEntity::find()
             ->select([
@@ -45,7 +48,10 @@ class DiaryRecipeIngredientRepository extends IngredientEntity
                 'r.id',
                 'r.name',
                 'dr.weight',
-                "({$caloriesQuery}) * dr.weight AS calories",
+                "({$caloriesQuery}) * `dr`.`weight` AS `calories`",
+                "({$proteinsQuery}) * `dr`.`weight` AS `protein`",
+                "({$fatsQuery}) * `dr`.`weight` AS `fat`",
+                "({$carbohydratesQuery}) * `dr`.`weight` AS `carbohydrate`",
             ])
             ->from(['dr' => Diary::diary2recipesTableName()])
             ->leftJoin(['r' => Recipe::tableName()], 'r.id = dr.recipe_id')
@@ -59,6 +65,9 @@ class DiaryRecipeIngredientRepository extends IngredientEntity
                     'name',
                     'weight',
                     'calories',
+                    'protein',
+                    'fat',
+                    'carbohydrate',
                 ],
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
