@@ -37,7 +37,7 @@ class DiaryPortionIngredientRepository extends IngredientEntity
      */
     public function search($params = [])
     {
-        $caloriesQuery = Portion::getCaloriesQuery('p.recipe_id')->createCommand()->sql;
+        $caloriesQuery = RecipeRepository::getCaloriesQuery('p.recipe_id')->createCommand()->sql;
 
         $query = IngredientEntity::find()
             ->select([
