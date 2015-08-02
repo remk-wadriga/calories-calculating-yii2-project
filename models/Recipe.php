@@ -59,7 +59,7 @@ class Recipe extends ModelAbstract
             [['category_id', 'name'], 'required'],
             [['category_id', 'categoryId'], 'integer'],
             [['description'], 'string'],
-            [['calories', 'protein', 'fat', 'carbohydrate'], 'number'],
+            [['calories', 'proteins', 'fats', 'carbohydrates'], 'number'],
             [['name', 'categoryName'], 'string', 'max' => 255],
             [['productsItems'], 'safe'],
         ];

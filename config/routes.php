@@ -89,4 +89,19 @@ return [
     'account/update'                                                        => 'account/update',
     'account'                                                               => 'account/view',
 
+    /**
+     * @ PlanController controller
+     */
+    'plan/<id:\d+>/update'                                                  => 'plan/update',
+    'plan/<id:\d+>/delete'                                                  => 'plan/delete',
+    'plan/<id:\d+>'                                                         => 'plan/view',
+    'plan-list'                                                             => 'plan/list',
+
+    /**
+     * @ MenuController controller
+     */
+    'menu/<id:\d+>/update'                                                  => 'menu/update',
+    'menu/<id:\d+>/delete'                                                  => 'menu/delete',
+    'menu/<id:\d+>'                                                         => 'menu/view',
+    'menu-list'                                                             => 'menu/list',
 ];
