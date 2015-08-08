@@ -38,6 +38,9 @@ class DiaryPortionIngredientRepository extends IngredientEntity
     public function search($params = [])
     {
         $caloriesQuery = RecipeRepository::getCaloriesQuery('p.recipe_id')->createCommand()->sql;
+        $proteinsQuery = RecipeRepository::getProteinsQuery('p.recipe_id')->createCommand()->sql;
+        $fatsQuery = RecipeRepository::getFatsQuery('p.recipe_id')->createCommand()->sql;
+        $carbohydratesQuery = RecipeRepository::getCarbohydratesQuery('p.recipe_id')->createCommand()->sql;
 
         $query = IngredientEntity::find()
             ->select([
@@ -46,6 +49,9 @@ class DiaryPortionIngredientRepository extends IngredientEntity
                 'p.name',
                 'dp.count',
                 "({$caloriesQuery}) * p.weight * dp.count AS calories",
+                "({$proteinsQuery}) * `p`.`weight` AS `protein`",
+                "({$fatsQuery}) * `p`.`weight` AS `fat`",
+                "({$carbohydratesQuery}) * `p`.`weight` AS `carbohydrate`",
             ])
             ->from(['dp' => Diary::diary2portionsTableName()])
             ->leftJoin(['p' => Portion::tableName()], 'p.id = dp.portion_id')
