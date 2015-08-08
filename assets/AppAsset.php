@@ -7,16 +7,14 @@
 
 namespace app\assets;
 
-use yii\web\AssetBundle;
+use app\abstracts\AsstAbstract;
 
 /**
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class AppAsset extends AsstAbstract
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
     public $css = [
         'css/site.css',
     ];

@@ -7,6 +7,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\assets\BootstrapDatepickerAsset;
+use app\assets\DiaryAsset;
 ?>
 
 <div class="diary-form">
@@ -15,6 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'date')->textInput([
         'value' => $model->date ? $model->date : $this->getCurrentDate(),
+        'class' => 'form-control diary-date-input',
     ]) ?>
 
     <?= $this->render('_element-categories-dropdown-list', [
@@ -142,3 +145,11 @@ use yii\widgets\ActiveForm;
     </div>
 
 </div>
+
+<?php BootstrapDatepickerAsset::register($this); ?>
+<?php DiaryAsset::register($this); ?>
+<?php $this->registerJs('
+    Diary.init({
+        language: \''. Yii::$app->language .'\'
+    });
+'); ?>

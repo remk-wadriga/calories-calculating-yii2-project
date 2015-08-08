@@ -92,6 +92,7 @@ return [
     /**
      * @ PlanController controller
      */
+    'plan/create'                                                           => 'plan/create',
     'plan/<id:\d+>/update'                                                  => 'plan/update',
     'plan/<id:\d+>/delete'                                                  => 'plan/delete',
     'plan/<id:\d+>'                                                         => 'plan/view',
@@ -100,6 +101,7 @@ return [
     /**
      * @ MenuController controller
      */
+    'menu/create'                                                           => 'menu/create',
     'menu/<id:\d+>/update'                                                  => 'menu/update',
     'menu/<id:\d+>/delete'                                                  => 'menu/delete',
     'menu/<id:\d+>'                                                         => 'menu/view',
