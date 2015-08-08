@@ -3,23 +3,23 @@
  * Created by PhpStorm.
  * User: Dima
  * Date: 08.08.2015
- * Time: 13:22
+ * Time: 13:56
  */
 
 namespace app\assets;
 
 use app\abstracts\AsstAbstract;
 
-class DiaryAsset extends AsstAbstract
+class PlanAsset extends AsstAbstract
 {
-    public $baseUrl = '@web/pages/diary';
+    public $baseUrl = '@web/pages/plan';
 
     public $js = [
-        'js/diary.js'
+        'js/plan.js'
     ];
 
     public $depends = [
-        'app\assets\BootstrapDatepickerAsset',
+        'app\assets\BootstrapDateRangepickerAsset',
         'app\assets\AppAsset',
     ];
 }

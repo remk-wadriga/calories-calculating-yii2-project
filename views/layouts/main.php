@@ -86,21 +86,27 @@ AppAsset::register($this);
         </div>
     </footer>
 
-<?php $this->endBody() ?>
 
 <?php $this->registerJs('
-    Main.init();
-'); ?>
+    Main.init({
+        language: \''. Yii::$app->language .'\',
+        dateFormat: \''. $this->getFrontendDateFormat() .'\'
+    });
+', $this::POS_END); ?>
 
 <?php $this->registerJs('
     Router.init({
         rules: '.$this->getRules().'
     });
-'); ?>
+', $this::POS_END); ?>
 
 <?php $this->registerJs('
     Api.init();
-'); ?>
+', $this::POS_END); ?>
+
+<?php $this->endBody() ?>
+
+
 
 </body>
 </html>

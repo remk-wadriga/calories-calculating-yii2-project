@@ -1,5 +1,9 @@
 Main = {
 
+    dateFormat: 'yyyy-mm-dd',
+    language: 'ru',
+
+
     // elements ID
     modalWindowsCancelBtnId: '.cancel',
     modalWindowsCloseBtnId: '.close',
@@ -14,7 +18,9 @@ Main = {
     init: function(data){
         if(typeof data != 'undefined'){
             var attributes = [
-                'leftMenuElemId'
+                'leftMenuElemId',
+                'dateFormat',
+                'language'
             ];
 
             $.each(attributes, function(index, element){

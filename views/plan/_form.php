@@ -7,15 +7,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\assets\PlanAsset;
 ?>
 
 <div class="plan-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'start_date')->textInput() ?>
-
-    <?= $form->field($model, 'end_date')->textInput() ?>
+    <?= $form->field($model, 'period')->textInput([
+        'class' => 'form-control date-range-input'
+    ]) ?>
 
     <?= $form->field($model, 'direction')->dropDownList($model::getDirectionsListItems(), ['prompt' => '']) ?>
 
@@ -26,3 +27,8 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php PlanAsset::register($this);  ?>
+<?php $this->registerJs('
+    Plan.init();
+'); ?>

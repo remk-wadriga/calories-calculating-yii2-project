@@ -21,7 +21,7 @@ class BootstrapDatepickerAsset extends AsstAbstract
     public $js = [
         'js/bootstrap-datepicker.min.js',
         'locales/bootstrap-datepicker.ru.min.js',
-        'locales/bootstrap-datepicker.en-GB.min.js',
+        'locales/bootstrap-datepicker.en.min.js',
     ];
 
     public $depends = [

@@ -53,6 +53,11 @@ class View extends YiiView
         return $this->t(Yii::$app->timeService->getDeyNameBayNumber($day));
     }
 
+    public function getFrontendDateFormat()
+    {
+        return Yii::$app->params['frontend_date_format'];
+    }
+
     /**
      * @param string $key
      * @return bool
