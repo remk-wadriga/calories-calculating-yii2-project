@@ -19,7 +19,6 @@ class DiaryAsset extends AsstAbstract
     ];
 
     public $depends = [
-        'app\assets\BootstrapDatepickerAsset',
         'app\assets\AppAsset',
     ];
 }

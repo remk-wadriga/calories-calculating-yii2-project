@@ -27,5 +27,6 @@ class AppAsset extends AsstAbstract
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'app\assets\BootstrapDatepickerAsset',
     ];
 }

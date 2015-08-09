@@ -4,16 +4,15 @@
 
 Plan = {
 
-    dateRangeInputID: '.date-range-input',
+    startDateInputID: '#plan_start_date_input',
+    endDateInputID: '#plan_end_date_input',
 
     init: function(data){
-        if(typeof data != 'undefined'){
-            var attributes = [
-            ];
-
-            $.each(attributes, function(index, element){
-                if(typeof data[element] != 'undefined')
-                    Plan[element] = data[element];
+        if(data !== undefined){
+            $.each(data, function(name, value){
+                if(Plan[name] !== undefined){
+                    Plan[name] = value;
+                }
             });
         }
 
@@ -22,22 +21,17 @@ Plan = {
     },
 
     runSetupFunctions: function(){
-        Plan.seupDateTimepicker();
+
     },
 
     setHandlers: function(){
 
-    },
+    }
 
     // Setup functions
 
-    seupDateTimepicker: function(){
-        $(Plan.dateRangeInputID).daterangepicker({
-            format: Main.dateFormat
-        });
-    }
-
     // END Setup functions
+
 
     // Handlers
 

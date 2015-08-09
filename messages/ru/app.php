@@ -121,5 +121,4 @@ return [
     'Plans'                                                                                                             => 'Планы',
     'Menus'                                                                                                             => 'Меню',
     'Direction'                                                                                                         => 'Направление',
-    'Time period'                                                                                                       => 'Сроки',
 ];

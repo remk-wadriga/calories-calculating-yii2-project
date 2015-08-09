@@ -19,7 +19,6 @@ class PlanAsset extends AsstAbstract
     ];
 
     public $depends = [
-        'app\assets\BootstrapDateRangepickerAsset',
         'app\assets\AppAsset',
     ];
 }

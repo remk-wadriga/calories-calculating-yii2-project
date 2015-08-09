@@ -14,8 +14,16 @@ use app\assets\PlanAsset;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'period')->textInput([
-        'class' => 'form-control date-range-input'
+    <?= $form->field($model, 'startDate')->textInput([
+        'id' => 'plan_start_date_input',
+        'value' => $model->startDate ? $model->startDate : $this->getCurrentDate(),
+        'class' => 'form-control date-input',
+    ]) ?>
+
+    <?= $form->field($model, 'endDate')->textInput([
+        'id' => 'plan_end_date_input',
+        'value' => $model->endDate ? $model->endDate : null,
+        'class' => 'form-control date-input',
     ]) ?>
 
     <?= $form->field($model, 'direction')->dropDownList($model::getDirectionsListItems(), ['prompt' => '']) ?>

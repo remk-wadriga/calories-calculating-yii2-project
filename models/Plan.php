@@ -17,7 +17,6 @@ use app\abstracts\ModelAbstract;
  * @property integer $userId
  * @property string $startDate
  * @property string $endDate
- * @property string $period
  *
  * @property Menu[] $menus
  * @property User $user
@@ -38,7 +37,7 @@ class Plan extends ModelAbstract
         return [
             [['user_id', 'start_date', 'end_date'], 'required'],
             [['user_id'], 'integer'],
-            [['start_date', 'end_date', 'period'], 'safe'],
+            [['start_date', 'end_date', 'startDate', 'endDate'], 'safe'],
             [['direction'], 'string'],
         ];
     }
@@ -49,8 +48,9 @@ class Plan extends ModelAbstract
             'id' => $this->t('ID'),
             'start_date' => $this->t('Start date'),
             'end_date' => $this->t('End date'),
+            'startDate' => $this->t('Start date'),
+            'endDate' => $this->t('End date'),
             'direction' => $this->t('Direction'),
-            'period' => $this->t('Time period'),
         ];
     }
 
@@ -127,25 +127,6 @@ class Plan extends ModelAbstract
     public function getEndDate()
     {
         return $this->end_date;
-    }
-
-    /**
-     * @param $val
-     * @return $this
-     */
-    public function setPeriod($val)
-    {
-        $period = explode(' - ', trim($val));
-        if(count($period) === 2){
-            $this->setStartDate($period[0]);
-            $this->setEndDate($period[1]);
-        }
-        return $this;
-    }
-
-    public function getPeriod()
-    {
-        return $this->getStartDate() !== null ? $this->getStartDate() . ' - ' . $this->getEndDate() : null;
     }
 
     // END Getters and setters

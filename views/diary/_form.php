@@ -7,7 +7,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\assets\BootstrapDatepickerAsset;
 use app\assets\DiaryAsset;
 ?>
 
@@ -146,7 +145,6 @@ use app\assets\DiaryAsset;
 
 </div>
 
-<?php BootstrapDatepickerAsset::register($this); ?>
 <?php DiaryAsset::register($this); ?>
 <?php $this->registerJs('
     Diary.init();

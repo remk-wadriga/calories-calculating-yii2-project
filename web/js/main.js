@@ -13,23 +13,24 @@ Main = {
     ingredientInputId: '.ingredient',
     dropdownAddToCalcId: '.add-to-calc-select',
     floatInputId: 'input.float-input',
+    dateInputID: '.date-input',
     // END elements ID
 
     init: function(data){
-        if(typeof data != 'undefined'){
-            var attributes = [
-                'leftMenuElemId',
-                'dateFormat',
-                'language'
-            ];
-
-            $.each(attributes, function(index, element){
-                if(typeof data[element] != 'undefined')
-                    Main[element] = data[element];
+        if(data !== undefined){
+            $.each(data, function(name, value){
+                if(Main[name] !== undefined){
+                    Main[name] = value;
+                }
             });
         }
 
+        Main.runSetupFunctions();
         Main.setHandlers();
+    },
+
+    runSetupFunctions: function(){
+        Main.seupDatepicker();
     },
 
     setHandlers: function(){
@@ -39,6 +40,19 @@ Main = {
         Main.changeDropDownAddToCalc();
         Main.inputFloatInput();
     },
+
+
+    // Setup functions
+
+    seupDatepicker: function(){
+        $(Main.dateInputID).datepicker({
+            format: Main.dateFormat,
+            language: Main.language
+        });
+    },
+
+    // END Setup functions
+
 
     // Handlers
 

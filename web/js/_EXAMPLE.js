@@ -1,20 +1,16 @@
-/**
- * Created by Dima on 08.08.2015.
- */
-
-Diary = {
+EXAMPLE = {
 
     init: function(data){
         if(data !== undefined){
             $.each(data, function(name, value){
-                if(Diary[name] !== undefined){
-                    Diary[name] = value;
+                if(EXAMPLE[name] !== undefined){
+                    EXAMPLE[name] = value;
                 }
             });
         }
 
-        Diary.runSetupFunctions();
-        Diary.setHandlers();
+        EXAMPLE.runSetupFunctions();
+        EXAMPLE.setHandlers();
     },
 
     runSetupFunctions: function(){
