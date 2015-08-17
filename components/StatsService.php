@@ -85,7 +85,7 @@ class StatsService extends ServiceAbstract
         // Find days
         if ($all) {
             $days = $model->findDaysByEndDate($date);
-        }else {
+        } else {
             $weighingDay = 0;
             if (!Yii::$app->request->getIsConsoleRequest()) {
                 $weighingDay = Yii::$app->user->identity->weighingDay;
@@ -263,7 +263,7 @@ class StatsService extends ServiceAbstract
     {
         $weekDay = $timeService->getDey($date);
         $diff = $weighingDay - $weekDay;
-        if($diff === 0 && $up === true) {
+        if ($diff === 0 && $up === true) {
             $toStart = 0;
             $toEnd = 7;
         } elseif ($diff >= 0) {

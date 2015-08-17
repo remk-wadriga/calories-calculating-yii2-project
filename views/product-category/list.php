@@ -34,13 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view' => function($url, $model){
                         $text = '<span class="glyphicon glyphicon-eye-open"></span>';
                         return Html::a($text, ['product/category', 'categoryId' => $model->id], [
-                            'data' => ['pajax' => 0],
+                            'data' => ['pjax' => 0],
                         ]);
                     },
                     'update' => function($url, $model){
                         $text = '<span class="glyphicon glyphicon-pencil"></span>';
                         return Html::a($text, ['/product-category/update', 'id' => $model->id], [
-                            'data' => ['pajax' => 0],
+                            'data' => ['pjax' => 0],
                         ]);
                     },
                     'delete' => function($url, $model){
