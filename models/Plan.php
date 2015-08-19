@@ -35,7 +35,7 @@ class Plan extends ModelAbstract
     public function rules()
     {
         return [
-            [['user_id', 'start_date', 'end_date'], 'required'],
+            [['start_date', 'end_date', 'startDate', 'endDate'], 'required'],
             [['user_id'], 'integer'],
             [['start_date', 'end_date', 'startDate', 'endDate'], 'safe'],
             [['direction'], 'string'],
@@ -77,6 +77,20 @@ class Plan extends ModelAbstract
 
 
     // Event handlers
+
+    public function beforeSave($insert)
+    {
+        if($this->userId === null){
+            $this->userId = Yii::$app->user->id;
+        }
+
+        if($this->endDate <= $this->startDate){
+            $this->addError('endDate', $this->t('Start date can not be less than the period-end', [], 'error'));
+            return false;
+        }
+
+        return parent::beforeSave($insert);
+    }
 
     // END Event handlers
 

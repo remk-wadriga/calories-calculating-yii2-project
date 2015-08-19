@@ -13,8 +13,8 @@ class ModelAbstract extends ActiveRecord
         return end($classParts);
     }
 
-    public function t($message, $params = [])
+    public function t($message, $params = [], $direction = 'app')
     {
-        return Yii::$app->view->t($message, $params);
+        return Yii::$app->view->t($message, $params, $direction);
     }
 }

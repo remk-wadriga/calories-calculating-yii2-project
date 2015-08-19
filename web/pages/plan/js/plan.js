@@ -7,6 +7,8 @@ Plan = {
     startDateInputID: '#plan_start_date_input',
     endDateInputID: '#plan_end_date_input',
 
+    startAndDatesError: '',
+
     init: function(data){
         if(data !== undefined){
             $.each(data, function(name, value){
@@ -25,8 +27,8 @@ Plan = {
     },
 
     setHandlers: function(){
-
-    }
+        Plan.changeDate();
+    },
 
     // Setup functions
 
@@ -34,6 +36,26 @@ Plan = {
 
 
     // Handlers
+
+    changeDate: function(){
+        Main.eventHandlers['changeDate'] = function(event, element){
+            element = $(element);
+            var elementID = '#'+element.attr('id');
+            var startDate = $(Plan.startDateInputID).val();
+            var endDate = $(Plan.endDateInputID).val();
+
+            if(elementID == Plan.startDateInputID){
+                startDate = element.val();
+            }else if(elementID == Plan.endDateInputID){
+                endDate = element.val();
+            }
+
+            if(endDate && startDate >= endDate){
+                $(Plan.endDateInputID).val('');
+                Main.addError(Plan.startAndDatesError);
+            }
+        };
+    }
 
     // END Handlers
 

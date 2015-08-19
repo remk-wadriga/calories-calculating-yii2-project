@@ -1,8 +1,14 @@
 Main = {
 
+    // Configs
     dateFormat: 'yyyy-mm-dd',
     language: 'ru',
+    messagesLifeTime: 5,
+    // END Configs
 
+    // Properties
+    eventHandlers: {},
+    // END Properties
 
     // elements ID
     modalWindowsCancelBtnId: '.cancel',
@@ -14,6 +20,7 @@ Main = {
     dropdownAddToCalcId: '.add-to-calc-select',
     floatInputId: 'input.float-input',
     dateInputID: '.date-input',
+    messagesContainerID: '#messages_wrapper',
     // END elements ID
 
     init: function(data){
@@ -48,6 +55,8 @@ Main = {
         $(Main.dateInputID).datepicker({
             format: Main.dateFormat,
             language: Main.language
+        }).on('changeDate', function(event){
+            Main.handleEvent('changeDate', event, this);
         });
     },
 
@@ -89,7 +98,7 @@ Main = {
             var value = input.val();
             input.val(value.replace(',', '.'));
         });
-    }
+    },
 
     // END Handlers
 
@@ -97,13 +106,41 @@ Main = {
 
     // Public functions
 
+    addError: function(message, lifeTime, callback){
+        var messID = 'message_' + Helper.random_string(3);
+        if(lifeTime == undefined){
+            lifeTime = Main.messagesLifeTime;
+        }
+        if(callback == undefined){
+            callback = function(){
+                setTimeout(function(){
+                    $('#' + messID).remove();
+                }, lifeTime*1000);
+            };
+        }
+        var text = '<div id="' + messID + '" class="alert alert-danger" role="alert">' + message + '</div>';
+        $(Main.messagesContainerID).append(text);
+        callback(messID, message);
+    },
+
     // END Public functions
 
 
 
     // Private Functions
 
-
+    handleEvent: function(eventName, event, data){
+        var handlers = Main.eventHandlers[eventName];
+        if(handlers === undefined || handlers === null){
+            return false;
+        }
+        if(typeof handlers != 'array'){
+            handlers = [handlers];
+        }
+        $.each(handlers, function(index, handler){
+            handler(event, data);
+        });
+    }
 
     // END Private Functions
 

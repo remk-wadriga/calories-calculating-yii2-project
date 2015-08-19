@@ -26,7 +26,7 @@ use app\assets\PlanAsset;
         'class' => 'form-control date-input',
     ]) ?>
 
-    <?= $form->field($model, 'direction')->dropDownList($model::getDirectionsListItems(), ['prompt' => '']) ?>
+    <?= $form->field($model, 'direction')->dropDownList($model::getDirectionsListItems()) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? $this->t('Create') : $this->t('Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -38,5 +38,7 @@ use app\assets\PlanAsset;
 
 <?php PlanAsset::register($this);  ?>
 <?php $this->registerJs('
-    Plan.init();
+    Plan.init({
+        startAndDatesError: "' . $this->t('Start date can not be less than the period-end', [], 'error') . '"
+    });
 '); ?>
