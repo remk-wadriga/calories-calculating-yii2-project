@@ -437,7 +437,7 @@ class Diary extends ModelAbstract
 
         $transaction->commit();
 
-        if (Yii::$app->timeService->getDey($this->date) == Yii::$app->user->getWeighingDay()) {
+        if ($this->getIsNewRecord() && Yii::$app->timeService->getDey($this->date) == Yii::$app->user->getWeighingDay()) {
             Yii::$app->statsService->writeStats($this->date);
         }
 
