@@ -121,4 +121,12 @@ return [
     'Plans'                                                                                                             => 'Планы',
     'Menus'                                                                                                             => 'Меню',
     'Direction'                                                                                                         => 'Направление',
+    'Training'                                                                                                          => 'Тренировка',
+    'Trainings'                                                                                                         => 'Тренировки',
+    'Create training category'                                                                                          => 'Создать категорию тренировок',
+    'Training categories'                                                                                               => 'Категории тренировок',
+    'Trainings of category {categoryName}'                                                                              => 'Тренировки категории {categoryName}',
+    'Update training category {categoryName}'                                                                           => 'Обновить категорию тренировок {categoryName}',
+    'Create training'                                                                                                   => 'Создать тренировкуу',
+    'Update training {trainingName}'                                                                                    => 'Обновить тренировку {trainingName}',
 ];

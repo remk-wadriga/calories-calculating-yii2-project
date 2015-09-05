@@ -40,6 +40,7 @@ AppAsset::register($this);
         $menu[] = ['label' => $this->t('Week stats'), 'url' => ['/week-stats/list']];
         //$menu[] = ['label' => $this->t('Plans'), 'url' => ['/plan/list']];
         //$menu[] = ['label' => $this->t('Menus'), 'url' => ['/menu/list']];
+        $menu[] = ['label' => $this->t('Trainings'), 'url' => ['/training/list']];
         $menu[] = [
             'label' => $user->name,
             'items' => [

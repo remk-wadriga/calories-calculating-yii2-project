@@ -2,7 +2,7 @@
 
 return [
     /**
-     * @ Index controller
+     * @ IndexController
      */
     'registration'                                                          => 'index/registration',
     'login'                                                                 => 'index/login',
@@ -11,7 +11,7 @@ return [
     '/'                                                                     => 'index/index',
 
     /**
-     * @ ProductCategoryController controller
+     * @ ProductCategoryController
      */
     'product-category/create'                                               => 'product-category/create',
     'product-category/<id:\d+>/update'                                      => 'product-category/update',
@@ -20,7 +20,7 @@ return [
     'product-categories'                                                    => 'product-category/list',
 
     /**
-     * @ ProductController controller
+     * @ ProductController
      */
     'product/create'                                                        => 'product/create',
     'product/<id:\d+>/update'                                               => 'product/update',
@@ -31,7 +31,7 @@ return [
     'products'                                                              => 'product/list',
 
     /**
-     * @ RecipeCategoryController controller
+     * @ RecipeCategoryController
      */
     'recipe-category/create'                                                => 'recipe-category/create',
     'recipe-category/<id:\d+>/update'                                       => 'recipe-category/update',
@@ -40,7 +40,7 @@ return [
     'recipe-categories'                                                     => 'recipe-category/list',
 
     /**
-     * @ RecipeController controller
+     * @ RecipeController
      */
     'recipe/create'                                                         => 'recipe/create',
     'recipe/<id:\d+>/update'                                                => 'recipe/update',
@@ -51,7 +51,7 @@ return [
     'recipes'                                                               => 'recipe/list',
 
     /**
-     * @ PortionController controller
+     * @ PortionController
      */
     'portion/create'                                                        => 'portion/create',
     'portion/<id:\d+>/update'                                               => 'portion/update',
@@ -62,12 +62,12 @@ return [
     'portions'                                                              => 'portion/list',
 
     /**
-     * PortionCategoryController controller
+     * PortionCategoryController
      */
     'portion-categories'                                                    => 'portion-category/list',
 
     /**
-     * @ DiaryCotroller controller
+     * @ DiaryController
      */
     'diary/create'                                                          => 'diary/create',
     'diary/<id:\d+>/update'                                                 => 'diary/update',
@@ -76,7 +76,7 @@ return [
     'diary'                                                                 => 'diary/list',
 
     /**
-     * @ WeekStatsController controller
+     * @ WeekStatsController
      */
     'week-stats/write/<date:.*>'                                            => 'week-stats/create',
     'week-stats/<id:\d+>/update'                                            => 'week-stats/update',
@@ -84,13 +84,13 @@ return [
     'week-stats'                                                            => 'week-stats/list',
 
     /**
-     * @ AccountController controller
+     * @ AccountController
      */
     'account/update'                                                        => 'account/update',
     'account'                                                               => 'account/view',
 
     /**
-     * @ PlanController controller
+     * @ PlanController
      */
     /*'plan/create'                                                           => 'plan/create',
     'plan/<id:\d+>/update'                                                  => 'plan/update',
@@ -99,11 +99,30 @@ return [
     'plan-list'                                                             => 'plan/list',*/
 
     /**
-     * @ MenuController controller
+     * @ MenuController
      */
     /*'menu/create'                                                           => 'menu/create',
     'menu/<id:\d+>/update'                                                  => 'menu/update',
     'menu/<id:\d+>/delete'                                                  => 'menu/delete',
     'menu/<id:\d+>'                                                         => 'menu/view',
     'menu-list'                                                             => 'menu/list',*/
+
+    /**
+     * @ TrainingCategoryController
+     */
+    'training-category/create'                                              => 'training-category/create',
+    'training-category/<id:\d+>/update'                                     => 'training-category/update',
+    'training-category/<id:\d+>/delete'                                     => 'training-category/delete',
+    'training-category/<id:\d+>'                                            => 'training-category/view',
+    'training-categories'                                                   => 'training-category/list',
+
+    /**
+     * @ TrainingController
+     */
+    'training/create'                                                       => 'training/create',
+    'training/<id:\d+>/update'                                              => 'training/update',
+    'training/<id:\d+>/delete'                                              => 'training/delete',
+    'trainings-of-category/<categoryId:\d+>'                                => 'training/category',
+    'training/<id:\d+>'                                                     => 'training/view',
+    'trainings'                                                             => 'training/list',
 ];
