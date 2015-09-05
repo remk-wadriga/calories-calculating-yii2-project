@@ -92,18 +92,18 @@ return [
     /**
      * @ PlanController controller
      */
-    'plan/create'                                                           => 'plan/create',
+    /*'plan/create'                                                           => 'plan/create',
     'plan/<id:\d+>/update'                                                  => 'plan/update',
     'plan/<id:\d+>/delete'                                                  => 'plan/delete',
     'plan/<id:\d+>'                                                         => 'plan/view',
-    'plan-list'                                                             => 'plan/list',
+    'plan-list'                                                             => 'plan/list',*/
 
     /**
      * @ MenuController controller
      */
-    'menu/create'                                                           => 'menu/create',
+    /*'menu/create'                                                           => 'menu/create',
     'menu/<id:\d+>/update'                                                  => 'menu/update',
     'menu/<id:\d+>/delete'                                                  => 'menu/delete',
     'menu/<id:\d+>'                                                         => 'menu/view',
-    'menu-list'                                                             => 'menu/list',
+    'menu-list'                                                             => 'menu/list',*/
 ];
