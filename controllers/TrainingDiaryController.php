@@ -4,15 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\abstracts\ControllerAbstract;
-use app\models\TrainingCategory;
-use app\repositories\TrainingCategoryRepository;
+use app\models\TrainingDiary;
+use app\repositories\TrainingDiaryRepository;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TrainingCategoryController implements the CRUD actions for TrainingCategory model.
+ * TrainingDiaryController implements the CRUD actions for TrainingDiary model.
  */
-class TrainingCategoryController extends ControllerAbstract
+class TrainingDiaryController extends ControllerAbstract
 {
     public function behaviors()
     {
@@ -28,7 +28,7 @@ class TrainingCategoryController extends ControllerAbstract
 
     public function actionList()
     {
-        $searchModel = new TrainingCategoryRepository();
+        $searchModel = new TrainingDiaryRepository();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render([
@@ -46,12 +46,12 @@ class TrainingCategoryController extends ControllerAbstract
 
     public function actionCreate()
     {
-        $model = new TrainingCategory();
+        $model = new TrainingDiary();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['id' => $model->id]);
         } else {
-            return $this->render([
+            return $this->render('create', [
                 'model' => $model,
             ]);
         }
@@ -78,15 +78,15 @@ class TrainingCategoryController extends ControllerAbstract
     }
 
     /**
-     * Finds the TrainingCategory model based on its primary key value.
+     * Finds the TrainingDiary model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TrainingCategory the loaded model
+     * @return TrainingDiary the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TrainingCategory::findOne($id)) !== null) {
+        if (($model = TrainingDiary::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

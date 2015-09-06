@@ -43,10 +43,6 @@ class DiaryController extends ControllerAbstract
         return true;
     }
 
-    /**
-     * Lists all Diary models.
-     * @return mixed
-     */
     public function actionList()
     {
         $searchModel = new DiaryRepository();
@@ -58,11 +54,6 @@ class DiaryController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Displays a single Diary model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         $productIngredientModel = new DiaryProductIngredientRepository();
@@ -81,11 +72,6 @@ class DiaryController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Creates a new Diary model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Diary();
@@ -102,12 +88,6 @@ class DiaryController extends ControllerAbstract
         }
     }
 
-    /**
-     * Updates an existing Diary model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -121,12 +101,6 @@ class DiaryController extends ControllerAbstract
         }
     }
 
-    /**
-     * Deletes an existing Diary model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

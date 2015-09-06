@@ -76,12 +76,6 @@ class WeekStatsController extends ControllerAbstract
         return $this->redirect(['/week-stats/list']);
     }
 
-    /**
-     * Updates an existing WeekStats model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);

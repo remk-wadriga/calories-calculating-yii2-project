@@ -30,10 +30,6 @@ class PortionController extends ControllerAbstract
         ];
     }
 
-    /**
-     * Lists all Portion models.
-     * @return mixed
-     */
     public function actionList()
     {
         $searchModel = new PortionRepository();
@@ -45,11 +41,6 @@ class PortionController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Displays a single Portion model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render([
@@ -91,11 +82,6 @@ class PortionController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Creates a new Portion model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Portion();
@@ -109,12 +95,6 @@ class PortionController extends ControllerAbstract
         }
     }
 
-    /**
-     * Updates an existing Portion model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);

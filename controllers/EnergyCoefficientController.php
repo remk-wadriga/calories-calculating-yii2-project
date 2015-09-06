@@ -51,7 +51,7 @@ class EnergyCoefficientController extends ControllerAbstract
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render([
                 'model' => $model,
             ]);
         }
@@ -64,7 +64,7 @@ class EnergyCoefficientController extends ControllerAbstract
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render([
                 'model' => $model,
             ]);
         }
@@ -74,7 +74,7 @@ class EnergyCoefficientController extends ControllerAbstract
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     /**

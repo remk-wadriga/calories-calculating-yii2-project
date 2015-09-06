@@ -142,4 +142,8 @@ return [
     'Update energy coefficient "{value}"'                                                                               => 'Обновить коэффициент "{value}"',
     'Female'                                                                                                            => 'Женщина',
     'Male'                                                                                                              => 'Мужчина',
+    'Food'                                                                                                              => 'Питание',
+    'Food diary'                                                                                                        => 'Дневник питания',
+    'Trainings diary'                                                                                                   => 'Дневник тренировок',
+    'Update trainings diary record {date}'                                                                              => 'Обновить запись в дневнике тренировок {date}',
 ];

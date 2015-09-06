@@ -26,10 +26,6 @@ class ProductCategoryController extends ControllerAbstract
         ];
     }
 
-    /**
-     * Lists all ProductCategory models.
-     * @return mixed
-     */
     public function actionList()
     {
         $searchModel = new ProductCategoryRepository();
@@ -41,11 +37,6 @@ class ProductCategoryController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Displays a single ProductCategory model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render([
@@ -53,11 +44,6 @@ class ProductCategoryController extends ControllerAbstract
         ]);
     }
 
-    /**
-     * Creates a new ProductCategory model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new ProductCategory();
@@ -71,12 +57,6 @@ class ProductCategoryController extends ControllerAbstract
         }
     }
 
-    /**
-     * Updates an existing ProductCategory model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -90,12 +70,6 @@ class ProductCategoryController extends ControllerAbstract
         }
     }
 
-    /**
-     * Deletes an existing ProductCategory model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

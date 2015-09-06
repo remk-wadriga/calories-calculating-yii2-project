@@ -38,7 +38,10 @@ AppAsset::register($this);
         $menu[] = ['label' => $this->t('Login'), 'url' => ['/index/login']];
         $menu[] = ['label' => $this->t('Registration'), 'url' => ['/index/registration']];
     } else {
-        $menu[] = ['label' => $this->t('Diary'), 'url' => ['/diary/list']];
+        $menu[] = ['label' => $this->t('Diary'), 'items' => [
+            ['label' => $this->t('Food'), 'url' => ['/diary/list']],
+            ['label' => $this->t('Trainings'), 'url' => ['/training-diary/list']],
+        ]];
         $menu[] = ['label' => $this->t('Week stats'), 'url' => ['/week-stats/list']];
         //$menu[] = ['label' => $this->t('Plans'), 'url' => ['/plan/list']];
         //$menu[] = ['label' => $this->t('Menus'), 'url' => ['/menu/list']];

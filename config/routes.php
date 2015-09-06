@@ -135,4 +135,13 @@ return [
     'energy-coefficients-of-type/<type:\w+>'                                => 'energy-coefficient/type',
     'energy-coefficient/<id:\d+>'                                           => 'energy-coefficient/view',
     'energy-coefficients'                                                   => 'energy-coefficient/list',
+
+    /**
+     * @ TrainingCategoryController
+     */
+    'training-diary/create'                                                 => 'training-diary/create',
+    'training-diary/<id:\d+>/update'                                        => 'training-diary/update',
+    'training-diary/<id:\d+>/delete'                                        => 'training-diary/delete',
+    'training-diary/<id:\d+>'                                               => 'training-diary/view',
+    'training-diaries'                                                      => 'training-diary/list',
 ];
