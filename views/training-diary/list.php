@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = $this->t('Trainings Diary');
+$this->title = $this->t('Trainings diary');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="training-diary-index">
