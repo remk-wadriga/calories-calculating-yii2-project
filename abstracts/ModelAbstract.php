@@ -17,4 +17,15 @@ class ModelAbstract extends ActiveRecord
     {
         return Yii::$app->view->t($message, $params, $direction);
     }
+
+    public function getChangedAttributes()
+    {
+        $changedAttributes = [];
+        foreach ((array_keys($this->getAttributes())) as $attribute) {
+            if ($this->isAttributeChanged($attribute)) {
+                $changedAttributes[] = $attribute;
+            }
+        }
+        return $changedAttributes;
+    }
 }
