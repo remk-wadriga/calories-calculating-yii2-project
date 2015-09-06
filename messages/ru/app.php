@@ -131,4 +131,13 @@ return [
     'Update training {trainingName}'                                                                                    => 'Обновить тренировку {trainingName}',
     'Calories by h'                                                                                                     => 'Калорий в час',
     'Trainings count'                                                                                                   => 'Количество тренировок',
+    'Type'                                                                                                              => 'Тип',
+    'Value'                                                                                                             => 'Значение',
+    'Coefficient'                                                                                                       => 'Коэффициент',
+    'Weight coefficient'                                                                                                => 'Весовой коэффициент',
+    'Age coefficient'                                                                                                   => 'Возрастной коэффициент',
+    'Sex coefficient'                                                                                                   => 'Гендерный коэффициент',
+    'Energy coefficients'                                                                                               => 'Коэффициенты энергозатрат',
+    'Create energy coefficient'                                                                                         => 'Создать коффициент',
+    'Update energy coefficient "{value}"'                                                                               => 'Обновить коэффициент "{value}"',
 ];

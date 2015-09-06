@@ -1,6 +1,6 @@
 <?php
 /**
- * $var app\components\View $this
+ * @var app\components\View $this
  * @var app\repositories\TrainingRepository $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var string $categoryName

@@ -125,4 +125,14 @@ return [
     'trainings-of-category/<categoryId:\d+>'                                => 'training/category',
     'training/<id:\d+>'                                                     => 'training/view',
     'trainings'                                                             => 'training/list',
+
+    /**
+     * @ EnergyCoefficientController
+     */
+    'energy-coefficient/create'                                             => 'energy-coefficient/create',
+    'energy-coefficient/<id:\d+>/update'                                    => 'energy-coefficient/update',
+    'energy-coefficient/<id:\d+>/delete'                                    => 'energy-coefficient/delete',
+    'energy-coefficients-of-type/<type:\w+>'                                => 'energy-coefficient/type',
+    'energy-coefficient/<id:\d+>'                                           => 'energy-coefficient/view',
+    'energy-coefficients'                                                   => 'energy-coefficient/list',
 ];

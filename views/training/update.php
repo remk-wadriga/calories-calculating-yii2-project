@@ -1,6 +1,6 @@
 <?php
 /**
- * $var app\components\View $this
+ * @var app\components\View $this
  * @var app\models\Training $model
  */
 
