@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a($this->t('Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a($this->t('Create'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a($this->t('Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => $this->t('Are you sure you want to delete this item') . '?',
@@ -30,14 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'categoryName',
             'name',
             [
-                'value' => function($model){
-                    return $model->calories !== null ? $this->round($model->calories/3600) : null;
-                },
+                'value' => $model->calories !== null ? $this->round($model->calories/3600) : null,
                 'attribute' => 'calories',
             ],
-            'categoryName',
             'description:ntext',
         ],
     ]) ?>
