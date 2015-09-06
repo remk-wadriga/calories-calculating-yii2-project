@@ -2,6 +2,7 @@
 
 namespace app\repositories;
 
+use app\models\Training;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,9 +13,8 @@ use app\models\TrainingCategory;
  */
 class TrainingCategoryRepository extends TrainingCategory
 {
-    /**
-     * @inheritdoc
-     */
+    public $trainingsCount;
+
     public function rules()
     {
         return [
@@ -23,9 +23,6 @@ class TrainingCategoryRepository extends TrainingCategory
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -41,25 +38,35 @@ class TrainingCategoryRepository extends TrainingCategory
      */
     public function search($params)
     {
-        $query = TrainingCategory::find();
+        $countQuery = Training::find()->select('COUNT(*)')->where('`category_id` = `c`.`id`')->createCommand()->sql;
+
+        $query = TrainingCategory::find()
+            ->from(['c' => self::tableName()])
+            ->select([
+                'c.*',
+                'trainingsCount' => "({$countQuery})",
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'name',
+                    'trainingsCount'
+                ],
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-        ]);
+        $query->andFilterWhere([]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'c.name', $this->name]);
 
         return $dataProvider;
     }

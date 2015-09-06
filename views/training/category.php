@@ -3,13 +3,15 @@
  * $var app\components\View $this
  * @var app\repositories\TrainingRepository $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
+ * @var string $categoryName
  */
 
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-$this->title = $this->t('Trainings');
+$this->title = $this->t('Trainings of category "{categoryName}"', ['categoryName' => $categoryName]);
+$this->params['breadcrumbs'][] = ['label' => $this->t('Training categories'), 'url' => ['/training-category/list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="training-index">
@@ -18,8 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a($this->t('Create training'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a($this->t('By category'), ['/training-category/list'], ['class' => 'btn btn-info']) ?>
-        <?= Html::a($this->t('Create category'), ['/training-category/create'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php Pjax::begin(['enablePushState' => false]); ?>

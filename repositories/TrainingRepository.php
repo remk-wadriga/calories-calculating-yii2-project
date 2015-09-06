@@ -13,12 +13,13 @@ use app\models\Training;
 class TrainingRepository extends Training
 {
     public $categoryName;
+    public $categoryId;
 
     public function rules()
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description', 'categoryName'], 'safe'],
+            [['name', 'description', 'categoryName', 'categoryId'], 'safe'],
             [['calories'], 'number'],
         ];
     }
@@ -37,6 +38,15 @@ class TrainingRepository extends Training
      */
     public function search($params)
     {
+        if (isset($params['categoryId'])) {
+            $modelName = $this->modelName();
+            if (!isset($params[$modelName])) {
+                $params[$modelName] = [];
+            }
+            $params[$modelName]['categoryId'] = $params['categoryId'];
+            unset($params['categoryId']);
+        }
+
         $query = Training::find()
             ->from(['t' => self::tableName()])
             ->joinWith('category');
@@ -69,6 +79,7 @@ class TrainingRepository extends Training
         $query->andFilterWhere([
             't.id' => $this->id,
             't.calories' => $this->calories,
+            't.category_id' => $this->categoryId,
         ]);
 
         $query
