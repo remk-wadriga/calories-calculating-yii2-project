@@ -2,17 +2,20 @@
 
 namespace app\repositories;
 
-use app\models\ProductCategory;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\models\ProductCategory;
 use app\models\Product;
+use app\traits\RepositoriesTrait;
 
 /**
  * ProductRepository represents the model behind the search form about `app\models\Product`.
  */
 class ProductRepository extends Product
 {
+    use RepositoriesTrait;
+
     public $categoryName;
     public $categoryId;
 
@@ -40,14 +43,7 @@ class ProductRepository extends Product
      */
     public function search($params)
     {
-        if (isset($params['categoryId'])) {
-            $modelName = $this->modelName();
-            if (!isset($params[$modelName])) {
-                $params[$modelName] = [];
-            }
-            $params[$modelName]['categoryId'] = $params['categoryId'];
-            unset($params['categoryId']);
-        }
+        $this->addParam('categoryId', $params);
 
         $query = Product::find()
             ->select(['`p`.*', '`pc`.`name` AS `categoryName`'])
