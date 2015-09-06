@@ -6,7 +6,7 @@
 
 use yii\helpers\Html;
 
-$this->title = $this->t('Update mnu {menuName}', ['menuName' => $model->name]);
+$this->title = $this->t('Update mnu "{menuName}"', ['menuName' => $model->name]);
 $this->params['breadcrumbs'][] = ['label' => $this->t('Menu list'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->t('Update');

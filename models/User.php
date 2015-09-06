@@ -34,6 +34,7 @@ use yii\web\IdentityInterface;
  * @property string $newPassword
  * @property integer $startWeight
  * @property integer $plannedCalories
+ * @property string $name
  *
  * @property CaloriesPlan[] $caloriesPlans
  */
@@ -383,6 +384,18 @@ class User extends ModelAbstract implements IdentityInterface
         $this->_currentWeight = $this->getStartWeight();
 
         return $this->_currentWeight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        $name = $this->firstName;
+        if ($this->lastName) {
+            $name .= ' ' . $this->lastName;
+        }
+        return $name;
     }
 
     // END Public methods

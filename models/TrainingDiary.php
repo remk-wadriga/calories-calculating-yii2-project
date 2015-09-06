@@ -13,6 +13,7 @@ use app\abstracts\ModelAbstract;
  * @property string $date
  *
  * @property integer $userId
+ * @property string $userName
  *
  * @property User $user
  * @property Training[] $trainings
@@ -76,10 +77,25 @@ class TrainingDiary extends ModelAbstract
 
     // Getters and setters
 
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
     // Getters and setters
 
 
     // Public methods
+
+    public function getUserName()
+    {
+        return $this->user->name;
+    }
 
     // END Public methods
 
