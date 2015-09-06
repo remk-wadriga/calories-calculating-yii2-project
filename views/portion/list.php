@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a($this->t('Create new portion'), ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a($this->t('By category'), ['/portion-category/list'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a($this->t('Create category'), ['/recipe-category/create'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php Pjax::begin(['enablePushState' => false]); ?>

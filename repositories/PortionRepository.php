@@ -9,33 +9,29 @@ use app\models\Recipe;
 use app\models\RecipeCategory;
 use yii\data\ActiveDataProvider;
 use app\models\Portion;
-use yii\db\Query;
+use app\traits\RepositoriesTrait;
 
 /**
  * PortionRepository represents the model behind the search form about `app\models\Portion`.
  */
 class PortionRepository extends Portion
 {
-    public $categoryName;
+    use RepositoriesTrait;
 
-    /**
-     * @inheritdoc
-     */
+    public $categoryName;
+    public $categoryId;
+
     public function rules()
     {
         return [
             [['id'], 'integer'],
-            [['name', 'categoryName'], 'safe'],
+            [['name', 'categoryName', 'categoryId'], 'safe'],
             [['weight'], 'number']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -48,6 +44,8 @@ class PortionRepository extends Portion
      */
     public function search($params)
     {
+        $this->addParam('categoryId', $params);
+
         $caloriesSql = RecipeRepository::getCaloriesQuery('`p`.`recipe_id`')->createCommand()->sql;
         $proteinsSql = RecipeRepository::getProteinsQuery('`r`.`id`')->createCommand()->sql;
         $fatsSql = RecipeRepository::getFatsQuery('`r`.`id`')->createCommand()->sql;
@@ -67,11 +65,6 @@ class PortionRepository extends Portion
             ->leftJoin(Recipe::tableName() . ' `r`', '`r`.`id` = `p`.`recipe_id`')
             ->leftJoin(RecipeCategory::tableName() . ' `c`', '`c`.`id` = `r`.`category_id`');
 
-        if (isset($params['categoryId'])) {
-            $query->where(['`r`.`category_id`' => $params['categoryId']]);
-            unset($params['categoryId']);
-        }
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -79,13 +72,12 @@ class PortionRepository extends Portion
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
         $query->andFilterWhere([
             '`p`.`weight`' => $this->weight,
+            '`r`.`category_id`' => $this->categoryId,
         ]);
 
         $query->andFilterWhere(['like', '`p`.`name`', $this->name])

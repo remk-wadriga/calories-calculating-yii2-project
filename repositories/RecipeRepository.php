@@ -1,8 +1,6 @@
 <?php
 namespace app\repositories;
 
-
-
 use Yii;
 use yii\base\Model;
 use yii\db\Query;
@@ -10,12 +8,15 @@ use yii\data\ActiveDataProvider;
 use app\models\Recipe;
 use app\models\Product;
 use app\models\RecipeCategory;
+use app\traits\RepositoriesTrait;
 
 /**
  * RecipeRepository represents the model behind the search form about `app\models\Recipe`.
  */
 class RecipeRepository extends Recipe
 {
+    use RepositoriesTrait;
+
     public $categoryName;
     public $calories;
 
@@ -67,14 +68,7 @@ class RecipeRepository extends Recipe
      */
     public function search($params)
     {
-        if (isset($params['categoryId'])) {
-            $modelName = $this->modelName();
-            if (!isset($params[$modelName])) {
-                $params[$modelName] = [];
-            }
-            $params[$modelName]['categoryId'] = $params['categoryId'];
-            unset($params['categoryId']);
-        }
+        $this->addParam('categoryId', $params);
 
         $caloriesSql = self::getCaloriesQuery('`r`.`id`')->createCommand()->sql;
         $proteinsSql = self::getProteinsQuery('`r`.`id`')->createCommand()->sql;

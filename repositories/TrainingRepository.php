@@ -6,12 +6,15 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Training;
+use app\traits\RepositoriesTrait;
 
 /**
  * TrainingRepository represents the model behind the search form about `app\models\Training`.
  */
 class TrainingRepository extends Training
 {
+    use RepositoriesTrait;
+
     public $categoryName;
     public $categoryId;
 
@@ -38,14 +41,7 @@ class TrainingRepository extends Training
      */
     public function search($params)
     {
-        if (isset($params['categoryId'])) {
-            $modelName = $this->modelName();
-            if (!isset($params[$modelName])) {
-                $params[$modelName] = [];
-            }
-            $params[$modelName]['categoryId'] = $params['categoryId'];
-            unset($params['categoryId']);
-        }
+        $this->addParam('categoryId', $params);
 
         $query = Training::find()
             ->from(['t' => self::tableName()])
