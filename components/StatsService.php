@@ -31,6 +31,15 @@ class StatsService extends ServiceAbstract
     public $modelClass = 'app\models\WeekStats';
 
     /**
+     * @param \app\events\DiaryEvent $event
+     * @return bool
+     */
+    public function onWeighingDayWrite($event)
+    {
+        return $this->writeStats($event->date);
+    }
+
+    /**
      * @return array
      */
     public function getWeekDays()

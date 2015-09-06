@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\events\DiaryEvent;
 use Yii;
 use app\abstracts\ModelAbstract;
 use yii\db\Query;
@@ -30,6 +31,8 @@ use yii\db\Query;
  */
 class Diary extends ModelAbstract
 {
+    const WRITE_WEIGHING_DAY_EVENT = 'write_weighing_day_event';
+
     public $portionCategoryId;
     public $recipeCategoryId;
     public $productCategoryId;
@@ -155,6 +158,19 @@ class Diary extends ModelAbstract
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert)
+    {
+        if ($insert && Yii::$app->timeService->getDey($this->date) == Yii::$app->user->getWeighingDay()) {
+            // Create write weighing day event
+            $event = new DiaryEvent();
+            $event->date = Yii::$app->timeService->getCurrentDateTime();
+            // Trigger write weighing day event
+            $this->trigger(self::WRITE_WEIGHING_DAY_EVENT, $event);
+        }
+
+        parent::afterSave($insert, $this->getChangedAttributes());
     }
 
     // END Event handlers
@@ -346,6 +362,8 @@ class Diary extends ModelAbstract
             return false;
         }
 
+        $this->userId = Yii::$app->user->id;
+
         $db = Yii::$app->getDb();
         $transaction = $db->beginTransaction();
 
@@ -436,10 +454,6 @@ class Diary extends ModelAbstract
         }
 
         $transaction->commit();
-
-        if ($this->getIsNewRecord() && Yii::$app->timeService->getDey($this->date) == Yii::$app->user->getWeighingDay()) {
-            Yii::$app->statsService->writeStats($this->date);
-        }
 
         return true;
     }

@@ -90,6 +90,9 @@ class DiaryController extends ControllerAbstract
     {
         $model = new Diary();
 
+        // Set the write weighing day event handler
+        $model->on(Diary::WRITE_WEIGHING_DAY_EVENT, [Yii::$app->statsService, 'onWeighingDayWrite']);
+
         if ($model->load($this->post()) && $model->diarySave()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
