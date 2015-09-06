@@ -1,6 +1,6 @@
 <?php
 /**
- * $var app\components\View $this
+ * @var app\components\View $this
  * @var app\models\Training $model
  * @var yii\widgets\ActiveForm $form
  */
@@ -13,13 +13,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'categoryId')->textInput() ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'calories')->textInput() ?>
+    <?= $form->field($model, 'categoryId')->dropDownList($model->getCategoryIdItems()) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'calories')->textInput([
+        'class' => 'form-control float-input',
+        'value' => $model->calories ? $this->round($model->calories/3600) : null,
+    ]) ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? $this->t('Create') : $this->t('Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

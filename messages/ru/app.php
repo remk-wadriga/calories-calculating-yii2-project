@@ -129,4 +129,5 @@ return [
     'Update training category {categoryName}'                                                                           => 'Обновить категорию тренировок {categoryName}',
     'Create training'                                                                                                   => 'Создать тренировкуу',
     'Update training {trainingName}'                                                                                    => 'Обновить тренировку {trainingName}',
+    'Calories by h'                                                                                                     => 'Калорий в час',
 ];

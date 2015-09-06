@@ -14,6 +14,7 @@ use app\abstracts\ModelAbstract;
  * @property double $calories
  * @property string $description
  * @property integer $categoryId
+ * @property string $categoryName
  *
  * @property ProductCategory $category
  */
@@ -41,8 +42,9 @@ class Training extends ModelAbstract
             'id' => $this->t('ID'),
             'category_id' => $this->t('Category ID'),
             'categoryId' => $this->t('Category ID'),
+            'categoryName' => $this->t('Category'),
             'name' => $this->t('Name'),
-            'calories' => $this->t('Calories'),
+            'calories' => $this->t('Calories by h'),
             'description' => $this->t('Description'),
         ];
     }
@@ -54,7 +56,7 @@ class Training extends ModelAbstract
      */
     public function getCategory()
     {
-        return $this->hasOne(ProductCategory::className(), ['id' => 'category_id']);
+        return $this->hasOne(TrainingCategory::className(), ['id' => 'category_id'])->from(['c' => TrainingCategory::tableName()]);
     }
 
     // END Depending
@@ -83,6 +85,16 @@ class Training extends ModelAbstract
 
 
     // Public methods
+
+    public function getCategoryIdItems()
+    {
+        return TrainingCategory::getItems();
+    }
+
+    public function getCategoryName()
+    {
+        return $this->category->name;
+    }
 
     // END Public methods
 
