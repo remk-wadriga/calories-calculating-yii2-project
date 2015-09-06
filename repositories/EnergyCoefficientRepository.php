@@ -39,6 +39,20 @@ class EnergyCoefficientRepository extends EnergyCoefficient
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'typeName' => [
+                        'asc' => ['type' => SORT_ASC],
+                        'desc' => ['type' => SORT_DESC],
+                    ],
+                    'valueName' => [
+                        'asc' => ['value' => SORT_ASC],
+                        'desc' => ['value' => SORT_DESC],
+                    ],
+                    'coefficient',
+                ],
+                //'defaultOrder' => ['type' => SORT_ASC],
+            ],
         ]);
 
         $this->load($params);

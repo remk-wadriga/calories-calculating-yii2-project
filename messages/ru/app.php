@@ -140,4 +140,6 @@ return [
     'Energy coefficients'                                                                                               => 'Коэффициенты энергозатрат',
     'Create energy coefficient'                                                                                         => 'Создать коффициент',
     'Update energy coefficient "{value}"'                                                                               => 'Обновить коэффициент "{value}"',
+    'Female'                                                                                                            => 'Женщина',
+    'Male'                                                                                                              => 'Мужчина',
 ];

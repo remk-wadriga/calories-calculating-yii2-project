@@ -30,10 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'categoryId',
             'name',
-            'calories',
+            [
+                'value' => function($model){
+                    return $model->calories !== null ? $this->round($model->calories/3600) : null;
+                },
+                'attribute' => 'calories',
+            ],
+            'categoryName',
             'description:ntext',
         ],
     ]) ?>
